@@ -1,0 +1,55 @@
+# Public document-root .htaccess.
+#
+# Currently only wires the custom error documents so visitors land on a
+# branded 404 / 500 instead of Apache's default plaintext page. Anything else
+# Apache-related (mod_rewrite for clean URLs, gzip, cache headers) is
+# intentionally not configured here — this template runs as-is on shared
+# hosting where mod_rewrite availability varies.
+
+ErrorDocument 404 /404.php
+ErrorDocument 500 /500.php
+
+# Clean URLs: serve /foo from /foo.php internally so visitors can use
+# /portfolio, /admin/dashboard, etc., without the .php extension.
+#
+# Design notes:
+#   - BOTH /foo and /foo.php work. We don't 301 .php → clean because external
+#     integrations (Stripe webhooks, GitHub/Google OAuth callbacks) are
+#     registered with their .php URLs; a redirect could break them.
+#   - Only rewrites when the corresponding .php actually exists, so real
+#     files (CSS/JS/images, /uploads/*, /admin/css/*) serve unchanged.
+#   - When a directory AND a sibling .php both exist (e.g. /shop and
+#     /shop.php), the .php wins. Otherwise visitors typing /shop would get
+#     a 403 directory listing instead of the storefront page.
+#   - Directories without a sibling .php (e.g. /admin/) are skipped —
+#     Apache's DirectoryIndex serves /admin/pottery/index.php normally.
+#   - The optional trailing slash is consumed so /portfolio/ and /portfolio
+#     both resolve identically.
+# Disable Apache's automatic trailing-slash 301 — otherwise a URL like
+# /shop or /admin/pottery would 301 to /shop/ before our rewrite fires
+# (mod_dir runs in the same fixup phase). We re-implement directory-index
+# resolution in mod_rewrite below so /admin/pottery still serves
+# /admin/pottery/index.php cleanly. Safe because Options -Indexes is set
+# in the vhost — there's no risk of accidental directory listings.
+<IfModule mod_dir.c>
+    DirectorySlash Off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Rule 1: /foo → /foo.php when foo.php exists at the same level.
+    # Wins the dir-vs-file ambiguity for /shop, /templates (where a .php
+    # storefront and a subdirectory share the name) — the .php is what
+    # public visitors want.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.+?)/?$ $1.php [L]
+
+    # Rule 2: /dir → /dir/index.php when dir/ has one (replaces what
+    # DirectorySlash + DirectoryIndex used to do, since we turned off
+    # the automatic trailing-slash redirect above).
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_FILENAME}/index.php -f
+    RewriteRule ^(.+?)/?$ $1/index.php [L]
+</IfModule>
