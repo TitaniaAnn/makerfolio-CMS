@@ -1,0 +1,23 @@
+.env
+.env.docker
+.env.local
+.env.*.local
+.installed
+STRIPE_SETUP.md
+l.env
+CLAUDE.md
+
+# PHP-generated error logs (PHP writes these next to the script that errored
+# unless `error_log` is set in php.ini; we never want them tracked or deployed).
+error_log
+**/error_log
+*.log
+
+# PHPUnit
+/.phpunit.cache
+/.phpunit.result.cache
+
+# Composer dependencies — reinstalled on the server via `composer install`.
+# The CI/Docker build steps both run composer install themselves, so
+# committing vendor/ would just bloat the repo.
+vendor/
