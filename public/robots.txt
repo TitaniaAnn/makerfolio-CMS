@@ -1,0 +1,12 @@
+# Pottery portfolio — robots.txt
+# Allow public pages; deny admin, installer, raw uploads dir (images are served
+# inline from the public pages with proper context), and the sitemap admin path.
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /install/
+Disallow: /shop/checkout.php
+Disallow: /shop/webhook.php
+
+Sitemap: /sitemap.php
