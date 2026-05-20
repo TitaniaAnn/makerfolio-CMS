@@ -1,0 +1,27 @@
+# Defense-in-depth for the uploads directory.
+#
+# `ImageUpload` and `TemplateFileUploader` already validate MIME types + file
+# extensions, so a malicious .php upload should never reach disk. This file
+# is a backstop: even if that validation is bypassed (a CVE in GD, a
+# misconfigured MIME map, a careless future maintainer who skips the upload
+# helper), Apache won't execute anything in this tree as PHP.
+#
+# Block: .php, .phtml, .phar, .pht, plus the rarer .php3/4/5/7/8 variants.
+# Cross-cuts every subdirectory (pottery/, products/, hero/, profile/,
+# templates/, announcements/, sample-*).
+<FilesMatch "\.(?:php|phtml|phar|pht|php[3-8])$">
+    Require all denied
+</FilesMatch>
+
+# Belt-and-braces: also disable the PHP handler in this tree so even files
+# without the listed extensions aren't processed as PHP. Apache's mod_php
+# uses the AddType/AddHandler for `.php`; removing the handler scope here
+# means a file like `image.jpg.php` (double-extension) can't trick the
+# server into running it.
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_mime.c>
+    RemoveHandler .php .phtml .phar .pht
+    RemoveType    .php .phtml .phar .pht
+</IfModule>
