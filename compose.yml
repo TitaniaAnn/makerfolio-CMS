@@ -1,0 +1,64 @@
+# Local dev + test stack for the pottery portfolio.
+#
+#   docker compose up --build              # web on http://localhost:8088 + db on 3307
+#   docker compose run --rm test           # run the PHPUnit suite once
+#   docker compose run --rm test vendor/bin/phpunit --filter MigrationRunnerTest
+#
+# The `test` service uses the `test` profile and is NOT started by `up`.
+
+services:
+  web:
+    build: .
+    image: pottery-portfolio:dev
+    ports:
+      - "8088:80"
+    env_file:
+      - .env.docker
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Bind-mount source for hot-reload during dev.
+      - ./:/var/www/html
+      # Preserve the vendor/ baked into the image (the bind mount above would
+      # otherwise hide it on hosts that have no local vendor/).
+      - vendor:/var/www/html/vendor
+      # Persist uploads across container rebuilds.
+      - uploads:/var/www/html/public/uploads
+
+  db:
+    image: mysql:8.0
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpw
+      MYSQL_DATABASE: pottery_portfolio
+      MYSQL_USER: pottery
+      MYSQL_PASSWORD: potterypw
+    ports:
+      # Exposed on 3307 so it doesn't clash with a local MySQL on 3306.
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+      # MySQL auto-runs *.sql in this dir on first boot only (when dbdata is empty).
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpw"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  test:
+    build: .
+    image: pottery-portfolio:dev
+    profiles: ["test"]
+    # Tests are pure unit (no DB) — see tests/bootstrap.php in CLAUDE.md.
+    # No db dependency, no env_file needed.
+    command: ["vendor/bin/phpunit", "--colors=always"]
+    volumes:
+      - ./:/var/www/html
+      - vendor:/var/www/html/vendor
+
+volumes:
+  dbdata:
+  uploads:
+  vendor:

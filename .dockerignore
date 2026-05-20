@@ -1,0 +1,36 @@
+# Keep the build context small and the image free of host-only files.
+.git
+.gitignore
+.gitattributes
+.github
+.vscode
+.idea
+.phpunit.cache
+.phpunit.result.cache
+
+# Secrets / host env
+.env
+.env.local
+.env.*.local
+.installed
+
+# Host vendor/ (composer install runs in the image)
+vendor
+
+# Artifacts that shouldn't ship with the image
+error_log
+**/error_log
+*.log
+public/uploads
+# Whitelist the security .htaccess — the directory is excluded above (the
+# named volume manages its contents at runtime), but this file needs to ship
+# in the image so the entrypoint can seed it into the fresh volume on boot.
+!public/uploads/.htaccess
+
+# Docs / docker meta — not needed at runtime
+# (docker/ stays IN the context so the Dockerfile can COPY its configs.)
+*.md
+Dockerfile
+compose.yml
+docker-compose.yml
+.dockerignore
