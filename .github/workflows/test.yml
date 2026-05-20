@@ -1,0 +1,57 @@
+name: tests
+
+# Runs the PHPUnit suite in the same Docker image used for local dev — keeps
+# the CI environment identical to the one in `docker compose run --rm test`,
+# so a passing suite locally is a passing suite here.
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: PHP syntax (php -l)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: none
+          coverage: none
+
+      # Catches typos before they reach phpunit. Walks every .php file in the
+      # repo (excluding vendor/) and fails loudly on any parse error.
+      - name: Lint all PHP files
+        run: |
+          set -e
+          mapfile -t files < <(find . -name '*.php' -not -path './vendor/*' -not -path './.git/*')
+          for f in "${files[@]}"; do
+            php -l "$f" > /dev/null
+          done
+          echo "Linted ${#files[@]} files — no syntax errors."
+
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build test image
+        run: docker build -t pottery-portfolio:ci .
+
+      - name: Run the PHPUnit suite
+        run: |
+          docker run --rm \
+            -v "$PWD:/var/www/html" \
+            -e XDG_CACHE_HOME=/tmp/.cache \
+            pottery-portfolio:ci \
+            vendor/bin/phpunit --colors=never
