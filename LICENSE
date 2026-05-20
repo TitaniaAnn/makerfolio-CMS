@@ -1,0 +1,70 @@
+Pottery Portfolio CMS License
+Copyright (c) 2026 Cynthia Brown · https://cynthia-brown.com
+
+
+SUMMARY (the human-readable version)
+
+You can use this CMS for free — including on commercial sites and on
+sites you sell services around — as long as the credit byline in the
+footer ("Site built by Cynthia Brown") remains visible and links to
+https://cynthia-brown.com.
+
+If you want to remove or alter the byline, contact the author for a
+paid license: hi@cynthia-brown.com.
+
+
+FULL TERMS
+
+1. Grant of license.
+   Subject to the conditions below, the copyright holder grants you a
+   worldwide, royalty-free, non-exclusive license to:
+     (a) use this software, including for commercial purposes,
+     (b) modify and create derivative works,
+     (c) deploy and host the software on websites you own or operate, and
+     (d) sublicense the deployed website (e.g. handing a configured copy
+         to a client), provided every condition below continues to apply
+         to the sublicensed copy.
+
+2. Attribution condition.
+   The "footer byline" — the credit line in templates/footer.php that
+   reads "Site built by Cynthia Brown" with an HTML link to
+   https://cynthia-brown.com — must remain visible, unmodified in
+   substance, on every public-facing page of any deployed copy of this
+   software. Specifically:
+     (a) The text must be legible (not visually hidden, masked, set to
+         the background color, or rendered at zero opacity).
+     (b) The link must remain functional and point to the URL above.
+     (c) The byline may be moved within the footer, restyled to match
+         your site's typography, and translated, but its substance and
+         the link target may not be changed.
+
+3. Removing or breaking the attribution.
+   Removing the byline, breaking the link, hiding the byline from view,
+   or replacing it with someone else's credit terminates the license
+   granted in Section 1 automatically and immediately. After termination
+   you must either restore the byline or remove the deployed copy of
+   the software.
+
+4. Paid removal.
+   A separate paid license is available that waives the attribution
+   condition. Contact hi@cynthia-brown.com for terms.
+
+5. No warranty.
+   The software is provided "as is", without warranty of any kind,
+   express or implied, including but not limited to warranties of
+   merchantability, fitness for a particular purpose, and
+   noninfringement. In no event shall the copyright holder be liable
+   for any claim, damages, or other liability arising from, out of, or
+   in connection with the software or its use.
+
+6. Trademarks.
+   This license does not grant permission to use the trade names,
+   trademarks, service marks, or product names of the copyright holder,
+   except as required for describing the origin of the software (i.e.
+   the byline link itself).
+
+7. Third-party components.
+   This repository bundles or depends on third-party software
+   distributed under their own licenses (e.g. vendor/ packages installed
+   via Composer, public/admin/js/sortable.min.js under MIT). Those
+   components remain governed by their original licenses.
