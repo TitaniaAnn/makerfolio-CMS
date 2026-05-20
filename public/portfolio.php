@@ -1,0 +1,171 @@
+<?php
+require_once __DIR__ . '/../includes/bootstrap.php';
+
+$technique = $_GET['technique'] ?? '';
+$params = [];
+$where = '';
+if ($technique) {
+    $where = 'WHERE p.technique = ?';
+    $params[] = $technique;
+}
+
+// Fetch pottery with best matching event per piece
+// "Best matching" = nearest upcoming event by start_date, or currently active event if no upcoming
+$pieces = Database::fetchAll(
+    "SELECT 
+        p.*,
+        e.id as event_id,
+        e.name as event_name,
+        e.url as event_url,
+        e.event_type as event_type
+    FROM pottery p
+    LEFT JOIN events e ON e.id = (
+        SELECT ep.event_id
+        FROM event_pottery ep
+        LEFT JOIN events e2 ON e2.id = ep.event_id
+        WHERE ep.pottery_id = p.id
+            AND e2.publish_date IS NOT NULL 
+            AND e2.publish_date <= CURDATE()
+        ORDER BY 
+            CASE WHEN e2.start_date > CURDATE() THEN 0 ELSE 1 END,
+            CASE WHEN e2.start_date > CURDATE() THEN e2.start_date ELSE e2.end_date END DESC
+        LIMIT 1
+    )
+    $where
+    ORDER BY p.featured DESC, p.sort_order ASC, p.created_at DESC",
+    $params
+);
+
+$techniques = Database::fetchAll(
+    "SELECT DISTINCT technique FROM pottery WHERE technique IS NOT NULL AND technique != '' ORDER BY technique"
+);
+
+// Load all images indexed by pottery_id (graceful fallback if table not yet migrated)
+$allImages = [];
+try {
+    $imageRows = Database::fetchAll(
+        "SELECT * FROM pottery_images ORDER BY pottery_id, sort_order ASC, id ASC"
+    );
+    foreach ($imageRows as $row) {
+        $allImages[$row['pottery_id']][] = $row;
+    }
+} catch (Exception $e) {
+    // pottery_images table not yet created — will fall back to pottery.image_path below
+    $allImages = [];
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= e(PageText::get('titles', 'portfolio')) ?> — <?= e(setting('site_name')) ?></title>
+    <?= PageMeta::renderHead([
+        'title'       => PageText::get('titles', 'portfolio') . ' — ' . setting('site_name', 'My Pottery'),
+        'description' => PageText::get('portfolio', 'header_sub'),
+    ]) ?>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+    <link rel="apple-touch-icon" href="/favicon-512.png">
+</head>
+<body>
+<?php include __DIR__ . '/../templates/nav.php'; ?>
+
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-header__title"><?= e(PageText::get('portfolio', 'header_title')) ?></h1>
+        <p class="page-header__sub"><?= e(PageText::get('portfolio', 'header_sub')) ?></p>
+        <?php if (PageSections::isVisible('portfolio', 'filters') && !empty($techniques)): ?>
+        <div class="portfolio-filters">
+            <a href="/portfolio" class="filter-btn <?= !$technique ? 'active' : '' ?>"><?= e(PageText::get('portfolio', 'filter_all')) ?></a>
+            <?php foreach ($techniques as $t): ?>
+            <a href="/portfolio?technique=<?= urlencode($t['technique']) ?>"
+               class="filter-btn <?= $technique === $t['technique'] ? 'active' : '' ?>">
+                <?= e($t['technique']) ?>
+            </a>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<!-- Gallery -->
+<section class="section">
+    <div class="container">
+        <?php if (empty($pieces)): ?>
+        <p class="empty-state"><?= e(PageText::get('portfolio', 'empty')) ?></p>
+        <?php else: ?>
+        <div class="masonry-grid" id="gallery">
+            <?php foreach ($pieces as $piece): ?>
+            <?php
+                $pieceImgs = $allImages[$piece['id']] ?? [];
+                if (empty($pieceImgs)) {
+                    $pieceImgs = [['image_path' => $piece['image_path'], 'image_thumb' => $piece['image_thumb'] ?? $piece['image_path']]];
+                }
+                // Use JSON in single-quoted attributes to avoid " collision
+                $imagesJson = htmlspecialchars(json_encode(array_values(array_map(fn($i) => '/uploads/' . $i['image_path'], $pieceImgs))), ENT_QUOTES, 'UTF-8');
+                $thumbsJson = htmlspecialchars(json_encode(array_values(array_map(fn($i) => '/uploads/' . ($i['image_thumb'] ?? $i['image_path']), $pieceImgs))), ENT_QUOTES, 'UTF-8');
+            ?>
+            <div class="masonry-item" id="piece-<?= $piece['id'] ?>">
+                <div role="button" tabindex="0" class="lightbox-trigger"
+                   data-id='<?= $piece['id'] ?>'
+                   data-images='<?= $imagesJson ?>'
+                   data-thumbs='<?= $thumbsJson ?>'
+                   data-title='<?= e($piece['title']) ?>'
+                   data-desc='<?= e($piece['description'] ?? '') ?>'
+                   data-technique='<?= e($piece['technique'] ?? '') ?>'
+                   data-dimensions='<?= e($piece['dimensions'] ?? '') ?>'
+                   data-year='<?= e($piece['year'] ?? '') ?>'
+                   data-event-name='<?= e($piece['event_name'] ?? '') ?>'
+                   data-event-url='<?= e($piece['event_url'] ?? '') ?>'
+                   data-event-type='<?= e($piece['event_type'] ?? '') ?>'>
+                    <img src="/uploads/<?= e($pieceImgs[0]['image_thumb'] ?? $pieceImgs[0]['image_path']) ?>"
+                         alt="<?= e($piece['alt_text'] ?: $piece['title']) ?>" loading="lazy">
+                    <div class="masonry-item__overlay">
+                        <h3><?= e($piece['title']) ?></h3>
+                        <?php if ($piece['technique']): ?><span><?= e($piece['technique']) ?></span><?php endif; ?>
+                    </div>
+                    <?php if (!empty($piece['event_name'])): ?>
+                    <div class="masonry-item__event-ribbon masonry-item__event-ribbon--<?= e($piece['event_type'] ?? 'event') ?>">
+                        <?= e($piece['event_name']) ?>
+                    </div>
+                    <?php endif; ?>
+                    <?php if (count($pieceImgs) > 1): ?>
+                    <div class="masonry-item__count">⬡ <?= count($pieceImgs) ?></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+    </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close">&times;</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="Previous">&#8249;</button>
+    <button class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="Next">&#8250;</button>
+    <div class="lightbox__inner">
+        <div class="lightbox__img-wrap">
+            <img src="" alt="" id="lightboxImg">
+            <div class="lightbox__counter" id="lbCounter"></div>
+        </div>
+        <div class="lightbox__info">
+            <h2 id="lightboxTitle"></h2>
+            <p id="lightboxDesc"></p>
+            <dl class="lightbox__meta" id="lightboxMeta"></dl>
+            <!-- Thumbnail strip -->
+            <div class="lightbox__thumbs" id="lbThumbs"></div>
+        </div>
+    </div>
+</div>
+
+<?php include __DIR__ . '/../templates/footer.php'; ?>
+<script src="/js/main.js"></script>
+<script src="/js/portfolio.js?v=4"></script>
+</body>
+</html>
