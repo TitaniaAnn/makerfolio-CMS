@@ -5,7 +5,6 @@
 .installed
 STRIPE_SETUP.md
 l.env
-CLAUDE.md
 
 # PHP-generated error logs (PHP writes these next to the script that errored
 # unless `error_log` is set in php.ini; we never want them tracked or deployed).
