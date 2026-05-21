@@ -154,7 +154,7 @@ Admin UI: `/admin/settings/reset-content.php` (typed-`RESET CONTENT`-to-confirm 
 mysql -u root -p < sql/init.sql
 ```
 
-**Existing install:** do **not** re-run `init.sql` (it uses `CREATE TABLE IF NOT EXISTS` and will silently skip stale tables). Apply pending `sql/NNN_*.sql` migrations through the admin UI at `/admin/migrations/`, which tracks them in the `schema_migrations` ledger.
+**Existing install:** do **not** re-run `init.sql` (it uses `CREATE TABLE IF NOT EXISTS` and will silently skip stale tables). Apply pending `sql/NNN_*.sql` migrations through the admin UI at `/admin/migrations/`, which tracks them in the `schema_migrations` ledger. Each incremental migration is individually idempotent — `ADD COLUMN`, `ADD INDEX`, and data-migration `INSERT`s are guarded by `INFORMATION_SCHEMA` / `NOT EXISTS` checks — so re-applying a file is safe even if the ledger row was lost.
 
 ### 2. Config
 

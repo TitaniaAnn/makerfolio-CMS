@@ -129,4 +129,38 @@ SQL;
         $runner = new MigrationRunner($this->tmpDir . '/does-not-exist');
         $this->assertSame([], $runner->available());
     }
+
+    // ---- idempotency pattern: every real migration parses cleanly ---------
+
+    /**
+     * Each shipped sql/NNN_*.sql must split into one or more statements
+     * with no parse errors. The migrations that use the dynamic-SQL
+     * INFORMATION_SCHEMA guard pattern (001, 006, 010, 011, 014, 021, 022)
+     * produce a higher statement count than they used to — this catches a
+     * regression in the splitter when one of those patterns is touched.
+     */
+    public function test_real_migrations_parse_through_splitter(): void {
+        $sqlDir = dirname(__DIR__) . '/sql';
+        $runner = new MigrationRunner($sqlDir);
+
+        foreach ($runner->available() as $file) {
+            $statements = $runner->statementsFor($file);
+            $this->assertNotEmpty(
+                $statements,
+                "Migration $file produced zero statements — splitter or file content is broken."
+            );
+        }
+    }
+
+    public function test_guarded_alter_pattern_yields_five_statements_per_column(): void {
+        $sql = <<<'SQL'
+SET @c = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+          WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'foo' AND COLUMN_NAME = 'bar');
+SET @sql = IF(@c = 0, 'ALTER TABLE foo ADD COLUMN bar VARCHAR(64) NULL', 'DO 0');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SQL;
+        $this->assertCount(5, MigrationRunner::splitStatements($sql));
+    }
 }

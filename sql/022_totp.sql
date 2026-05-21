@@ -14,8 +14,32 @@
 --                           been generated. A used code gets nulled out in the
 --                           array (so the array length stays stable but the
 --                           hash is replaced with an empty string).
+--
+-- Safe to re-apply: each ADD COLUMN is gated on INFORMATION_SCHEMA.
 
-ALTER TABLE admin_users
-    ADD COLUMN totp_secret         VARCHAR(64)  NULL  AFTER password_hash,
-    ADD COLUMN totp_enabled        TINYINT(1)   NOT NULL DEFAULT 0 AFTER totp_secret,
-    ADD COLUMN recovery_codes_hash TEXT         NULL  AFTER totp_enabled;
+SET @c = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+          WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admin_users' AND COLUMN_NAME = 'totp_secret');
+SET @sql = IF(@c = 0,
+    'ALTER TABLE admin_users ADD COLUMN totp_secret VARCHAR(64) NULL AFTER password_hash',
+    'DO 0');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @c = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+          WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admin_users' AND COLUMN_NAME = 'totp_enabled');
+SET @sql = IF(@c = 0,
+    'ALTER TABLE admin_users ADD COLUMN totp_enabled TINYINT(1) NOT NULL DEFAULT 0 AFTER totp_secret',
+    'DO 0');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @c = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+          WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'admin_users' AND COLUMN_NAME = 'recovery_codes_hash');
+SET @sql = IF(@c = 0,
+    'ALTER TABLE admin_users ADD COLUMN recovery_codes_hash TEXT NULL AFTER totp_enabled',
+    'DO 0');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;

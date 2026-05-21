@@ -129,7 +129,7 @@ final class InstallerTest extends TestCase
         // Section headers present
         $this->assertStringContainsString('# Database',                $env);
         $this->assertStringContainsString('# Site',                    $env);
-        $this->assertStringContainsString('# GitHub OAuth (required)', $env);
+        $this->assertStringContainsString('# GitHub OAuth (legacy — managed in admin UI)', $env);
         $this->assertStringContainsString('# Stripe (optional)',       $env);
         $this->assertStringContainsString('# Instagram (optional)',    $env);
 
