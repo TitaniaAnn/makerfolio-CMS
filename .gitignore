@@ -3,7 +3,6 @@
 .env.local
 .env.*.local
 .installed
-STRIPE_SETUP.md
 l.env
 
 # PHP-generated error logs (PHP writes these next to the script that errored

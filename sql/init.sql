@@ -434,10 +434,12 @@ INSERT IGNORE INTO page_sections (page, section_key, is_visible, sort_order) VAL
 -- 10. MIGRATION LEDGER
 -- ------------------------------------------------------------
 -- init.sql is the consolidated snapshot — every migration up to and including
--- 015 is already represented in the table definitions and seed data above.
+-- 022 is already represented in the table definitions and seed data above.
 -- Pre-mark them as applied so the migration runner doesn't try to re-execute
 -- ALTER statements against tables that already have the target columns.
--- Future migrations (016+) get applied normally by the runner.
+-- When adding a new migration NNN_*.sql, also add an entry to this INSERT IGNORE
+-- block (and roll the affected DDL into the canonical tables above) so a fresh
+-- install matches what an upgraded install would have.
 INSERT IGNORE INTO schema_migrations (version, source, notes) VALUES
 ('001_pottery_images.sql',      'mark', 'pre-applied via init.sql'),
 ('005_templates.sql',           'mark', 'pre-applied via init.sql'),

@@ -89,7 +89,7 @@ pottery/
 │       └── partials/            # Sidebar, topbar
 ├── sql/
 │   ├── init.sql                # Canonical schema (fresh installs ONLY; pre-marks migrations as applied)
-│   └── 001_*.sql … 017_*.sql   # Incremental migrations (002–004 intentionally skipped)
+│   └── 001_*.sql … 022_*.sql   # Incremental migrations (002–004 intentionally skipped)
 ├── docker/                     # Apache vhost, PHP overrides, auto-migrate entrypoint
 ├── compose.yml, Dockerfile     # Dev stack (web + db + test runner)
 ├── tests/                      # PHPUnit 10 suite — 171 tests
