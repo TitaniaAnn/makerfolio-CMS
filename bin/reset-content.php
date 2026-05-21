@@ -58,7 +58,7 @@ $selected = [
     'design'          => !isset($opts['keep-design']),
 ];
 
-println("== Pottery template content reset ==");
+println("== Pottery CMS content reset ==");
 println();
 println("This will wipe the following from the current install:");
 foreach ($selected as $partition => $on) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Installer — core provisioning for a fresh deployment of the pottery template.
+ * Installer — core provisioning for a fresh deployment of the pottery CMS.
  *
  * Drives both the web wizard (public/install.php) and CLI (bin/install.php).
  * Methods are pure helpers: they take config in, perform the work, and either
@@ -407,7 +407,12 @@ final class Installer
             'Site' => [
                 'SITE_URL' => $v['SITE_URL'] ?? '',
             ],
-            'GitHub OAuth (required)' => [
+            // Legacy: provider creds live in the settings table now (managed
+            // via /admin/settings/auth.php). These keys are kept in the .env
+            // template only as a one-time bootstrap source for upgrading
+            // installs — see Installer::bootstrapAuthFromEnv(). Fresh
+            // installs should leave them blank.
+            'GitHub OAuth (legacy — managed in admin UI)' => [
                 'GITHUB_CLIENT_ID'     => $v['GITHUB_CLIENT_ID'] ?? '',
                 'GITHUB_CLIENT_SECRET' => $v['GITHUB_CLIENT_SECRET'] ?? '',
                 'ALLOWED_GITHUB_USERS' => $v['ALLOWED_GITHUB_USERS'] ?? '',

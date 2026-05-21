@@ -4,8 +4,13 @@
  * single zip file an admin can download.
  *
  * Pure-PHP SQL dump (no mysqldump dependency — works on shared hosts that
- * disable shell_exec). Streams rows to a temp .sql file rather than
- * concatenating in memory, so large tables don't OOM.
+ * disable shell_exec). The output .sql file is written incrementally via
+ * fwrite per row rather than concatenated as one string in memory, so the
+ * dump itself doesn't OOM on a large table. Note: PDO's default MySQL
+ * driver still buffers the result set client-side (MYSQL_ATTR_USE_BUFFERED_QUERY
+ * is true), so end-to-end this is not a true streaming backup — it's adequate
+ * for small-to-mid sites but not a guarantee against memory pressure on
+ * multi-GB tables.
  *
  * NOT IN SCOPE: restore. The zip is for safekeeping / off-site copies; if
  * you need to restore, manually unzip and run `mysql < database.sql` plus

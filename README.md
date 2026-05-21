@@ -92,7 +92,7 @@ pottery/
 │   └── 001_*.sql … 017_*.sql   # Incremental migrations (002–004 intentionally skipped)
 ├── docker/                     # Apache vhost, PHP overrides, auto-migrate entrypoint
 ├── compose.yml, Dockerfile     # Dev stack (web + db + test runner)
-├── tests/                      # PHPUnit 10 suite — 110 tests, 1020 assertions
+├── tests/                      # PHPUnit 10 suite — 171 tests
 ├── composer.json, phpunit.xml.dist
 └── CLAUDE.md                   # Architecture notes for AI assistants / new contributors
 ```
