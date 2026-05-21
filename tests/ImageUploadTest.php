@@ -162,6 +162,7 @@ final class ImageUploadTest extends TestCase {
     }
 
     public function test_resize_returns_false_for_zero_max_dimension(): void {
+        $this->requireGd('imagejpeg');
         $path = $this->makeJpegFile();
         $this->assertFalse(ImageUpload::resizeOriginalIfLarger($path, 0));
     }

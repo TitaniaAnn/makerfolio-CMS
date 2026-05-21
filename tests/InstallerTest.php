@@ -146,8 +146,12 @@ final class InstallerTest extends TestCase
     public function test_marker_path_lives_at_project_root(): void
     {
         $i = new \Installer('/srv/app');
-        $this->assertSame('/srv/app/.installed', $i->markerPath());
-        $this->assertSame('/srv/app/.env',       $i->envPath());
+        // Installer uses DIRECTORY_SEPARATOR, so on Windows the separator is
+        // a backslash. Normalize both sides to forward slashes so this test
+        // doesn't fail when run on a Windows dev host (it still passes in CI).
+        $norm = fn(string $p) => str_replace(DIRECTORY_SEPARATOR, '/', $p);
+        $this->assertSame('/srv/app/.installed', $norm($i->markerPath()));
+        $this->assertSame('/srv/app/.env',       $norm($i->envPath()));
     }
 
     public function test_is_installed_reflects_marker_presence(): void

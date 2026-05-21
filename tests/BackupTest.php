@@ -11,6 +11,13 @@ require_once __DIR__ . '/../includes/Backup.php';
  */
 final class BackupTest extends TestCase
 {
+    private function requireZip(): void
+    {
+        if (!class_exists('ZipArchive')) {
+            $this->markTestSkipped('zip extension is not loaded (ZipArchive missing)');
+        }
+    }
+
     public function test_slugify_lowercases_and_replaces_runs(): void
     {
         $this->assertSame('my-pottery-studio', \Backup::slugify('My Pottery Studio'));
@@ -53,6 +60,7 @@ final class BackupTest extends TestCase
 
     public function test_add_dir_to_zip_returns_zero_for_missing_dir(): void
     {
+        $this->requireZip();
         $missing = sys_get_temp_dir() . '/backup_missing_' . bin2hex(random_bytes(4));
         $zip = new \ZipArchive();
         $zipPath = sys_get_temp_dir() . '/backup_test_' . bin2hex(random_bytes(4)) . '.zip';
@@ -69,6 +77,7 @@ final class BackupTest extends TestCase
 
     public function test_add_dir_to_zip_recursively_packs_contents(): void
     {
+        $this->requireZip();
         $tmp = sys_get_temp_dir() . '/backup_dir_' . bin2hex(random_bytes(4));
         mkdir($tmp . '/sub', 0700, true);
         file_put_contents($tmp . '/top.txt', 'hello');
