@@ -22,6 +22,24 @@ function columnExists(string $table, string $column): bool {
     return (int)($row['cnt'] ?? 0) > 0;
 }
 
+/**
+ * Wrap an ADD COLUMN suggestion in the same INFORMATION_SCHEMA guard pattern
+ * the migrations use, so an admin who pastes the snippet twice (or pastes it
+ * after a separate hotfix added the column) gets a no-op instead of an error.
+ *
+ * $definition is the column body after the column name, e.g. "TEXT" or
+ * "VARCHAR(500) NULL AFTER image_thumb".
+ */
+function addColumnFixSql(string $table, string $column, string $definition): string {
+    $alterBody = "ALTER TABLE {$table} ADD COLUMN {$column} {$definition}";
+    return "SET @c = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS\n"
+         . "          WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '{$table}' AND COLUMN_NAME = '{$column}');\n"
+         . "SET @sql = IF(@c = 0, '{$alterBody}', 'DO 0');\n"
+         . "PREPARE stmt FROM @sql;\n"
+         . "EXECUTE stmt;\n"
+         . "DEALLOCATE PREPARE stmt;";
+}
+
 $checks = [
     [
         'type' => 'table',
@@ -34,35 +52,35 @@ $checks = [
         'label' => 'announcements.description column exists',
         'table' => 'announcements',
         'column' => 'description',
-        'fix_sql' => "ALTER TABLE announcements ADD COLUMN description TEXT AFTER title;",
+        'fix_sql' => addColumnFixSql('announcements', 'description', 'TEXT AFTER title'),
     ],
     [
         'type' => 'column',
         'label' => 'announcements.publish_date column exists',
         'table' => 'announcements',
         'column' => 'publish_date',
-        'fix_sql' => "ALTER TABLE announcements ADD COLUMN publish_date DATETIME NOT NULL AFTER description;",
+        'fix_sql' => addColumnFixSql('announcements', 'publish_date', 'DATETIME NOT NULL AFTER description'),
     ],
     [
         'type' => 'column',
         'label' => 'announcements.image_path column exists',
         'table' => 'announcements',
         'column' => 'image_path',
-        'fix_sql' => "ALTER TABLE announcements ADD COLUMN image_path TEXT AFTER publish_date;",
+        'fix_sql' => addColumnFixSql('announcements', 'image_path', 'TEXT AFTER publish_date'),
     ],
     [
         'type' => 'column',
         'label' => 'announcements.image_thumb column exists',
         'table' => 'announcements',
         'column' => 'image_thumb',
-        'fix_sql' => "ALTER TABLE announcements ADD COLUMN image_thumb TEXT AFTER image_path;",
+        'fix_sql' => addColumnFixSql('announcements', 'image_thumb', 'TEXT AFTER image_path'),
     ],
     [
         'type' => 'column',
         'label' => 'announcements.created_by column exists',
         'table' => 'announcements',
         'column' => 'created_by',
-        'fix_sql' => "ALTER TABLE announcements ADD COLUMN created_by INT NULL AFTER image_thumb;",
+        'fix_sql' => addColumnFixSql('announcements', 'created_by', 'INT NULL AFTER image_thumb'),
     ],
     [
         'type' => 'table',
@@ -81,7 +99,7 @@ $checks = [
         'label' => 'events.publish_date column exists',
         'table' => 'events',
         'column' => 'publish_date',
-        'fix_sql' => "ALTER TABLE events ADD COLUMN publish_date DATE AFTER end_date;",
+        'fix_sql' => addColumnFixSql('events', 'publish_date', 'DATE AFTER end_date'),
     ],
     [
         'type' => 'table',
