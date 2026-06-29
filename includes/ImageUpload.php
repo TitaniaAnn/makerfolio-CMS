@@ -152,6 +152,113 @@ class ImageUpload {
         return true;
     }
 
+    /**
+     * Rotate an image file a quarter turn, preserving its format (JPG/PNG/WebP)
+     * and alpha. $clockwise=true turns it 90° clockwise, false 90° counter-
+     * clockwise. Reads $src, writes $dst (may equal $src for in-place). Returns
+     * false (leaving $dst untouched) for unreadable / unsupported files.
+     * Public + static so it can be unit-tested without GD-less paths.
+     */
+    public static function rotateImageFile(string $src, string $dst, bool $clockwise): bool
+    {
+        if (!is_file($src)) return false;
+        $info = @getimagesize($src);
+        if (!$info) return false;
+        $type = $info[2];
+
+        switch ($type) {
+            case IMAGETYPE_JPEG: $img = @imagecreatefromjpeg($src); break;
+            case IMAGETYPE_PNG:  $img = @imagecreatefrompng($src);  break;
+            case IMAGETYPE_WEBP: $img = @imagecreatefromwebp($src); break;
+            default: return false; // Unsupported — leave the file alone.
+        }
+        if (!$img) return false;
+
+        // GD's imagerotate angle is counter-clockwise, so a clockwise quarter
+        // turn is 270°. Quarter turns add no new canvas area, so the fill
+        // colour (0) is never visible.
+        $rotated = imagerotate($img, $clockwise ? 270 : 90, 0);
+        imagedestroy($img);
+        if (!$rotated) return false;
+
+        if ($type === IMAGETYPE_PNG || $type === IMAGETYPE_WEBP) {
+            imagealphablending($rotated, false);
+            imagesavealpha($rotated, true);
+        }
+
+        switch ($type) {
+            case IMAGETYPE_PNG:  $ok = imagepng($rotated,  $dst, 8);  break;
+            case IMAGETYPE_WEBP: $ok = imagewebp($rotated, $dst, 85); break;
+            default:             $ok = imagejpeg($rotated, $dst, 88);
+        }
+        imagedestroy($rotated);
+        return (bool) $ok;
+    }
+
+    /**
+     * Crop an image to the rectangle (x, y, w, h) given in SOURCE pixels,
+     * preserving format (JPG/PNG/WebP) + alpha. The rect is clamped to the
+     * image bounds, so out-of-range coordinates degrade gracefully rather than
+     * failing. Reads $src, writes $dst (may equal $src). Returns false on
+     * unreadable / unsupported input or a zero-area rect. Public + static for
+     * unit testing.
+     */
+    public static function cropImageFile(string $src, string $dst, int $x, int $y, int $w, int $h): bool
+    {
+        if ($w <= 0 || $h <= 0 || !is_file($src)) return false;
+        $info = @getimagesize($src);
+        if (!$info) return false;
+        [$iw, $ih, $type] = $info;
+
+        // Clamp to bounds.
+        $x = max(0, min($x, $iw - 1));
+        $y = max(0, min($y, $ih - 1));
+        $w = min($w, $iw - $x);
+        $h = min($h, $ih - $y);
+        if ($w <= 0 || $h <= 0) return false;
+
+        switch ($type) {
+            case IMAGETYPE_JPEG: $srcImg = @imagecreatefromjpeg($src); break;
+            case IMAGETYPE_PNG:  $srcImg = @imagecreatefrompng($src);  break;
+            case IMAGETYPE_WEBP: $srcImg = @imagecreatefromwebp($src); break;
+            default: return false;
+        }
+        if (!$srcImg) return false;
+
+        $dstImg = imagecreatetruecolor($w, $h);
+        if ($type === IMAGETYPE_PNG || $type === IMAGETYPE_WEBP) {
+            imagealphablending($dstImg, false);
+            imagesavealpha($dstImg, true);
+        }
+        imagecopy($dstImg, $srcImg, 0, 0, $x, $y, $w, $h);
+        imagedestroy($srcImg);
+
+        switch ($type) {
+            case IMAGETYPE_PNG:  $ok = imagepng($dstImg,  $dst, 8);  break;
+            case IMAGETYPE_WEBP: $ok = imagewebp($dstImg, $dst, 85); break;
+            default:             $ok = imagejpeg($dstImg, $dst, 88);
+        }
+        imagedestroy($dstImg);
+        return (bool) $ok;
+    }
+
+    /**
+     * (Re)generate a thumbnail for $src into $dst at the configured THUMB_*
+     * size. Public wrapper around the upload path's private thumbnailer so the
+     * crop handler can rebuild a thumb after the aspect ratio changes. Returns
+     * false on bad input rather than throwing.
+     */
+    public static function writeThumbnail(string $src, string $dst): bool
+    {
+        if (!is_file($src) || !@getimagesize($src)) return false;
+        try {
+            self::createThumbnail($src, $dst);
+        } catch (\Throwable $e) {
+            return false;
+        }
+        return is_file($dst);
+    }
+
     public static function delete(string $path): void {
         $full = UPLOAD_PATH . $path;
         if (file_exists($full)) unlink($full);

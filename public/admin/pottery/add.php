@@ -201,8 +201,18 @@ $formData = $_POST + ($piece ?? []);
                     </label>
                     <div class="img-gallery" id="imgGallery">
                         <?php foreach ($existingImages as $img): ?>
-                        <div class="img-gallery-item <?= $img['is_primary'] ? 'is-primary' : '' ?>" data-img-id="<?= $img['id'] ?>">
+                        <div class="img-gallery-item <?= $img['is_primary'] ? 'is-primary' : '' ?>" data-img-id="<?= $img['id'] ?>"
+                             data-full-url="/uploads/<?= e($img['image_path']) ?>">
                             <img src="/uploads/<?= e($img['image_thumb'] ?? $img['image_path']) ?>" alt="">
+                            <button type="button" class="rotate-img-btn rotate-img-btn--ccw"
+                                onclick="rotateImage(<?= $img['id'] ?>, <?= $pieceId ?>, 'ccw')"
+                                title="Rotate left">⟲</button>
+                            <button type="button" class="rotate-img-btn rotate-img-btn--cw"
+                                onclick="rotateImage(<?= $img['id'] ?>, <?= $pieceId ?>, 'cw')"
+                                title="Rotate right">⟳</button>
+                            <button type="button" class="rotate-img-btn crop-img-btn"
+                                onclick="cropImage(<?= $img['id'] ?>, <?= $pieceId ?>)"
+                                title="Crop">✂</button>
                             <button type="button" class="delete-img-btn"
                                 onclick="deleteImage(<?= $img['id'] ?>, <?= $pieceId ?>)"
                                 title="Delete image">×</button>
@@ -245,9 +255,49 @@ $formData = $_POST + ($piece ?? []);
     </div>
 </main>
 
+<script src="/admin/js/image-cropper.js"></script>
 <script>
 const CSRF_TOKEN = <?= json_encode(csrf_token()) ?>;
 const IS_EDIT    = <?= $isEdit ? 'true' : 'false' ?>;
+
+// ── Rotate existing image (quarter turn) ──────────────────
+function rotateImage(imgId, pieceId, dir) {
+    const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
+    const btns = item ? item.querySelectorAll('.rotate-img-btn') : [];
+    btns.forEach(b => b.disabled = true);
+    fetch(`/admin/pottery/rotate-image?img_id=${imgId}&piece_id=${pieceId}&dir=${dir}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success && data.image_url && item) {
+                // New filename = new URL, so swapping src is enough to bust the
+                // browser cache; add a timestamp too for belt-and-braces.
+                const img = item.querySelector('img');
+                if (img) img.src = data.image_url + (data.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+            } else {
+                alert((data && data.error) || 'Rotate failed');
+            }
+        })
+        .catch(() => alert('Rotate failed'))
+        .finally(() => btns.forEach(b => b.disabled = false));
+}
+
+// ── Crop existing image ───────────────────────────────────
+function cropImage(imgId, pieceId) {
+    const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
+    if (!window.ImageCropper || !item) return;
+    const thumb = item.querySelector('img');
+    window.ImageCropper.open({
+        imageUrl: item.dataset.fullUrl,
+        fallbackUrl: thumb ? thumb.src : null,
+        saveUrl: '/admin/pottery/crop-image',
+        csrf: CSRF_TOKEN,
+        params: { img_id: imgId, piece_id: pieceId },
+        onSaved: (data) => {
+            if (thumb) thumb.src = data.image_url + (data.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+            if (data.full_url) item.dataset.fullUrl = data.full_url;
+        }
+    });
+}
 
 // ── Set primary (existing image) ──────────────────────────
 function setPrimary(imgId) {

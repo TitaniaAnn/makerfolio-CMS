@@ -333,6 +333,49 @@ img { max-width: 100%; display: block; }
     align-items: center; justify-content: center;
 }
 .delete-img-btn:hover { background: #c0392b; }
+/* Rotate + crop controls sit along the top edge of a gallery tile, left of
+   the delete button. Same circular chip styling as .delete-img-btn. */
+.rotate-img-btn {
+    position: absolute; top: 4px; background: rgba(0,0,0,.6);
+    color: #fff; border: none; width: 22px; height: 22px; border-radius: 50%;
+    font-size: .8rem; line-height: 1; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+}
+.rotate-img-btn:hover { background: var(--clay, #c89a6a); }
+.rotate-img-btn:disabled { opacity: .5; cursor: default; }
+.rotate-img-btn--ccw { left: 4px; }
+.rotate-img-btn--cw  { left: 30px; }
+.crop-img-btn        { left: 56px; }
+
+/* Image cropper modal (window.ImageCropper). */
+.cropper-overlay {
+    position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,.7);
+    display: flex; align-items: center; justify-content: center; padding: 1rem;
+}
+.cropper-modal {
+    background: var(--cream, #faf6ef); border-radius: 10px; padding: 1rem;
+    max-width: 92vw; max-height: 92vh; display: flex; flex-direction: column; gap: .75rem;
+}
+.cropper-stage {
+    position: relative; display: inline-block; line-height: 0;
+    max-width: 84vw; max-height: 72vh; overflow: hidden; user-select: none;
+}
+.cropper-img { max-width: 84vw; max-height: 72vh; display: block; }
+.cropper-box {
+    position: absolute; border: 2px solid #fff;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,.45); cursor: move; box-sizing: border-box;
+}
+.cropper-h {
+    position: absolute; width: 14px; height: 14px; background: #fff;
+    border: 1px solid var(--clay, #c89a6a); border-radius: 2px;
+}
+.cropper-h--nw { left: -7px; top: -7px; cursor: nwse-resize; }
+.cropper-h--ne { right: -7px; top: -7px; cursor: nesw-resize; }
+.cropper-h--sw { left: -7px; bottom: -7px; cursor: nesw-resize; }
+.cropper-h--se { right: -7px; bottom: -7px; cursor: nwse-resize; }
+.cropper-bar { display: flex; align-items: center; gap: .75rem; }
+.cropper-spacer, .cropper-bar .cropper-spacer { flex: 1; }
+.cropper-aspect-label { font-size: .85rem; color: var(--ash, #7a8090); display: flex; align-items: center; gap: .35rem; }
 .new-preview-item {
     position: relative; width: 130px; border-radius: 8px;
     overflow: hidden; border: 2px dashed var(--clay);

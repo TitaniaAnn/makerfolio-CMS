@@ -312,8 +312,12 @@ $selectedType = $formData['type'] ?? 'pot';
                     <?php if (!empty($existingImages)): ?>
                     <div class="img-gallery" id="existingGallery">
                         <?php foreach ($existingImages as $image): ?>
-                        <div class="img-gallery-item <?= $image['is_primary'] ? 'is-primary' : '' ?>" data-img-id="<?= $image['id'] ?>">
+                        <div class="img-gallery-item <?= $image['is_primary'] ? 'is-primary' : '' ?>" data-img-id="<?= $image['id'] ?>"
+                             data-full-url="/uploads/<?= e($image['image_path']) ?>">
                             <img src="/uploads/<?= e($image['image_thumb'] ?? $image['image_path']) ?>" alt="">
+                            <button type="button" class="rotate-img-btn rotate-img-btn--ccw" onclick="rotateImage(<?= $image['id'] ?>, <?= $productId ?>, 'ccw')" title="Rotate left">⟲</button>
+                            <button type="button" class="rotate-img-btn rotate-img-btn--cw" onclick="rotateImage(<?= $image['id'] ?>, <?= $productId ?>, 'cw')" title="Rotate right">⟳</button>
+                            <button type="button" class="rotate-img-btn crop-img-btn" onclick="cropImage(<?= $image['id'] ?>, <?= $productId ?>)" title="Crop">✂</button>
                             <button type="button" class="delete-img-btn" onclick="deleteImage(<?= $image['id'] ?>, <?= $productId ?>)" title="Delete image">×</button>
                             <div class="img-labels">
                                 <?php if ($image['is_primary']): ?>
@@ -351,6 +355,7 @@ $selectedType = $formData['type'] ?? 'pot';
     </div>
 </main>
 <!-- admin.js is now included via topbar.php on every admin page; don't reload it. -->
+<script src="/admin/js/image-cropper.js"></script>
 <script>
 const primaryImageInput = document.getElementById('primaryImageId');
 const imageInput = document.getElementById('imageInput');
@@ -409,6 +414,43 @@ async function deleteImage(imageId, productId) {
     if (primaryImageInput.value === String(imageId)) {
         primaryImageInput.value = '';
     }
+}
+
+// ── Rotate existing product image (quarter turn) ──────────
+function rotateImage(imgId, productId, dir) {
+    const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
+    const btns = item ? item.querySelectorAll('.rotate-img-btn') : [];
+    btns.forEach(b => b.disabled = true);
+    fetch(`/admin/shop/rotate-image?img_id=${imgId}&product_id=${productId}&dir=${dir}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success && data.image_url && item) {
+                const img = item.querySelector('img');
+                if (img) img.src = data.image_url + (data.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+            } else {
+                alert((data && data.error) || 'Rotate failed');
+            }
+        })
+        .catch(() => alert('Rotate failed'))
+        .finally(() => btns.forEach(b => b.disabled = false));
+}
+
+// ── Crop existing product image ───────────────────────────
+function cropImage(imgId, productId) {
+    const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
+    if (!window.ImageCropper || !item) return;
+    const thumb = item.querySelector('img');
+    window.ImageCropper.open({
+        imageUrl: item.dataset.fullUrl,
+        fallbackUrl: thumb ? thumb.src : null,
+        saveUrl: '/admin/shop/crop-image',
+        csrf: CSRF_TOKEN,
+        params: { img_id: imgId, product_id: productId },
+        onSaved: (data) => {
+            if (thumb) thumb.src = data.image_url + (data.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+            if (data.full_url) item.dataset.fullUrl = data.full_url;
+        }
+    });
 }
 
 function updateNewPreviews() {
