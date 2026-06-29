@@ -9,7 +9,7 @@
  *
  *   <?= PageMeta::renderHead([
  *       'title'       => 'Portfolio — ' . setting('site_name'),
- *       'description' => 'A collection of handcrafted ceramics',
+ *       'description' => 'A collection of handmade work',
  *       'image'       => '/uploads/' . $piece['image_path'],   // optional
  *       'type'        => 'article',                            // default 'website'
  *   ]) ?>

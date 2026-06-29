@@ -14,8 +14,8 @@ final class EventTypesTest extends TestCase
 {
     public function test_label_returns_default_for_known_type(): void
     {
-        $this->assertSame('Pottery Show',    \EventTypes::label('pottery_show'));
-        $this->assertSame('Pottery Sale',    \EventTypes::label('pottery_sale'));
+        $this->assertSame('Show',            \EventTypes::label('pottery_show'));
+        $this->assertSame('Sale',            \EventTypes::label('pottery_sale'));
         $this->assertSame('Storefront Sale', \EventTypes::label('storefront_sale'));
         $this->assertSame('Class',           \EventTypes::label('class'));
     }

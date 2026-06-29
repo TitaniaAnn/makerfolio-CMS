@@ -24,7 +24,7 @@ $landing = [
     '/shop.php',
     '/about.php',
     '/events.php',
-    '/templates.php',
+    '/downloads.php',
     '/privacy.php',
 ];
 

@@ -20,7 +20,7 @@ $showExternal     = $navExternalUrl !== '' && $navExternalLabel !== '';
             <li><a href="/events" class="nav__link"><?= e(PageText::get('nav', 'events')) ?></a></li>
             <li><a href="/shop" class="nav__link"><?= e(PageText::get('nav', 'shop')) ?></a></li>
             <li><a href="/about" class="nav__link"><?= e(PageText::get('nav', 'about')) ?></a></li>
-            <li><a href="/templates" class="nav__link"><?= e(PageText::get('nav', 'templates')) ?></a></li>
+            <li><a href="/downloads" class="nav__link"><?= e(PageText::get('nav', 'templates')) ?></a></li>
             <?php if ($showExternal): ?>
             <li><a href="<?= e($navExternalUrl) ?>" class="nav__link" target="_blank" rel="noopener"><?= e($navExternalLabel) ?></a></li>
             <?php endif; ?>
@@ -36,7 +36,7 @@ $showExternal     = $navExternalUrl !== '' && $navExternalLabel !== '';
         <a href="/events" class="nav__mobile-link"><?= e(PageText::get('nav', 'events')) ?></a>
         <a href="/shop" class="nav__mobile-link"><?= e(PageText::get('nav', 'shop')) ?></a>
         <a href="/about" class="nav__mobile-link"><?= e(PageText::get('nav', 'about')) ?></a>
-        <a href="/templates" class="nav__mobile-link"><?= e(PageText::get('nav', 'templates')) ?></a>
+        <a href="/downloads" class="nav__mobile-link"><?= e(PageText::get('nav', 'templates')) ?></a>
         <?php if ($showExternal): ?>
         <a href="<?= e($navExternalUrl) ?>" class="nav__mobile-link" target="_blank" rel="noopener"><?= e($navExternalLabel) ?></a>
         <?php endif; ?>

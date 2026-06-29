@@ -32,7 +32,7 @@ final class PageText
             'shop'         => 'Shop',
             'about'        => 'About',
             'events'       => 'Events',
-            'templates'    => 'Templates',
+            'templates'    => 'Downloads',
             'privacy'      => 'Privacy Policy',
             'order_done'   => 'Order Confirmed',
             'order_cancel' => 'Checkout Cancelled',
@@ -54,7 +54,7 @@ final class PageText
             'events'    => 'Events',
             'shop'      => 'Shop',
             'about'     => 'About',
-            'templates' => 'Templates',
+            'templates' => 'Downloads',
         ],
         'footer' => [
             'portfolio' => 'Portfolio',
@@ -86,7 +86,7 @@ final class PageText
         ],
         'portfolio' => [
             'header_title' => 'Portfolio',
-            'header_sub'   => 'A collection of handcrafted ceramics',
+            'header_sub'   => 'A collection of handmade work',
             'filter_all'   => 'All',
             'empty'        => 'No pieces to display yet. Check back soon!',
         ],
@@ -121,10 +121,10 @@ final class PageText
             'cta_learn'    => 'Learn More',
         ],
         'templates' => [
-            'header_title' => 'Pottery Templates',
-            'header_sub'   => 'Free patterns and guides to download and use in your studio',
+            'header_title' => 'Downloads',
+            'header_sub'   => 'Free files to download — patterns, guides, and printables',
             'filter_all'   => 'All',
-            'empty'        => 'No templates available yet — check back soon!',
+            'empty'        => 'No downloads available yet — check back soon!',
             'btn_download' => 'Download',
         ],
         'announcement' => [

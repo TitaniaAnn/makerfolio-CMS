@@ -154,8 +154,8 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
                         <label>Event Type *</label>
                         <select name="event_type" id="eventType" required>
                             <option value="">Select type...</option>
-                            <option value="pottery_show"    <?= ($formData['event_type'] ?? '') === 'pottery_show' ? 'selected' : '' ?>>Pottery Show</option>
-                            <option value="pottery_sale"    <?= ($formData['event_type'] ?? '') === 'pottery_sale' ? 'selected' : '' ?>>Pottery Sale</option>
+                            <option value="pottery_show"    <?= ($formData['event_type'] ?? '') === 'pottery_show' ? 'selected' : '' ?>>Show</option>
+                            <option value="pottery_sale"    <?= ($formData['event_type'] ?? '') === 'pottery_sale' ? 'selected' : '' ?>>Sale</option>
                             <option value="storefront_sale" <?= ($formData['event_type'] ?? '') === 'storefront_sale' ? 'selected' : '' ?>>Storefront Sale</option>
                             <option value="class"           <?= ($formData['event_type'] ?? '') === 'class' ? 'selected' : '' ?>>Class</option>
                         </select>

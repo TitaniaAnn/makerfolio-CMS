@@ -119,7 +119,7 @@ final class ContentReset
         'theme_font_eyebrow'        => 'caveat',
         'theme_radius_scale'        => 'default',
         'theme_shadow_scale'        => 'default',
-        'event_type_labels'         => '{"pottery_show":"Pottery Show","pottery_sale":"Pottery Sale","storefront_sale":"Storefront Sale","class":"Class"}',
+        'event_type_labels'         => '{"pottery_show":"Show","pottery_sale":"Sale","storefront_sale":"Storefront Sale","class":"Class"}',
         'nav_external_label'        => 'App',  // The URL is wiped under branding; the label has a non-blank default to seed.
     ];
 

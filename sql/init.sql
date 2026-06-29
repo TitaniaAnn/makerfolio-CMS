@@ -410,7 +410,7 @@ INSERT IGNORE INTO settings (setting_key, setting_value) VALUES
 ('privacy_updated',     ''),
 ('nav_external_url',    ''),
 ('nav_external_label',  'App'),
-('event_type_labels',   '{"pottery_show":"Pottery Show","pottery_sale":"Pottery Sale","storefront_sale":"Storefront Sale","class":"Class"}');
+('event_type_labels',   '{"pottery_show":"Show","pottery_sale":"Sale","storefront_sale":"Storefront Sale","class":"Class"}');
 
 INSERT IGNORE INTO shop_categories (name, slug, type) VALUES
 ('Original Pots', 'original-pots', 'pot'),
@@ -459,4 +459,5 @@ INSERT IGNORE INTO schema_migrations (version, source, notes) VALUES
 ('019_password_resets.sql',     'mark', 'pre-applied via init.sql'),
 ('020_admin_activity.sql',      'mark', 'pre-applied via init.sql'),
 ('021_image_alt_text.sql',      'mark', 'pre-applied via init.sql'),
-('022_totp.sql',                'mark', 'pre-applied via init.sql');
+('022_totp.sql',                'mark', 'pre-applied via init.sql'),
+('023_genericize_event_labels.sql', 'mark', 'pre-applied via init.sql');

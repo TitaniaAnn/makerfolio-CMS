@@ -54,14 +54,14 @@ $heroImage = setting('hero_image');
 
     <div class="hero__card">
     <div class="hero__content">
-        <span class="hero__eyebrow"><?= e(setting('tagline', 'made by hand, fired with love')) ?></span>
-        <h1 class="hero__title"><?= e(setting('hero_title', 'Earth & Fire')) ?></h1>
+        <span class="hero__eyebrow"><?= e(setting('tagline', 'made by hand, with care')) ?></span>
+        <h1 class="hero__title"><?= e(setting('hero_title', 'Made by Hand')) ?></h1>
         <div class="hero__title-rule">
             <span></span>
             <em>✦</em>
             <span></span>
         </div>
-        <p class="hero__sub"><?= e(setting('hero_subtitle', 'Each piece shaped by hand, fired with intention')) ?></p>
+        <p class="hero__sub"><?= e(setting('hero_subtitle', 'Original handmade goods, made to last')) ?></p>
         <div class="hero__actions">
             <a href="/portfolio" class="btn btn--primary"><?= e(PageText::get('home', 'hero_btn_portfolio')) ?></a>
             <a href="/shop" class="btn btn--outline"><?= e(PageText::get('home', 'hero_btn_shop')) ?></a>

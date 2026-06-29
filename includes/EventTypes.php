@@ -11,8 +11,8 @@
 final class EventTypes
 {
     public const DEFAULT_LABELS = [
-        'pottery_show'    => 'Pottery Show',
-        'pottery_sale'    => 'Pottery Sale',
+        'pottery_show'    => 'Show',
+        'pottery_sale'    => 'Sale',
         'storefront_sale' => 'Storefront Sale',
         'class'           => 'Class',
     ];
