@@ -351,7 +351,8 @@ final class Theme
     --shadow-lg: {$t['shadow']['shadow_lg']};
 }
 CSS;
-        return "<style id=\"theme-overrides\">{$css}</style>";
+        $nonce = function_exists('csp_nonce') ? csp_nonce() : '';
+        return '<style id="theme-overrides" nonce="' . htmlspecialchars($nonce, ENT_QUOTES, 'UTF-8') . '">' . $css . '</style>';
     }
 
     /**

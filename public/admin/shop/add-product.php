@@ -173,11 +173,7 @@ $selectedType = $formData['type'] ?? 'pot';
     <title><?= $isEdit ? 'Edit Product' : 'Add Product' ?> — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Page-specific: the upload-note caption. Shared gallery styles
-           (.img-gallery, .img-labels, .delete-img-btn, etc.) live in admin.css. */
-        .upload-note { margin-top: .5rem; color: var(--ash); display: block; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/shop-add-product.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

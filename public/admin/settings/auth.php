@@ -132,20 +132,7 @@ $gCallback     = rtrim(SITE_URL, '/') . '/admin/auth/google-callback.php';
     <title>Login Providers — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .provider-card { padding: 1rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 8px; margin-bottom: 1rem; background: #fff; }
-        .provider-card h2 { margin-top: 0; }
-        .provider-card__head { display: flex; justify-content: space-between; align-items: center; }
-        .provider-card__head .toggle { font-weight: 500; color: var(--fog,#7a8090); }
-        .provider-card__head .toggle.on { color: var(--clay,#1f7f37); font-weight: 600; }
-        .callback-line { background: #f4f2ec; padding: .5rem .75rem; border-radius: 6px; font-family: ui-monospace, Menlo, monospace; font-size: .85rem; margin: .5rem 0; }
-        .form-row { display: grid; gap: .25rem; margin: .75rem 0; }
-        .form-row label { font-weight: 600; font-size: .9rem; }
-        .form-row input { padding: .5rem .65rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 6px; font: inherit; }
-        .form-row small { color: var(--fog,#7a8090); }
-        .form-actions { display: flex; gap: .5rem; align-items: center; margin-top: .75rem; }
-        .checkbox-row { display: flex; align-items: center; gap: .5rem; font-weight: 600; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/settings-auth.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

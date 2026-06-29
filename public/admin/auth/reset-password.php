@@ -88,13 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $tokenStatus === 'valid') {
     <title>Set new password — <?= e(setting('site_name', 'My Pottery')) ?></title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .rp-form { display: grid; gap: .75rem; }
-        .rp-form label { display: block; font-weight: 600; }
-        .rp-form input { display: block; width: 100%; padding: .55rem .7rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 6px; font: inherit; }
-        .rp-form button { padding: .65rem 1rem; border-radius: 6px; border: none; background: var(--clay,#d4a820); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
-        .rp-note { background: #fdecec; padding: .85rem 1rem; border-radius: 6px; color: #b53a3a; font-size: .9rem; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/auth-reset-password.css">
 </head>
 <body class="login-body">
     <div class="login-card">

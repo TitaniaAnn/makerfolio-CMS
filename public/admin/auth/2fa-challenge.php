@@ -106,14 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Two-factor authentication — <?= e(setting('site_name', 'My Pottery')) ?></title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .tfa-form { display: grid; gap: .75rem; }
-        .tfa-form label { display: block; font-weight: 600; }
-        .tfa-form input[type=text] { display: block; width: 100%; padding: .55rem .7rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 6px; font: 1.4rem ui-monospace, Menlo, monospace; letter-spacing: .15em; text-align: center; }
-        .tfa-form button { padding: .65rem 1rem; border-radius: 6px; border: none; background: var(--clay,#d4a820); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
-        .tfa-note { background: #f4f2ec; padding: .85rem 1rem; border-radius: 6px; color: var(--ink); font-size: .9rem; line-height: 1.55; }
-        .tfa-cancel { background: transparent; border: 1px solid var(--sand,#e8e4d8); color: var(--fog,#7a8090); padding: .55rem 1rem; border-radius: 6px; text-decoration: none; font-size: .85rem; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/auth-2fa-challenge.css">
 </head>
 <body class="login-body">
     <div class="login-card">

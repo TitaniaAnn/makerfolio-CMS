@@ -31,25 +31,7 @@ if (!empty($pending)) {
     <title>Database Migrations — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .mig-summary { display: flex; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-        .mig-pill { background: #fff; border: 1px solid var(--cream-dk); border-radius: 999px; padding: .45rem .85rem; font-size: .82rem; }
-        .mig-pill--ok { color: #1b6f31; border-color: #b8deba; background: #edf7ee; }
-        .mig-pill--warn { color: #8d3b13; border-color: #f0c7b2; background: #fff1ea; }
-        .mig-card { background: #fff; border: 1px solid var(--cream-dk); border-radius: var(--radius); padding: 1rem 1.1rem; margin-bottom: .75rem; }
-        .mig-card__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-        .mig-card__name { font-family: monospace; font-size: .92rem; color: var(--soil); }
-        .mig-card__meta { font-size: .78rem; color: var(--ash); }
-        .mig-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
-        .mig-actions form { margin: 0; }
-        .source-pill { display: inline-block; padding: .15rem .5rem; border-radius: 999px; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; border: 1px solid; }
-        .source-pill--run  { background: #edf7ee; color: #1b6f31; border-color: #b8deba; }
-        .source-pill--mark { background: #eef2f7; color: #5c6b80; border-color: #c8d2df; }
-        .preview { margin-top: 1.25rem; }
-        .preview pre { background: #f7f8fb; border: 1px solid var(--cream-dk); border-radius: 4px; padding: .75rem; font-size: .78rem; overflow-x: auto; max-height: 420px; }
-        .danger-note { font-size: .8rem; color: #8f2c24; margin-top: .35rem; }
-        .stmt-count { font-size: .75rem; color: var(--ash); margin-top: .25rem; display: block; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/migrations-index.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

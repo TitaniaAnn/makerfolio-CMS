@@ -111,23 +111,7 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
     <title><?= $isEdit ? 'Edit Event' : 'Add Event' ?> — Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/admin/css/admin.css">
-    <style>
-        .form-group.form-group--half { width: calc(50% - .375rem); display: inline-block; }
-        .form-group.form-group--half:nth-child(even) { margin-left: .75rem; }
-        @media (max-width: 768px) {
-            .form-group.form-group--half { width: 100%; margin-left: 0 !important; display: block; }
-        }
-        .type-specific { display: none; padding: 1rem; background: var(--cream); border-left: 3px solid var(--clay); margin-top: 1rem; border-radius: 4px; }
-        .type-specific.active { display: block; }
-        .piece-checklist { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .piece-item { position: relative; border: 2px solid var(--cream-dk); border-radius: 8px; overflow: hidden; cursor: pointer; transition: border-color .2s; }
-        .piece-item input[type="checkbox"] { display: none; }
-        .piece-item input[type="checkbox"]:checked + .piece-item__content { border-color: var(--clay); box-shadow: inset 0 0 0 2px var(--clay); }
-        .piece-item__content { padding: .375rem; }
-        .piece-item__img { width: 100%; height: 100px; object-fit: cover; border-radius: 4px; }
-        .piece-item__title { font-size: .75rem; font-weight: 600; margin-top: .25rem; color: var(--ink); word-break: break-word; }
-        .piece-item__check { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; background: var(--clay); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .9rem; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/events-add.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

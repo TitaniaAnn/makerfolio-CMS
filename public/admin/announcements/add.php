@@ -188,27 +188,7 @@ if ($_siteName !== '' && $_siteHost) {
     <title><?= $isEdit ? 'Edit' : 'Add' ?> Announcement — Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/admin/css/admin.css">
-    <style>
-        .form-group.form-group--half { width: calc(50% - .375rem); display: inline-block; }
-        .form-group.form-group--half:nth-child(even) { margin-left: .75rem; }
-        @media (max-width: 768px) {
-            .form-group.form-group--half { width: 100%; margin-left: 0 !important; display: block; }
-        }
-        .image-upload-area { border: 2px dashed var(--cream-dk); border-radius: 8px; padding: 2rem; text-align: center; position: relative; }
-        .image-upload-area.has-image { border-color: var(--clay); background: rgba(212, 168, 32, 0.05); }
-        .image-upload-input { display: none; }
-        .image-preview { max-width: 200px; max-height: 200px; margin: 1rem auto; border-radius: 8px; }
-        .image-remove-btn { background: rgba(192, 57, 43, 0.9); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
-        .entity-checklist { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .entity-item { border: 2px solid var(--cream-dk); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all .2s; }
-        .entity-item input[type="checkbox"] { display: none; }
-        .entity-item input[type="checkbox"]:checked + .entity-label { border-color: var(--clay); background: rgba(212, 168, 32, 0.1); }
-        .entity-label { display: block; cursor: pointer; padding: 0.5rem; border-radius: 4px; transition: all .2s; }
-        .entity-item input[type="checkbox"]:checked + .entity-label::before { content: '✓ '; color: var(--clay); font-weight: bold; }
-        .social-preview { background: var(--cream); border-left: 3px solid var(--clay); padding: 1.5rem; border-radius: 4px; margin-top: 2rem; }
-        .social-preview h3 { font-size: 0.9rem; color: var(--ash); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
-        .social-preview-text { font-size: 0.9rem; line-height: 1.6; color: var(--ink); white-space: pre-wrap; word-break: break-word; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/announcements-add.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

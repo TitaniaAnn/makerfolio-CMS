@@ -18,15 +18,7 @@ $users = Database::fetchAll(
     <title>Admin Users — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .au-providers { display: flex; gap: .3rem; flex-wrap: wrap; }
-        .au-badge { font-size: .7rem; font-weight: 600; padding: .15rem .5rem; border-radius: 4px; letter-spacing: .03em; border: 1px solid var(--sand,#e8e4d8); background: #fff; }
-        .au-badge--local  { background: #f4f2ec; color: var(--ink); }
-        .au-badge--github { background: #1e2430; color: #fff; border-color: #1e2430; }
-        .au-badge--google { background: #fff; color: #1a73e8; border-color: #1a73e8; }
-        .au-badge--me     { background: #d4a820; color: #fff; border-color: #d4a820; }
-        .au-meta { font-size: .8rem; color: var(--fog,#7a8090); }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/users-index.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

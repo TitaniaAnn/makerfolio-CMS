@@ -88,48 +88,7 @@ foreach (Theme::overridableRoles() as $role => $settingKey) {
     <title>Theme — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .theme-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); gap: 1.5rem; align-items: start; }
-        @media (max-width: 1100px) { .theme-layout { grid-template-columns: 1fr; } }
-        .theme-preview { position: sticky; top: 1rem; }
-        .theme-preview__label { font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color: var(--fog,#7a8090); margin-bottom:.35rem; }
-        .theme-preview__frame { width: 100%; height: 580px; border: 1px solid var(--sand,#e8e4d8); border-radius: 8px; background: #fff; box-shadow: 0 4px 16px rgba(30,36,48,.06); }
-        .theme-preset-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-        .theme-preset {
-            position: relative; display: block; cursor: pointer;
-            border: 2px solid var(--sand, #e8e4d8); border-radius: 12px;
-            padding: 1rem 1rem .9rem; background: #fff;
-            transition: border-color .15s, box-shadow .15s, transform .15s;
-        }
-        .theme-preset:hover { border-color: var(--clay, #d4a820); transform: translateY(-1px); }
-        .theme-preset input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
-        /* Selected state — must be visually distinct at a glance. */
-        .theme-preset.is-active {
-            border-color: var(--clay, #d4a820);
-            border-width: 3px;
-            padding: calc(1rem - 1px) calc(1rem - 1px) calc(.9rem - 1px);  /* compensate so card doesn't jump */
-            background: linear-gradient(180deg, #fffbe6 0%, #fff 60%);
-            box-shadow: 0 4px 14px rgba(212,168,32,.25), 0 0 0 4px rgba(212,168,32,.12);
-        }
-        .theme-preset.is-active::after {
-            content: "✓ Selected";
-            position: absolute; top: -10px; right: 12px;
-            background: var(--clay, #d4a820); color: #fff;
-            font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
-            padding: .2rem .55rem; border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,.18);
-        }
-        .theme-preset__label { font-weight: 600; margin-bottom: .25rem; }
-        .theme-preset__desc { font-size: .8rem; color: var(--fog, #7a8090); margin-bottom: .65rem; }
-        .theme-swatches { display: flex; gap: .35rem; }
-        .theme-swatch { width: 100%; height: 28px; border-radius: 4px; border: 1px solid rgba(0,0,0,.08); }
-        .theme-color-row { display: flex; align-items: center; gap: .5rem; }
-        .theme-color-row input[type="color"] { width: 56px; height: 38px; padding: 0; border: 1px solid var(--sand, #e8e4d8); border-radius: 6px; background: #fff; }
-        .theme-color-row input[type="text"] { flex: 1; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-        .theme-color-row .preset-hint { font-size: .75rem; color: var(--fog, #7a8090); white-space: nowrap; }
-        .radio-row { display: flex; gap: 1rem; flex-wrap: wrap; }
-        .radio-row label { display: inline-flex; align-items: center; gap: .35rem; font-weight: 500; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/settings-theme.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

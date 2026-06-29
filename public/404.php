@@ -23,7 +23,7 @@ $pageTitle = '404 — Page Not Found · ' . $siteName;
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <style>
+    <style nonce="<?= e(csp_nonce()) ?>">
         .err-wrap { max-width: 640px; margin: 5rem auto; padding: 2rem; text-align: center; }
         .err-code { font-family: var(--font-display, Georgia, serif); font-size: 5rem; line-height: 1; color: var(--clay, #c89a6a); margin: 0 0 .5rem; }
         .err-title { font-size: 1.5rem; margin: 0 0 1rem; color: var(--ink, #2a2520); }

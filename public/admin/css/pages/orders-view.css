@@ -1,0 +1,6 @@
+/* Extracted from public/admin/orders/view.php — CSP slice: no inline <style> blocks. */
+.timeline { display:flex; flex-direction:column; gap:.75rem; }
+.timeline-item { padding:.6rem .75rem; border-left:2px solid var(--sand); padding-left:1rem; font-size:.88rem; }
+.timeline-item--done { border-left-color:var(--clay); }
+.timeline-item span { display:block; font-weight:500; }
+.timeline-item small { color:var(--ash); font-size:.78rem; }

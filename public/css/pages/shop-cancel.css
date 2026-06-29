@@ -1,0 +1,17 @@
+/* Extracted from public/shop/cancel.php — CSP slice: no inline <style> blocks. */
+        .cancel-page {
+            min-height: 80vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 8rem 2rem 4rem;
+        }
+        .cancel-card {
+            max-width: 480px; width: 100%; text-align: center;
+            background: var(--parchment);
+            border: 2px solid var(--wheat);
+            box-shadow: 4px 4px 0 var(--wheat);
+            padding: 3rem 2.5rem;
+        }
+        .cancel-card__icon { font-size: 3rem; margin-bottom: 1rem; }
+        .cancel-card__title { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: .75rem; }
+        .cancel-card__sub { font-family: var(--font-script); font-size: 1.2rem; color: var(--ember); display: block; margin-bottom: 1.5rem; }
+        .cancel-card__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }

@@ -112,12 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Edit Admin — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .au-link-row { display: flex; align-items: center; justify-content: space-between; padding: .65rem 0; border-top: 1px solid var(--sand,#e8e4d8); }
-        .au-link-row:first-of-type { border-top: 0; }
-        .au-link-row__info strong { display: block; }
-        .au-link-row__info small  { display: block; color: var(--fog,#7a8090); font-size: .8rem; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/users-edit.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

@@ -84,27 +84,7 @@ foreach ($rows as $row) {
     <title>Email Templates — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .et-template { padding: 1.25rem; margin-bottom: 1.5rem; background: #fff; border: 1px solid var(--sand,#e8e4d8); border-radius: 8px; }
-        .et-template > h2 { margin: 0 0 .25rem; font-size: 1.1rem; }
-        .et-template > .et-template__desc { color: var(--fog,#7a8090); font-size: .85rem; margin-bottom: 1rem; }
-        .et-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 1.25rem; align-items: start; }
-        @media (max-width: 1000px) { .et-grid { grid-template-columns: 1fr; } }
-        .et-fields label { display: block; font-weight: 600; font-size: .85rem; margin-bottom: .35rem; }
-        .et-fields input[type=text], .et-fields textarea { width: 100%; padding: .55rem .7rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 6px; font: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; }
-        .et-fields textarea { min-height: 14rem; resize: vertical; }
-        .et-vars { background: #f4f2ec; border-radius: 6px; padding: .75rem 1rem; }
-        .et-vars h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--fog,#7a8090); }
-        .et-vars dl { margin: 0; font-size: .82rem; }
-        .et-vars dt { font-family: ui-monospace, Menlo, monospace; color: var(--clay,#d4a820); margin-top: .35rem; cursor: copy; }
-        .et-vars dt:first-of-type { margin-top: 0; }
-        .et-vars dd { margin: 0 0 .15rem 0; color: var(--ink-lt,#3a4050); }
-        .et-preview { margin-top: 1rem; background: #fafaf7; border: 1px solid var(--sand,#e8e4d8); border-radius: 6px; padding: .85rem 1rem; }
-        .et-preview__label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--fog,#7a8090); margin-bottom: .35rem; }
-        .et-preview__subject { font-weight: 700; padding: .25rem 0 .5rem; border-bottom: 1px dashed var(--sand,#e8e4d8); margin-bottom: .65rem; font-family: ui-monospace, Menlo, monospace; font-size: .88rem; }
-        .et-preview__body { white-space: pre-wrap; font-family: ui-monospace, Menlo, monospace; font-size: .85rem; line-height: 1.55; color: var(--ink); margin: 0; }
-        .et-form-actions { display: flex; gap: .5rem; padding: 1rem 0; position: sticky; bottom: 0; background: linear-gradient(to top, var(--cream,#f8f6f0) 70%, rgba(248,246,240,0)); }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/settings-email-templates.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

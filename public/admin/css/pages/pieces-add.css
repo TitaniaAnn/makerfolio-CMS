@@ -1,0 +1,19 @@
+/* Extracted from public/admin/pieces/add.php — CSP slice: no inline <style> blocks. */
+        /* Page-specific: the "+ add more" tile and the remove-button on a
+           not-yet-saved preview. Shared gallery styles live in admin.css. */
+        .img-gallery-item { cursor: pointer; }
+        .img-add-more {
+            width: 130px; height: 142px; border: 2px dashed var(--cream-dk);
+            border-radius: 8px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: .3rem;
+            cursor: pointer; color: var(--ash); font-size: .75rem;
+            text-align: center; transition: border-color .2s, color .2s;
+        }
+        .img-add-more:hover { border-color: var(--clay); color: var(--clay); }
+        .img-add-more svg { width: 24px; height: 24px; }
+        .new-preview-item .remove-new-btn {
+            position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,.65);
+            color: #fff; border: none; width: 22px; height: 22px; border-radius: 50%;
+            font-size: .85rem; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+        }

@@ -116,13 +116,6 @@ $countMap = array_column($counts, 'n', 'status');
         <?php endif; ?>
     </div>
 </main>
-<style>
-.order-tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
-.order-tab { padding:.4rem 1rem; border:1px solid var(--sand); border-radius:var(--radius); font-size:.85rem; color:var(--soil); text-decoration:none; transition:all .2s; }
-.order-tab.active, .order-tab:hover { background:var(--clay); color:#fff; border-color:var(--clay); }
-.order-id { font-family:monospace; font-size:.85rem; color:var(--ash); }
-.revenue-summary { margin-top:1.5rem; padding:1rem 1.25rem; background:#fff; border-left:3px solid var(--clay); font-size:.9rem; border-radius:0 var(--radius) var(--radius) 0; }
-.status-badge--refunded { background:#f3e0ff; color:#6a1b9a; }
-</style>
+<link rel="stylesheet" href="/admin/css/pages/orders-index.css">
 </body>
 </html>

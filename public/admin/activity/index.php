@@ -23,19 +23,7 @@ $admins = Database::fetchAll("SELECT id, username FROM admin_users ORDER BY user
     <title>Activity Log — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .al-filters { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: end; }
-        .al-filters label { display: block; font-size: .8rem; font-weight: 600; color: var(--fog,#7a8090); }
-        .al-filters select, .al-filters input { padding: .4rem .55rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 6px; font: inherit; }
-        .al-action  { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; color: var(--clay,#d4a820); white-space: nowrap; }
-        .al-details { font-family: ui-monospace, Menlo, monospace; font-size: .78rem; color: var(--ink-lt,#3a4050); max-width: 360px; overflow-wrap: anywhere; }
-        .al-ip      { font-family: ui-monospace, Menlo, monospace; font-size: .78rem; color: var(--fog,#7a8090); }
-        .al-time    { font-size: .82rem; color: var(--ink-lt,#3a4050); white-space: nowrap; }
-        .al-anon    { color: var(--fog,#7a8090); font-style: italic; }
-        .al-paginate { display: flex; gap: .3rem; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
-        .al-paginate a, .al-paginate span { padding: .25rem .55rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 4px; text-decoration: none; font-size: .8rem; color: var(--ink); }
-        .al-paginate .current { background: var(--clay,#d4a820); color: #fff; border-color: var(--clay,#d4a820); }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/activity-index.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

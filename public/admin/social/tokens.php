@@ -53,18 +53,7 @@ $flash = getFlash();
     <title>Social Tokens — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .token-card { background: #fff; border-radius: 8px; padding: 1.5rem; border: 1px solid var(--cream-dk); margin-bottom: 1rem; }
-        .token-status { display: inline-block; padding: .25rem .6rem; border-radius: 4px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
-        .token-status--healthy  { background: #edf7ee; color: #2d6a30; }
-        .token-status--expiring { background: #fff8e6; color: #b07d10; }
-        .token-status--expired,
-        .token-status--missing  { background: #fdf0ef; color: #a33028; }
-        .token-status--unknown  { background: #eef2f7; color: #5c6b80; }
-        .token-meta { font-size: .85rem; color: var(--ash); margin-top: .5rem; }
-        .token-meta dt { display: inline-block; min-width: 140px; font-weight: 600; color: var(--ink); }
-        .token-meta dd { display: inline; margin: 0; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/social-tokens.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

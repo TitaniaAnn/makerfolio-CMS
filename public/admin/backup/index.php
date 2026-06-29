@@ -66,17 +66,7 @@ function fmtBytes(int $b): string {
     <title>Backup — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .bk-stat-row { display: grid; grid-template-columns: 1fr auto; padding: .55rem 0; border-top: 1px solid var(--sand,#e8e4d8); align-items: baseline; font-size: .9rem; }
-        .bk-stat-row:first-of-type { border-top: 0; }
-        .bk-stat-row__label { color: var(--ink); }
-        .bk-stat-row__value { color: var(--fog,#7a8090); font-family: ui-monospace, Menlo, monospace; }
-        .bk-option { display: grid; grid-template-columns: 28px 1fr; gap: .65rem; padding: .65rem 0; border-top: 1px solid var(--sand,#e8e4d8); align-items: start; }
-        .bk-option:first-of-type { border-top: 0; }
-        .bk-option label { font-weight: 600; }
-        .bk-option small { display: block; color: var(--fog,#7a8090); font-size: .82rem; margin-top: .15rem; }
-        .bk-warn { background: #fff5dc; border: 1px solid #ead68a; padding: .75rem 1rem; border-radius: 6px; color: #6e5a0e; font-size: .9rem; margin: .75rem 0; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/backup-index.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

@@ -117,36 +117,7 @@ $formData = $_POST + ($template ?? []);
     <title><?= $isEdit ? 'Edit Template' : 'Add Template' ?> — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .file-drop {
-            border: 2px dashed var(--cream-dk); border-radius: 8px;
-            padding: 1.5rem; text-align: center; cursor: pointer;
-            transition: border-color .2s, background .2s;
-        }
-        .file-drop:hover, .file-drop.dragover { border-color: var(--clay); background: rgba(197,120,78,.04); }
-        .file-drop svg { width: 36px; height: 36px; color: var(--ash); margin-bottom: .5rem; display: block; margin-left: auto; margin-right: auto; }
-        .file-drop__label { font-size: .88rem; color: var(--ash); }
-        .file-drop__label strong { color: var(--clay); }
-        .file-list { display: flex; flex-direction: column; gap: .5rem; margin-bottom: .75rem; }
-        .file-list-item, .file-queue-item {
-            display: flex; align-items: center; gap: .75rem;
-            border-radius: 6px; padding: .6rem .85rem;
-        }
-        .file-list-item { background: var(--cream-dk); }
-        .file-queue-item { background: #eef6ee; }
-        .file-list-item__icon svg, .file-queue-item__icon svg { width: 18px; height: 18px; display: block; color: var(--clay); }
-        .file-list-item__name, .file-queue-item__name { font-size: .83rem; font-weight: 600; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
-        .file-list-item__ext, .file-queue-item__ext { font-size: .68rem; font-weight: 700; text-transform: uppercase; color: var(--clay); flex-shrink: 0; }
-        .file-list-item__label input, .file-queue-item__label input { font-size: .8rem; padding: .25rem .5rem; border: 1px solid var(--cream-dk); border-radius: 4px; width: 150px; }
-        .file-list-item__del, .file-queue-item__remove { background: none; border: none; cursor: pointer; color: var(--ash); padding: 2px 4px; font-size: .85rem; border-radius: 3px; white-space: nowrap; }
-        .file-list-item__del:hover, .file-queue-item__remove:hover { background: #fce; color: #c0392b; }
-        .file-queue { display: flex; flex-direction: column; gap: .5rem; margin-top: .75rem; }
-        .preview-wrap, .preview-row { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: .75rem; }
-        .preview-thumb-box { width: 110px; height: 110px; border-radius: 6px; overflow: hidden; border: 2px solid var(--cream-dk); flex-shrink: 0; background: var(--cream-dk); }
-        .preview-thumb-box img { width: 100%; height: 100%; object-fit: cover; }
-        .preview-thumb-box.empty { display: none; }
-        .section-label { font-weight: 700; font-size: .85rem; color: var(--ash); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/templates-add.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

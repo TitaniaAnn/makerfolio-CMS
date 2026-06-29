@@ -1,0 +1,41 @@
+/* Extracted from public/shop/success.php — CSP slice: no inline <style> blocks. */
+        .order-confirm {
+            min-height: 80vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 8rem 2rem 4rem;
+        }
+        .order-confirm__card {
+            max-width: 560px; width: 100%;
+            text-align: center;
+            background: var(--parchment);
+            border: 2px solid var(--wheat);
+            box-shadow: 4px 4px 0 var(--wheat);
+            padding: 3.5rem 2.5rem;
+        }
+        .order-confirm__icon {
+            font-size: 3.5rem; margin-bottom: 1.25rem;
+            animation: popIn .5s cubic-bezier(.175,.885,.32,1.275) both;
+        }
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+        .order-confirm__title {
+            font-family: var(--font-display);
+            font-size: 2rem; margin-bottom: .75rem;
+            color: var(--bark);
+        }
+        .order-confirm__script {
+            font-family: var(--font-script);
+            font-size: 1.3rem; color: var(--ember);
+            display: block; margin-bottom: 1.5rem;
+        }
+        .order-confirm__detail {
+            background: var(--parchment-dk);
+            border: 1px solid var(--wheat);
+            padding: 1.25rem; margin: 1.5rem 0;
+            text-align: left;
+        }
+        .order-confirm__detail p { font-size: .95rem; color: var(--bark-lt); margin-bottom: .4rem; }
+        .order-confirm__detail strong { color: var(--bark); }
+        .order-confirm__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }

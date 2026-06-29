@@ -69,20 +69,7 @@ foreach ($rows as $row) {
     <title>Page Sections — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .ps-section { padding: 1.25rem; margin-bottom: 1rem; background: #fff; border: 1px solid var(--sand,#e8e4d8); border-radius: 8px; }
-        .ps-section__head { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom: .75rem; }
-        .ps-section__head h2 { margin: 0; font-size: 1.05rem; }
-        .ps-section__hint { color: var(--fog,#7a8090); font-size: .8rem; margin: 0 0 .75rem; }
-        .ps-row { display: grid; grid-template-columns: 32px 60px 1fr; gap: 1rem; padding: .55rem 0; align-items: center; border-top: 1px solid #f4f2ec; }
-        .ps-row--no-drag { grid-template-columns: 60px 1fr; }
-        .ps-row:first-of-type { border-top: 0; }
-        .ps-row__toggle { display:flex; align-items:center; gap:.5rem; }
-        .ps-row__label { color: var(--ink); }
-        .ps-row__key { display:block; font-size: .72rem; color: var(--fog,#7a8090); font-family: ui-monospace, Menlo, monospace; margin-top: .15rem; }
-        .ps-reset-form { display:inline; }
-        .ps-form-actions { display:flex; gap:.5rem; padding: 1rem 0; position: sticky; bottom: 0; background: linear-gradient(to top, var(--cream,#f8f6f0) 70%, rgba(248,246,240,0)); }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/settings-page-sections.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

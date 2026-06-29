@@ -46,20 +46,7 @@ $flash = getFlash();
     <title>Sample Content — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .sc-panel { background: #fff; border: 1px solid var(--sand,#e8e4d8); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.25rem; }
-        .sc-panel h2 { margin: 0 0 .5rem; }
-        .sc-list { margin: .5rem 0 1rem 1.25rem; color: var(--ink); line-height: 1.7; }
-        .sc-list li code { background: #f4f2ec; padding: 1px 5px; border-radius: 3px; font-size: .85em; }
-        .sc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .75rem; margin-top: 1rem; }
-        .sc-grid > div { background: #f4f2ec; padding: .75rem 1rem; border-radius: 6px; text-align: center; }
-        .sc-grid strong { display: block; font-size: 1.6rem; color: var(--ink); }
-        .sc-grid span { color: var(--fog); font-size: .85rem; }
-        .sc-banner { padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1.25rem; }
-        .sc-banner--info  { background: #fffbe6; border: 1px solid #d4a820; color: #5a4500; }
-        .sc-banner--done  { background: #e8f4e8; border: 1px solid #4a8a4a; color: #1c4a1c; }
-        .sc-banner--error { background: #fbe8e8; border: 1px solid #c44; color: #7a1a1a; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/settings-sample-content.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

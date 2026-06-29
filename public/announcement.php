@@ -104,35 +104,7 @@ if ($announcement) {
     ?>
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .announcement-detail { padding: 6rem 0 4rem; }
-        .announcement-card-full {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--warm-white);
-            border: 1px solid var(--linen);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-        .announcement-card-full__image { width: 100%; max-height: 420px; object-fit: cover; }
-        .announcement-card-full__body { padding: 2rem; }
-        .announcement-card-full__meta { color: var(--stone); font-size: .9rem; margin-bottom: .6rem; }
-        .announcement-card-full__title { margin-bottom: 1rem; }
-        .announcement-card-full__text { color: var(--ink-lt); white-space: pre-line; }
-        .announcement-linked { margin-top: 1.5rem; display: grid; gap: 1rem; }
-        .announcement-linked h3 { font-size: 1rem; margin-bottom: .35rem; }
-        .announcement-linked a { color: var(--sage); text-decoration: underline; text-underline-offset: 3px; }
-        .announcement-not-found {
-            max-width: 760px;
-            margin: 0 auto;
-            background: #fff;
-            border: 1px solid var(--linen);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/pages/announcement.css">
 </head>
 <body>
 <?php include __DIR__ . '/../templates/nav.php'; ?>

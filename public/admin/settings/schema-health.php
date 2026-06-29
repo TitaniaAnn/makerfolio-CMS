@@ -142,23 +142,7 @@ $missingCount = $total - $okCount;
     <title>Schema Health — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .health-summary { display: flex; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-        .health-pill { background: #fff; border: 1px solid var(--cream-dk); border-radius: 999px; padding: .45rem .85rem; font-size: .82rem; }
-        .health-pill--ok { color: #1b6f31; border-color: #b8deba; background: #edf7ee; }
-        .health-pill--warn { color: #8d3b13; border-color: #f0c7b2; background: #fff1ea; }
-        .health-list { display: grid; gap: .8rem; }
-        .health-item { background: #fff; border: 1px solid var(--cream-dk); border-radius: var(--radius); padding: .9rem 1rem; }
-        .health-item__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-        .health-item__label { font-size: .9rem; color: var(--soil); }
-        .status-dot { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; padding: .2rem .55rem; border-radius: 999px; }
-        .status-dot--ok { background: #edf7ee; color: #1b6f31; border: 1px solid #b8deba; }
-        .status-dot--bad { background: #fdf0ef; color: #8f2c24; border: 1px solid #edc0bd; }
-        .fix-sql { margin-top: .65rem; }
-        .fix-sql pre { background: #f7f8fb; border: 1px solid var(--cream-dk); border-radius: 4px; padding: .65rem; font-size: .78rem; overflow-x: auto; }
-        .fix-actions { display: flex; align-items: center; gap: .5rem; margin-top: .45rem; }
-        .copy-note { font-size: .75rem; color: var(--fog); }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/settings-schema-health.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

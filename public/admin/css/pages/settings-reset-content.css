@@ -1,0 +1,15 @@
+/* Extracted from public/admin/settings/reset-content.php — CSP slice: no inline <style> blocks. */
+        .danger-card { border: 2px solid #b53a3a; border-radius: 10px; padding: 1.25rem; background: #fdf0f0; margin-bottom: 1.5rem; }
+        .danger-card h2 { color: #b53a3a; margin-top: 0; }
+        .danger-card p { color: #6b1f1f; }
+        .partition-row { display: grid; grid-template-columns: 28px 1fr; gap: .65rem; padding: .65rem 0; border-top: 1px solid var(--sand,#e8e4d8); align-items: start; }
+        .partition-row:first-of-type { border-top: 0; }
+        .partition-row label { font-weight: 600; color: var(--ink); display: block; }
+        .partition-row small { display: block; color: var(--fog,#7a8090); font-size: .82rem; margin-top: .15rem; }
+        .confirm-input { width: 100%; max-width: 320px; padding: .55rem .7rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 6px; font: inherit; font-family: ui-monospace, Menlo, monospace; letter-spacing: .05em; }
+        .reset-results { padding: 1rem 1.25rem; background: #fff; border: 1px solid var(--sand,#e8e4d8); border-radius: 8px; margin-bottom: 1rem; }
+        .reset-results h2 { margin-top: 0; color: #1f7f37; }
+        .reset-results ul { padding-left: 1.25rem; }
+        .reset-results li { font-family: ui-monospace, Menlo, monospace; font-size: .85rem; }
+        .reset-failed { background: #fdf0f0; border-color: #f2c2c2; }
+        .reset-failed h2 { color: #b53a3a; }

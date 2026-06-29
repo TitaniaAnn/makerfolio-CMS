@@ -52,21 +52,7 @@ $noneOn   = !$localOn && !$githubOn && !$googleOn;
     <title>Admin Login — <?= e(setting('site_name')) ?></title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .login-card__divider { display:flex; align-items:center; gap:.75rem; margin:1.25rem 0; color:var(--fog,#7a8090); font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; }
-        .login-card__divider::before, .login-card__divider::after { content:''; flex:1; height:1px; background:var(--sand,#e8e4d8); }
-        .oauth-btn { display:flex; align-items:center; justify-content:center; gap:.75rem; padding:.7rem 1rem; width:100%; margin-top:.5rem; border-radius:6px; border:1px solid var(--bark,#1e2430); text-decoration:none; font-family:var(--font-display); font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; background:#fff; color:var(--bark,#1e2430); transition:all .15s; }
-        .oauth-btn:hover { background:#f4f2ec; }
-        .oauth-btn--github { background:var(--bark,#1e2430); color:var(--parchment,#f8f6f0); border-color:var(--bark,#1e2430); }
-        .oauth-btn--github:hover { background:var(--bark-lt,#3a4050); }
-        .local-form { display:grid; gap:.75rem; }
-        .local-form label { display:block; font-weight:600; font-size:.85rem; }
-        .local-form input { display:block; width:100%; padding:.55rem .7rem; margin-top:.25rem; border:1px solid var(--sand,#e8e4d8); border-radius:6px; font:inherit; }
-        .local-form input:focus { outline: 2px solid var(--clay,#d4a820); outline-offset:1px; }
-        .local-form button { padding:.65rem 1rem; border-radius:6px; border:none; background:var(--clay,#d4a820); color:#fff; font:inherit; font-weight:600; cursor:pointer; }
-        .local-form button:hover { background:var(--clay-dk,#b08a10); }
-        .empty-state { padding:1rem; background:#fdecec; border:1px solid #f2c2c2; border-radius:6px; color:#b53a3a; font-size:.9rem; }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/login.css">
 </head>
 <body class="login-body">
     <div class="login-card">

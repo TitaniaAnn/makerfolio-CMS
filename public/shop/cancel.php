@@ -11,24 +11,7 @@ $productId = (int)($_GET['product_id'] ?? 0);
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
-    <style>
-        .cancel-page {
-            min-height: 80vh;
-            display: flex; align-items: center; justify-content: center;
-            padding: 8rem 2rem 4rem;
-        }
-        .cancel-card {
-            max-width: 480px; width: 100%; text-align: center;
-            background: var(--parchment);
-            border: 2px solid var(--wheat);
-            box-shadow: 4px 4px 0 var(--wheat);
-            padding: 3rem 2.5rem;
-        }
-        .cancel-card__icon { font-size: 3rem; margin-bottom: 1rem; }
-        .cancel-card__title { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: .75rem; }
-        .cancel-card__sub { font-family: var(--font-script); font-size: 1.2rem; color: var(--ember); display: block; margin-bottom: 1.5rem; }
-        .cancel-card__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
-    </style>
+    <link rel="stylesheet" href="/css/pages/shop-cancel.css">
 </head>
 <body>
 <?php include __DIR__ . '/../../templates/nav.php'; ?>

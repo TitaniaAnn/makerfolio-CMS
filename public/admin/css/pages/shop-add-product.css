@@ -1,0 +1,4 @@
+/* Extracted from public/admin/shop/add-product.php — CSP slice: no inline <style> blocks. */
+        /* Page-specific: the upload-note caption. Shared gallery styles
+           (.img-gallery, .img-labels, .delete-img-btn, etc.) live in admin.css. */
+        .upload-note { margin-top: .5rem; color: var(--ash); display: block; }

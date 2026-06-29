@@ -208,28 +208,7 @@ foreach ($checks as $c) {
     <title>System Health — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        .health-summary { display: flex; gap: .6rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-        .health-pill { background: #fff; border: 1px solid #e8e4d8; border-radius: 999px; padding: .45rem .9rem; font-size: .85rem; }
-        .health-pill--ok    { background: #edf7ee; color: #1b6f31; border-color: #b8deba; }
-        .health-pill--warn  { background: #fff8e6; color: #8a6500; border-color: #f0d987; }
-        .health-pill--error { background: #fdf0f0; color: #8f2c24; border-color: #f0c0c0; }
-        .health-pill--info  { background: #eef4ff; color: #2c507a; border-color: #c5d6f0; }
-        .health-list { display: grid; gap: .75rem; }
-        .health-item { background: #fff; border: 1px solid #e8e4d8; border-radius: 8px; padding: 1rem 1.25rem; display: grid; grid-template-columns: 100px 1fr auto; gap: 1rem; align-items: center; }
-        .health-item__status { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; text-align: center; padding: .3rem .55rem; border-radius: 6px; }
-        .health-item__status--ok    { background: #edf7ee; color: #1b6f31; }
-        .health-item__status--warn  { background: #fff8e6; color: #8a6500; }
-        .health-item__status--error { background: #fdf0f0; color: #8f2c24; }
-        .health-item__status--info  { background: #eef4ff; color: #2c507a; }
-        .health-item__body { color: var(--ink); }
-        .health-item__label { font-weight: 600; }
-        .health-item__detail { color: var(--fog,#7a8090); font-size: .88rem; margin-top: .2rem; }
-        .health-item__fix .admin-btn { white-space: nowrap; }
-        @media (max-width: 720px) {
-            .health-item { grid-template-columns: 1fr; }
-        }
-    </style>
+    <link rel="stylesheet" href="/admin/css/pages/settings-health.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>

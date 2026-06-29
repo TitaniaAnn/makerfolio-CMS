@@ -135,12 +135,6 @@ if (!$order) { flash('error', 'Order not found.'); redirect(SITE_URL . '/admin/o
         </div>
     </div>
 </main>
-<style>
-.timeline { display:flex; flex-direction:column; gap:.75rem; }
-.timeline-item { padding:.6rem .75rem; border-left:2px solid var(--sand); padding-left:1rem; font-size:.88rem; }
-.timeline-item--done { border-left-color:var(--clay); }
-.timeline-item span { display:block; font-weight:500; }
-.timeline-item small { color:var(--ash); font-size:.78rem; }
-</style>
+<link rel="stylesheet" href="/admin/css/pages/orders-view.css">
 </body>
 </html>
