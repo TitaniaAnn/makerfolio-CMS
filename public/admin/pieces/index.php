@@ -10,7 +10,7 @@ $q      = $query['q'];
 $search = ListQuery::buildSearchClause($q, ['title', 'description', 'technique']);
 
 $total  = (int)(Database::fetchOne(
-    "SELECT COUNT(*) AS c FROM pottery {$search['sql']}",
+    "SELECT COUNT(*) AS c FROM piece {$search['sql']}",
     $search['params']
 )['c'] ?? 0);
 $pg     = ListQuery::pagination($total, $query['page'], $query['perPage']);
@@ -18,7 +18,7 @@ $pg     = ListQuery::pagination($total, $query['page'], $query['perPage']);
 // offset stays in sync with the navigation we render.
 $offset = ($pg['page'] - 1) * $pg['perPage'];
 $pieces = Database::fetchAll(
-    "SELECT * FROM pottery {$search['sql']} ORDER BY sort_order ASC, id ASC LIMIT {$pg['perPage']} OFFSET {$offset}",
+    "SELECT * FROM piece {$search['sql']} ORDER BY sort_order ASC, id ASC LIMIT {$pg['perPage']} OFFSET {$offset}",
     $search['params']
 );
 
@@ -44,7 +44,7 @@ $listLabel  = 'pieces';
     <div class="admin-content">
         <div class="admin-page-header">
             <h1>Portfolio Pieces <span class="badge"><?= (int)$total ?></span></h1>
-            <a href="/admin/pottery/add" class="admin-btn admin-btn--primary">+ Add Piece</a>
+            <a href="/admin/pieces/add" class="admin-btn admin-btn--primary">+ Add Piece</a>
         </div>
 
         <?php include __DIR__ . '/../partials/list-toolbar.php'; ?>
@@ -52,7 +52,7 @@ $listLabel  = 'pieces';
         <?php if (empty($pieces) && $q === ''): ?>
         <div class="empty-admin">
             <p>No pottery pieces yet.</p>
-            <a href="/admin/pottery/add" class="admin-btn admin-btn--primary">Add your first piece</a>
+            <a href="/admin/pieces/add" class="admin-btn admin-btn--primary">Add your first piece</a>
         </div>
         <?php elseif (empty($pieces)): ?>
         <div class="empty-admin">
@@ -77,7 +77,7 @@ $listLabel  = 'pieces';
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody<?= $canReorder ? ' data-reorder-kind="pottery"' : '' ?>>
+                <tbody<?= $canReorder ? ' data-reorder-kind="piece"' : '' ?>>
                     <?php foreach ($pieces as $p): ?>
                     <tr<?= $canReorder ? ' data-id="' . (int)$p['id'] . '"' : '' ?>>
                         <?php if ($canReorder): ?><td><span class="reorder-handle" title="Drag to reorder" aria-label="Drag to reorder">⋮⋮</span></td><?php endif; ?>
@@ -91,8 +91,8 @@ $listLabel  = 'pieces';
                         <td><?= $p['featured'] ? '<span class="badge badge--gold">⭐ Featured</span>' : '—' ?></td>
                         <td><?= date('d M Y', strtotime($p['created_at'])) ?></td>
                         <td class="actions-cell">
-                            <a href="/admin/pottery/edit?id=<?= $p['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
-                            <a href="/admin/pottery/delete?id=<?= $p['id'] ?>&csrf=<?= e(csrf_token()) ?>"
+                            <a href="/admin/pieces/edit?id=<?= $p['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
+                            <a href="/admin/pieces/delete?id=<?= $p['id'] ?>&csrf=<?= e(csrf_token()) ?>"
                                class="admin-btn admin-btn--sm admin-btn--danger"
                                onclick="return confirm('Delete \'<?= e(addslashes($p['title'])) ?>\'? This cannot be undone.')">
                                 Delete

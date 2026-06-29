@@ -18,12 +18,12 @@ $pieces = Database::fetchAll(
         e.name as event_name,
         e.url as event_url,
         e.event_type as event_type
-    FROM pottery p
+    FROM piece p
     LEFT JOIN events e ON e.id = (
         SELECT ep.event_id
-        FROM event_pottery ep
+        FROM event_piece ep
         LEFT JOIN events e2 ON e2.id = ep.event_id
-        WHERE ep.pottery_id = p.id
+        WHERE ep.piece_id = p.id
             AND e2.publish_date IS NOT NULL 
             AND e2.publish_date <= CURDATE()
         ORDER BY 
@@ -37,20 +37,20 @@ $pieces = Database::fetchAll(
 );
 
 $techniques = Database::fetchAll(
-    "SELECT DISTINCT technique FROM pottery WHERE technique IS NOT NULL AND technique != '' ORDER BY technique"
+    "SELECT DISTINCT technique FROM piece WHERE technique IS NOT NULL AND technique != '' ORDER BY technique"
 );
 
-// Load all images indexed by pottery_id (graceful fallback if table not yet migrated)
+// Load all images indexed by piece_id (graceful fallback if table not yet migrated)
 $allImages = [];
 try {
     $imageRows = Database::fetchAll(
-        "SELECT * FROM pottery_images ORDER BY pottery_id, sort_order ASC, id ASC"
+        "SELECT * FROM piece_images ORDER BY piece_id, sort_order ASC, id ASC"
     );
     foreach ($imageRows as $row) {
-        $allImages[$row['pottery_id']][] = $row;
+        $allImages[$row['piece_id']][] = $row;
     }
 } catch (Exception $e) {
-    // pottery_images table not yet created — will fall back to pottery.image_path below
+    // piece_images table not yet created — will fall back to pottery.image_path below
     $allImages = [];
 }
 ?>

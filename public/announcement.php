@@ -38,7 +38,7 @@ if ($announcement) {
 $eventIds = $potteryIds = [];
 foreach ($entityLinks as $link) {
     if ($link['entity_type'] === 'event')   $eventIds[]   = (int)$link['entity_id'];
-    if ($link['entity_type'] === 'pottery') $potteryIds[] = (int)$link['entity_id'];
+    if ($link['entity_type'] === 'piece') $potteryIds[] = (int)$link['entity_id'];
 }
 
 // One IN-list query per type instead of one fetchOne per link.
@@ -57,7 +57,7 @@ $potteryMap = [];
 if ($potteryIds) {
     $ph = implode(',', array_fill(0, count($potteryIds), '?'));
     foreach (Database::fetchAll(
-        "SELECT id, title FROM pottery WHERE id IN ($ph)",
+        "SELECT id, title FROM piece WHERE id IN ($ph)",
         $potteryIds
     ) as $row) {
         $potteryMap[(int)$row['id']] = $row;
@@ -71,7 +71,7 @@ $linkedEvents = $linkedPottery = [];
 foreach ($entityLinks as $link) {
     $id = (int)$link['entity_id'];
     if ($link['entity_type'] === 'event'   && isset($eventMap[$id]))   $linkedEvents[]  = $eventMap[$id];
-    if ($link['entity_type'] === 'pottery' && isset($potteryMap[$id])) $linkedPottery[] = $potteryMap[$id];
+    if ($link['entity_type'] === 'piece' && isset($potteryMap[$id])) $linkedPottery[] = $potteryMap[$id];
 }
 
 $announcementText = '';

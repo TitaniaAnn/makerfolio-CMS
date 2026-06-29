@@ -47,8 +47,8 @@ final class ListReorderTest extends TestCase
         // No DB call should be issued when input sanitizes to empty — the
         // function should short-circuit at zero before touching Database.
         // (If it didn't short-circuit, the missing Database class would fatal.)
-        $this->assertSame(0, \ListReorder::update('pottery', []));
-        $this->assertSame(0, \ListReorder::update('pottery', ['', 'nope', -1]));
+        $this->assertSame(0, \ListReorder::update('piece', []));
+        $this->assertSame(0, \ListReorder::update('piece', ['', 'nope', -1]));
     }
 
     public function test_allowed_kinds_have_required_keys(): void

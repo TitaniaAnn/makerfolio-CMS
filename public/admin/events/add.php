@@ -14,9 +14,9 @@ if ($isEdit) {
         redirect(SITE_URL . '/admin/events/');
     }
     $assignedRows = Database::fetchAll(
-        "SELECT pottery_id FROM event_pottery WHERE event_id = ?", [$eventId]
+        "SELECT piece_id FROM event_piece WHERE event_id = ?", [$eventId]
     );
-    $assignedIds = array_column($assignedRows, 'pottery_id');
+    $assignedIds = array_column($assignedRows, 'piece_id');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($isEdit) {
             Database::update('events', $data, 'id = :id', ['id' => $eventId]);
             $finalId = $eventId;
-            Database::delete('event_pottery', 'event_id = ?', [$finalId]);
+            Database::delete('event_piece', 'event_id = ?', [$finalId]);
         } else {
             $finalId = Database::insert('events', $data);
         }
@@ -78,9 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach ($selectedPieces as $pieceId) {
             $pieceId = (int) $pieceId;
             if ($pieceId > 0) {
-                Database::insert('event_pottery', [
+                Database::insert('event_piece', [
                     'event_id'   => $finalId,
-                    'pottery_id' => $pieceId,
+                    'piece_id' => $pieceId,
                 ]);
             }
         }
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $allPieces = Database::fetchAll(
-    "SELECT id, title, image_thumb, image_path FROM pottery ORDER BY featured DESC, sort_order ASC"
+    "SELECT id, title, image_thumb, image_path FROM piece ORDER BY featured DESC, sort_order ASC"
 );
 
 $formData = $_POST + ($event ?? []);
@@ -253,7 +253,7 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
                     <label>Assign Pottery Pieces</label>
                     <small style="color:var(--ash);display:block;margin-bottom:.5rem;">Select which pieces are featured in this event</small>
                     <?php if (empty($allPieces)): ?>
-                        <p style="color:var(--ash)"><em>No pottery pieces available yet. <a href="/admin/pottery/add">Add pieces first</a>.</em></p>
+                        <p style="color:var(--ash)"><em>No pottery pieces available yet. <a href="/admin/pieces/add">Add pieces first</a>.</em></p>
                     <?php else: ?>
                         <div class="piece-checklist">
                             <?php foreach ($allPieces as $piece): ?>

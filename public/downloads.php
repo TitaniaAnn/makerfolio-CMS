@@ -5,12 +5,12 @@ $category = trim($_GET['category'] ?? '');
 
 if ($category !== '') {
     $templates = Database::fetchAll(
-        "SELECT * FROM pottery_templates WHERE category = ? ORDER BY sort_order ASC, created_at DESC",
+        "SELECT * FROM piece_templates WHERE category = ? ORDER BY sort_order ASC, created_at DESC",
         [$category]
     );
 } else {
     $templates = Database::fetchAll(
-        "SELECT * FROM pottery_templates ORDER BY sort_order ASC, created_at DESC"
+        "SELECT * FROM piece_templates ORDER BY sort_order ASC, created_at DESC"
     );
 }
 
@@ -19,7 +19,7 @@ $templateFiles = [];
 if (!empty($templates)) {
     $ids = implode(',', array_map('intval', array_column($templates, 'id')));
     $rows = Database::fetchAll(
-        "SELECT * FROM pottery_template_files WHERE template_id IN ($ids) ORDER BY template_id ASC, sort_order ASC"
+        "SELECT * FROM piece_template_files WHERE template_id IN ($ids) ORDER BY template_id ASC, sort_order ASC"
     );
     foreach ($rows as $row) {
         $templateFiles[$row['template_id']][] = $row;
@@ -27,7 +27,7 @@ if (!empty($templates)) {
 }
 
 $categories = Database::fetchAll(
-    "SELECT DISTINCT category FROM pottery_templates WHERE category != '' ORDER BY category ASC"
+    "SELECT DISTINCT category FROM piece_templates WHERE category != '' ORDER BY category ASC"
 );
 ?>
 <!DOCTYPE html>

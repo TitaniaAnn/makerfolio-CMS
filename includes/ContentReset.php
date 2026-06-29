@@ -44,22 +44,22 @@ final class ContentReset
      */
     public const CONTENT_TABLES = [
         // Junction / child tables first.
-        'event_pottery',
+        'event_piece',
         'announcement_links',
         'announcement_social_posts',
-        'pottery_images',
+        'piece_images',
         'product_images',
-        'pottery_template_files',
+        'piece_template_files',
         'orders',
         'stripe_webhook_events',
         // Then parents.
-        'pottery',
+        'piece',
         'products',
         'events',
         'announcements',
         'social_posts',
         'social_links',
-        'pottery_templates',
+        'piece_templates',
         'shop_categories',
     ];
 

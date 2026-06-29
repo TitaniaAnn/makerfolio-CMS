@@ -32,11 +32,11 @@
             Add Announcement
         </a>
         <div class="admin-nav__section">Portfolio</div>
-        <a href="/admin/pottery/" class="admin-nav__item">
+        <a href="/admin/pieces/" class="admin-nav__item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
             All Pieces
         </a>
-        <a href="/admin/pottery/add" class="admin-nav__item">
+        <a href="/admin/pieces/add" class="admin-nav__item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Add Piece
         </a>

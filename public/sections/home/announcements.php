@@ -52,8 +52,8 @@ if (empty($announcements)) return;
                                 <?php if ($event): ?>
                                 <a href="<?= e($event['url'] ?? '/events#event-' . $event['id']) ?>" class="announcement-card__link-tag">📅 <?= e($event['name']) ?></a>
                                 <?php endif; ?>
-                            <?php elseif ($link['entity_type'] === 'pottery'): ?>
-                                <?php $pottery = Database::fetchOne("SELECT id, title FROM pottery WHERE id = ?", [$link['entity_id']]); ?>
+                            <?php elseif ($link['entity_type'] === 'piece'): ?>
+                                <?php $pottery = Database::fetchOne("SELECT id, title FROM piece WHERE id = ?", [$link['entity_id']]); ?>
                                 <?php if ($pottery): ?>
                                 <a href="/portfolio#piece-<?= $pottery['id'] ?>" class="announcement-card__link-tag">🏺 <?= e($pottery['title']) ?></a>
                                 <?php endif; ?>

@@ -8,13 +8,13 @@ $piece          = null;
 $existingImages = [];
 
 if ($isEdit) {
-    $piece = Database::fetchOne("SELECT * FROM pottery WHERE id = ?", [$pieceId]);
+    $piece = Database::fetchOne("SELECT * FROM piece WHERE id = ?", [$pieceId]);
     if (!$piece) {
         flash('error', 'Piece not found.');
-        redirect(SITE_URL . '/admin/pottery/');
+        redirect(SITE_URL . '/admin/pieces/');
     }
     $existingImages = Database::fetchAll(
-        "SELECT * FROM pottery_images WHERE pottery_id = ? ORDER BY sort_order ASC, id ASC",
+        "SELECT * FROM piece_images WHERE piece_id = ? ORDER BY sort_order ASC, id ASC",
         [$pieceId]
     );
 }
@@ -47,11 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($isEdit) {
-            Database::update('pottery', $data, 'id = :id', ['id' => $pieceId]);
+            Database::update('piece', $data, 'id = :id', ['id' => $pieceId]);
             $finalId = $pieceId;
         } else {
             $data['image_path'] = '';
-            $finalId = Database::insert('pottery', $data);
+            $finalId = Database::insert('piece', $data);
         }
 
         // Append new uploads after existing images.
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach ($newUploads as $i => $upload) {
             $isFirstEverImage = !$isEdit && $i === 0;
             Database::query(
-                "INSERT INTO pottery_images (pottery_id, image_path, image_thumb, sort_order, is_primary)
+                "INSERT INTO piece_images (piece_id, image_path, image_thumb, sort_order, is_primary)
                  VALUES (?,?,?,?,?)",
                 [$finalId, $upload['path'], $upload['thumb'], $maxSort + $i, $isFirstEverImage ? 1 : 0]
             );
@@ -68,46 +68,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Caller-selected primary takes precedence.
         $primaryImgId = (int)($_POST['primary_image_id'] ?? 0);
         if ($primaryImgId > 0) {
-            Database::query("UPDATE pottery_images SET is_primary = 0 WHERE pottery_id = ?", [$finalId]);
+            Database::query("UPDATE piece_images SET is_primary = 0 WHERE piece_id = ?", [$finalId]);
             Database::query(
-                "UPDATE pottery_images SET is_primary = 1 WHERE id = ? AND pottery_id = ?",
+                "UPDATE piece_images SET is_primary = 1 WHERE id = ? AND piece_id = ?",
                 [$primaryImgId, $finalId]
             );
         } elseif (!$isEdit && !empty($newUploads)) {
             // First newly-uploaded image becomes primary on a fresh piece.
             $first = Database::fetchOne(
-                "SELECT * FROM pottery_images WHERE pottery_id = ? ORDER BY sort_order ASC, id ASC LIMIT 1",
+                "SELECT * FROM piece_images WHERE piece_id = ? ORDER BY sort_order ASC, id ASC LIMIT 1",
                 [$finalId]
             );
             if ($first) {
-                Database::query("UPDATE pottery_images SET is_primary = 1 WHERE id = ?", [$first['id']]);
+                Database::query("UPDATE piece_images SET is_primary = 1 WHERE id = ?", [$first['id']]);
             }
         }
 
         // Sync the pottery row's image_path/thumb to whichever image is now primary.
         $primary = Database::fetchOne(
-            "SELECT image_path, image_thumb FROM pottery_images
-              WHERE pottery_id = ?
+            "SELECT image_path, image_thumb FROM piece_images
+              WHERE piece_id = ?
               ORDER BY is_primary DESC, sort_order ASC, id ASC
               LIMIT 1",
             [$finalId]
         );
         if ($primary) {
             Database::query(
-                "UPDATE pottery SET image_path = ?, image_thumb = ? WHERE id = ?",
+                "UPDATE piece SET image_path = ?, image_thumb = ? WHERE id = ?",
                 [$primary['image_path'], $primary['image_thumb'], $finalId]
             );
         }
 
         flash('success', $isEdit ? 'Piece updated!' : 'Piece added successfully!');
-        redirect(SITE_URL . '/admin/pottery/add?id=' . $finalId);
+        redirect(SITE_URL . '/admin/pieces/add?id=' . $finalId);
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
 
     if ($isEdit) {
         $existingImages = Database::fetchAll(
-            "SELECT * FROM pottery_images WHERE pottery_id = ? ORDER BY sort_order ASC, id ASC",
+            "SELECT * FROM piece_images WHERE piece_id = ? ORDER BY sort_order ASC, id ASC",
             [$pieceId]
         );
     }
@@ -151,7 +151,7 @@ $formData = $_POST + ($piece ?? []);
     <div class="admin-content">
         <div class="admin-page-header">
             <h1><?= $isEdit ? 'Edit: ' . e($piece['title']) : 'Add Pottery Piece' ?></h1>
-            <a href="/admin/pottery/" class="admin-btn">← Back</a>
+            <a href="/admin/pieces/" class="admin-btn">← Back</a>
         </div>
         <?php if (!empty($error)): ?><div class="alert alert--error"><?= e($error) ?></div><?php endif; ?>
 
@@ -249,7 +249,7 @@ $formData = $_POST + ($piece ?? []);
 
             <div class="form-actions">
                 <button type="submit" class="admin-btn admin-btn--primary"><?= $isEdit ? 'Save Changes' : 'Add Piece' ?></button>
-                <a href="/admin/pottery/" class="admin-btn">Cancel</a>
+                <a href="/admin/pieces/" class="admin-btn">Cancel</a>
             </div>
         </form>
     </div>
@@ -265,7 +265,7 @@ function rotateImage(imgId, pieceId, dir) {
     const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
     const btns = item ? item.querySelectorAll('.rotate-img-btn') : [];
     btns.forEach(b => b.disabled = true);
-    fetch(`/admin/pottery/rotate-image?img_id=${imgId}&piece_id=${pieceId}&dir=${dir}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
+    fetch(`/admin/pieces/rotate-image?img_id=${imgId}&piece_id=${pieceId}&dir=${dir}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
         .then(r => r.json())
         .then(data => {
             if (data.success && data.image_url && item) {
@@ -289,7 +289,7 @@ function cropImage(imgId, pieceId) {
     window.ImageCropper.open({
         imageUrl: item.dataset.fullUrl,
         fallbackUrl: thumb ? thumb.src : null,
-        saveUrl: '/admin/pottery/crop-image',
+        saveUrl: '/admin/pieces/crop-image',
         csrf: CSRF_TOKEN,
         params: { img_id: imgId, piece_id: pieceId },
         onSaved: (data) => {
@@ -319,7 +319,7 @@ function setPrimary(imgId) {
 // ── Delete existing image ─────────────────────────────────
 function deleteImage(imgId, pieceId) {
     if (!confirm('Delete this image?')) return;
-    fetch(`/admin/pottery/delete-image?img_id=${imgId}&piece_id=${pieceId}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
+    fetch(`/admin/pieces/delete-image?img_id=${imgId}&piece_id=${pieceId}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
         .then(r => r.json())
         .then(data => {
             if (data.success) {

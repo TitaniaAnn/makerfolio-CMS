@@ -4,10 +4,10 @@ Auth::requireLogin();
 csrf_verify();
 
 $id = (int)($_GET['id'] ?? 0);
-$piece = Database::fetchOne("SELECT * FROM pottery WHERE id = ?", [$id]);
+$piece = Database::fetchOne("SELECT * FROM piece WHERE id = ?", [$id]);
 if ($piece) {
     // Atomicity: collect every image path BEFORE the DB delete (the FK
-    // cascade on pottery_images wipes the child rows), then delete the row,
+    // cascade on piece_images wipes the child rows), then delete the row,
     // THEN unlink the files. If the DB delete fails the files are still on
     // disk to retry; if the unlink fails we just leak a file rather than
     // leave an orphan DB row.
@@ -15,14 +15,14 @@ if ($piece) {
     if (!empty($piece['image_thumb']) && $piece['image_thumb'] !== $piece['image_path']) {
         $paths[] = $piece['image_thumb'];
     }
-    foreach (Database::fetchAll("SELECT image_path, image_thumb FROM pottery_images WHERE pottery_id = ?", [$id]) as $img) {
+    foreach (Database::fetchAll("SELECT image_path, image_thumb FROM piece_images WHERE piece_id = ?", [$id]) as $img) {
         if (!empty($img['image_path']))  $paths[] = $img['image_path'];
         if (!empty($img['image_thumb']) && $img['image_thumb'] !== $img['image_path']) {
             $paths[] = $img['image_thumb'];
         }
     }
 
-    Database::delete('pottery', 'id = ?', [$id]);
+    Database::delete('piece', 'id = ?', [$id]);
     foreach (array_unique(array_filter($paths)) as $p) {
         ImageUpload::delete($p);
     }
@@ -30,4 +30,4 @@ if ($piece) {
 } else {
     flash('error', 'Piece not found.');
 }
-redirect(SITE_URL . '/admin/pottery/');
+redirect(SITE_URL . '/admin/pieces/');

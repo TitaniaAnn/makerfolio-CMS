@@ -13,16 +13,16 @@
 
 class ImageRotateHandler {
 
-    private const SAFE_IMAGES_TABLES  = ['pottery_images', 'product_images'];
-    private const SAFE_PARENT_TABLES  = ['pottery',        'products'];
-    private const SAFE_PARENT_ID_COLS = ['pottery_id',     'product_id'];
+    private const SAFE_IMAGES_TABLES  = ['piece_images', 'product_images'];
+    private const SAFE_PARENT_TABLES  = ['piece',          'products'];
+    private const SAFE_PARENT_ID_COLS = ['piece_id',     'product_id'];
 
     /**
      * @param array $cfg {
      *   imageId:           int
      *   parentId:          int
-     *   imagesTable:       string  'pottery_images' | 'product_images'
-     *   parentIdColumn:    string  'pottery_id' | 'product_id'
+     *   imagesTable:       string  'piece_images' | 'product_images'
+     *   parentIdColumn:    string  'piece_id' | 'product_id'
      *   parentTable:       string  'pottery' | 'products'
      *   parentThumbColumn: ?string 'image_thumb' (pottery) | null (products)
      *   direction:         string  'cw' (default) | 'ccw'

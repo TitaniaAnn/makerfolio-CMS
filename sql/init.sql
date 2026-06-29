@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
 -- ------------------------------------------------------------
 -- 2. PORTFOLIO
 -- ------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS pottery (
+CREATE TABLE IF NOT EXISTS piece (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     title       VARCHAR(255) NOT NULL,
     description TEXT,
@@ -54,16 +54,16 @@ CREATE TABLE IF NOT EXISTS pottery (
     KEY idx_sort_order (sort_order)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS pottery_images (
+CREATE TABLE IF NOT EXISTS piece_images (
     id          INT AUTO_INCREMENT PRIMARY KEY,
-    pottery_id  INT NOT NULL,
+    piece_id  INT NOT NULL,
     image_path  TEXT NOT NULL,
     image_thumb TEXT,
     sort_order  INT DEFAULT 0,
     is_primary  TINYINT(1) DEFAULT 0,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (pottery_id) REFERENCES pottery(id) ON DELETE CASCADE,
-    KEY idx_pottery_sort (pottery_id, sort_order)
+    FOREIGN KEY (piece_id) REFERENCES piece(id) ON DELETE CASCADE,
+    KEY idx_piece_sort (piece_id, sort_order)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
@@ -98,17 +98,17 @@ CREATE TABLE IF NOT EXISTS events (
     KEY idx_sort_order (sort_order)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS event_pottery (
+CREATE TABLE IF NOT EXISTS event_piece (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     event_id   INT NOT NULL,
-    pottery_id INT NOT NULL,
+    piece_id INT NOT NULL,
     label      VARCHAR(255),
     sort_order INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (event_id)   REFERENCES events(id)  ON DELETE CASCADE,
-    FOREIGN KEY (pottery_id) REFERENCES pottery(id) ON DELETE CASCADE,
-    UNIQUE KEY unique_event_pottery (event_id, pottery_id),
-    KEY idx_pottery_id (pottery_id)
+    FOREIGN KEY (piece_id) REFERENCES piece(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_event_piece (event_id, piece_id),
+    KEY idx_piece_id (piece_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
@@ -320,7 +320,7 @@ CREATE TABLE IF NOT EXISTS announcements (
 CREATE TABLE IF NOT EXISTS announcement_links (
     id              INT AUTO_INCREMENT PRIMARY KEY,
     announcement_id INT NOT NULL,
-    entity_type     ENUM('event', 'pottery') NOT NULL,
+    entity_type     ENUM('event', 'piece') NOT NULL,
     entity_id       INT NOT NULL,
     sort_order      INT DEFAULT 0,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -347,7 +347,7 @@ CREATE TABLE IF NOT EXISTS announcement_social_posts (
 -- ------------------------------------------------------------
 -- 8. TEMPLATES (downloadable artwork files)
 -- ------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS pottery_templates (
+CREATE TABLE IF NOT EXISTS piece_templates (
     id             INT AUTO_INCREMENT PRIMARY KEY,
     title          VARCHAR(255) NOT NULL,
     description    TEXT,
@@ -359,7 +359,7 @@ CREATE TABLE IF NOT EXISTS pottery_templates (
     created_at     TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS pottery_template_files (
+CREATE TABLE IF NOT EXISTS piece_template_files (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     template_id INT NOT NULL,
     file_path   VARCHAR(500) NOT NULL,
@@ -368,7 +368,7 @@ CREATE TABLE IF NOT EXISTS pottery_template_files (
     file_ext    VARCHAR(10)  DEFAULT '',
     label       VARCHAR(255) DEFAULT '',
     sort_order  INT          DEFAULT 0,
-    FOREIGN KEY (template_id) REFERENCES pottery_templates(id) ON DELETE CASCADE
+    FOREIGN KEY (template_id) REFERENCES piece_templates(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
@@ -441,7 +441,7 @@ INSERT IGNORE INTO page_sections (page, section_key, is_visible, sort_order) VAL
 -- block (and roll the affected DDL into the canonical tables above) so a fresh
 -- install matches what an upgraded install would have.
 INSERT IGNORE INTO schema_migrations (version, source, notes) VALUES
-('001_pottery_images.sql',      'mark', 'pre-applied via init.sql'),
+('001_piece_images.sql',      'mark', 'pre-applied via init.sql'),
 ('005_templates.sql',           'mark', 'pre-applied via init.sql'),
 ('006_template_files.sql',      'mark', 'pre-applied via init.sql'),
 ('007_events.sql',              'mark', 'pre-applied via init.sql'),
@@ -460,4 +460,5 @@ INSERT IGNORE INTO schema_migrations (version, source, notes) VALUES
 ('020_admin_activity.sql',      'mark', 'pre-applied via init.sql'),
 ('021_image_alt_text.sql',      'mark', 'pre-applied via init.sql'),
 ('022_totp.sql',                'mark', 'pre-applied via init.sql'),
-('023_genericize_event_labels.sql', 'mark', 'pre-applied via init.sql');
+('023_genericize_event_labels.sql', 'mark', 'pre-applied via init.sql'),
+('024_rename_pottery_to_piece.sql', 'mark', 'pre-applied via init.sql');

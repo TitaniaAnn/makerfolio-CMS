@@ -117,7 +117,7 @@ final class InstallerTest extends TestCase
     {
         $env = \Installer::renderEnv([
             'DB_HOST'              => 'db',
-            'DB_NAME'              => 'pottery',
+            'DB_NAME'              => 'piece',
             'DB_USER'              => 'me',
             'DB_PASS'              => 'p@ss word',
             'SITE_URL'             => 'https://example.com',
@@ -317,7 +317,7 @@ ENV);
     {
         $values = [
             'DB_HOST'              => 'db',
-            'DB_NAME'              => 'pottery',
+            'DB_NAME'              => 'piece',
             'DB_USER'              => 'user',
             'DB_PASS'              => 'has spaces and $signs',
             'SITE_URL'             => 'https://example.com',

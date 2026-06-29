@@ -14,7 +14,7 @@ $fileId     = (int)($_GET['file_id'] ?? 0);
 $templateId = (int)($_GET['template_id'] ?? 0);
 
 $file = Database::fetchOne(
-    "SELECT * FROM pottery_template_files WHERE id = ? AND template_id = ?",
+    "SELECT * FROM piece_template_files WHERE id = ? AND template_id = ?",
     [$fileId, $templateId]
 );
 
@@ -28,6 +28,6 @@ if (file_exists($filePath)) {
     unlink($filePath);
 }
 
-Database::delete('pottery_template_files', 'id = ?', [$fileId]);
+Database::delete('piece_template_files', 'id = ?', [$fileId]);
 
 echo json_encode(['success' => true]);

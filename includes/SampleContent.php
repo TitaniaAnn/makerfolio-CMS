@@ -118,7 +118,7 @@ final class SampleContent
                 $filename = self::svgFilenameFor('pottery', $piece['title']);
                 self::writeSvgPlaceholder($uploadPath . '/pottery/' . $filename, $piece['color'], $piece['title']);
 
-                $id = Database::insert('pottery', [
+                $id = Database::insert('piece', [
                     'title'       => $piece['title'],
                     'description' => $piece['description'],
                     'technique'   => $piece['technique'],

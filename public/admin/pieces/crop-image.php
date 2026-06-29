@@ -9,9 +9,9 @@ header('Content-Type: application/json');
 $result = ImageCropHandler::crop([
     'imageId'           => (int) ($_POST['img_id'] ?? 0),
     'parentId'          => (int) ($_POST['piece_id'] ?? 0),
-    'imagesTable'       => 'pottery_images',
-    'parentIdColumn'    => 'pottery_id',
-    'parentTable'       => 'pottery',
+    'imagesTable'       => 'piece_images',
+    'parentIdColumn'    => 'piece_id',
+    'parentTable'       => 'piece',
     'parentThumbColumn' => 'image_thumb',
     'x'                 => (int) ($_POST['x'] ?? 0),
     'y'                 => (int) ($_POST['y'] ?? 0),

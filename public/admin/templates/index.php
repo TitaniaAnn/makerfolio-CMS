@@ -5,8 +5,8 @@ Auth::requireLogin();
 $flash = getFlash();
 $templates = Database::fetchAll(
     "SELECT t.*, COUNT(f.id) AS file_count
-     FROM pottery_templates t
-     LEFT JOIN pottery_template_files f ON f.template_id = t.id
+     FROM piece_templates t
+     LEFT JOIN piece_template_files f ON f.template_id = t.id
      GROUP BY t.id
      ORDER BY t.sort_order ASC, t.created_at DESC"
 );

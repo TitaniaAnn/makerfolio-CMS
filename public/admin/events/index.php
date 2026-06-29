@@ -30,7 +30,7 @@ if (!empty($events)) {
     $ids   = array_column($events, 'id');
     $place = implode(',', array_fill(0, count($ids), '?'));
     foreach (Database::fetchAll(
-        "SELECT event_id, COUNT(*) AS cnt FROM event_pottery WHERE event_id IN ($place) GROUP BY event_id",
+        "SELECT event_id, COUNT(*) AS cnt FROM event_piece WHERE event_id IN ($place) GROUP BY event_id",
         $ids
     ) as $row) {
         $pieceCounts[(int)$row['event_id']] = (int)$row['cnt'];

@@ -1,7 +1,7 @@
 <?php
 // includes/TemplateFileUploader.php
 //
-// Validates + saves uploaded files for the pottery_templates feature.
+// Validates + saves uploaded files for the piece_templates feature.
 // Used by both public/admin/templates/add.php and edit.php.
 
 class TemplateFileUploader {

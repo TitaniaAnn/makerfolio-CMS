@@ -13,9 +13,9 @@
 
 class ImageCropHandler {
 
-    private const SAFE_IMAGES_TABLES  = ['pottery_images', 'product_images'];
-    private const SAFE_PARENT_TABLES  = ['pottery',        'products'];
-    private const SAFE_PARENT_ID_COLS = ['pottery_id',     'product_id'];
+    private const SAFE_IMAGES_TABLES  = ['piece_images', 'product_images'];
+    private const SAFE_PARENT_TABLES  = ['piece',          'products'];
+    private const SAFE_PARENT_ID_COLS = ['piece_id',     'product_id'];
 
     /**
      * @param array $cfg {

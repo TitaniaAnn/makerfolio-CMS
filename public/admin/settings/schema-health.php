@@ -86,7 +86,7 @@ $checks = [
         'type' => 'table',
         'label' => 'announcement_links table exists',
         'table' => 'announcement_links',
-        'fix_sql' => "CREATE TABLE IF NOT EXISTS announcement_links (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    announcement_id INT NOT NULL,\n    entity_type ENUM('event', 'pottery') NOT NULL,\n    entity_id INT NOT NULL,\n    sort_order INT DEFAULT 0,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    FOREIGN KEY (announcement_id) REFERENCES announcements(id) ON DELETE CASCADE,\n    KEY idx_entity_lookup (entity_type, entity_id),\n    KEY idx_announcement_id (announcement_id)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        'fix_sql' => "CREATE TABLE IF NOT EXISTS announcement_links (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    announcement_id INT NOT NULL,\n    entity_type ENUM('event', 'piece') NOT NULL,\n    entity_id INT NOT NULL,\n    sort_order INT DEFAULT 0,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    FOREIGN KEY (announcement_id) REFERENCES announcements(id) ON DELETE CASCADE,\n    KEY idx_entity_lookup (entity_type, entity_id),\n    KEY idx_announcement_id (announcement_id)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
     ],
     [
         'type' => 'table',
@@ -103,9 +103,9 @@ $checks = [
     ],
     [
         'type' => 'table',
-        'label' => 'pottery table exists',
-        'table' => 'pottery',
-        'fix_sql' => "CREATE TABLE IF NOT EXISTS pottery (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    title VARCHAR(255) NOT NULL,\n    description TEXT,\n    technique VARCHAR(255),\n    dimensions VARCHAR(255),\n    year INT,\n    image_path TEXT NOT NULL,\n    image_thumb TEXT,\n    featured TINYINT(1) DEFAULT 0,\n    sort_order INT DEFAULT 0,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        'label' => 'piece table exists',
+        'table' => 'piece',
+        'fix_sql' => "CREATE TABLE IF NOT EXISTS piece (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    title VARCHAR(255) NOT NULL,\n    description TEXT,\n    technique VARCHAR(255),\n    dimensions VARCHAR(255),\n    year INT,\n    image_path TEXT NOT NULL,\n    image_thumb TEXT,\n    featured TINYINT(1) DEFAULT 0,\n    sort_order INT DEFAULT 0,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
     ],
 ];
 

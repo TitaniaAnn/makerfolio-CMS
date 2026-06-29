@@ -9,13 +9,13 @@ $template      = null;
 $existingFiles = [];
 
 if ($isEdit) {
-    $template = Database::fetchOne("SELECT * FROM pottery_templates WHERE id = ?", [$templateId]);
+    $template = Database::fetchOne("SELECT * FROM piece_templates WHERE id = ?", [$templateId]);
     if (!$template) {
         flash('error', 'Template not found.');
         redirect(SITE_URL . '/admin/templates/');
     }
     $existingFiles = Database::fetchAll(
-        "SELECT * FROM pottery_template_files WHERE template_id = ? ORDER BY sort_order ASC",
+        "SELECT * FROM piece_template_files WHERE template_id = ? ORDER BY sort_order ASC",
         [$templateId]
     );
 }
@@ -58,20 +58,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ImageUpload::delete($template['preview_path']);
             }
 
-            Database::update('pottery_templates', $data, 'id = :wid', ['wid' => $templateId]);
+            Database::update('piece_templates', $data, 'id = :wid', ['wid' => $templateId]);
             $finalId = $templateId;
 
             // Update labels on existing files.
             foreach ($_POST['existing_label'] ?? [] as $fileId => $label) {
                 Database::update(
-                    'pottery_template_files',
+                    'piece_template_files',
                     ['label' => trim($label)],
                     'id = :wid',
                     ['wid' => (int) $fileId]
                 );
             }
         } else {
-            $finalId = Database::insert('pottery_templates', $data);
+            $finalId = Database::insert('piece_templates', $data);
         }
 
         // Append new files.
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $offset    = 0;
         foreach ($newFiles as $i => $single) {
             $uploaded = TemplateFileUploader::upload($single);
-            Database::insert('pottery_template_files', [
+            Database::insert('piece_template_files', [
                 'template_id' => $finalId,
                 'file_path'   => $uploaded['file_path'],
                 'file_name'   => $uploaded['file_name'],
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Reload after potential changes so the rendered view stays consistent.
     if ($isEdit) {
         $existingFiles = Database::fetchAll(
-            "SELECT * FROM pottery_template_files WHERE template_id = ? ORDER BY sort_order ASC",
+            "SELECT * FROM piece_template_files WHERE template_id = ? ORDER BY sort_order ASC",
             [$templateId]
         );
     }

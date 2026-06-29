@@ -21,14 +21,14 @@ if (!empty($announcements)) {
                    p.title AS pottery_title
               FROM announcement_links al
          LEFT JOIN events   e ON al.entity_type = 'event'   AND al.entity_id = e.id
-         LEFT JOIN pottery  p ON al.entity_type = 'pottery' AND al.entity_id = p.id
+         LEFT JOIN piece  p ON al.entity_type = 'piece' AND al.entity_id = p.id
              WHERE al.announcement_id IN ($place)
           ORDER BY al.announcement_id, al.sort_order ASC";
     foreach (Database::fetchAll($sql, $ids) as $row) {
         $label = null;
         if ($row['entity_type'] === 'event' && $row['event_name']) {
             $label = 'Event: ' . $row['event_name'];
-        } elseif ($row['entity_type'] === 'pottery' && $row['pottery_title']) {
+        } elseif ($row['entity_type'] === 'piece' && $row['pottery_title']) {
             $label = 'Piece: ' . $row['pottery_title'];
         }
         if ($label !== null) {

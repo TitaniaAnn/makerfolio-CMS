@@ -8,11 +8,11 @@
  *     $q     = ListQuery::fromRequest($_GET, ['perPage' => 25]);
  *     $where = ListQuery::buildSearchClause($q['q'], ['title', 'description']);
  *     $rows  = Database::fetchAll(
- *         "SELECT * FROM pottery {$where['sql']} ORDER BY sort_order LIMIT {$q['perPage']} OFFSET {$q['offset']}",
+ *         "SELECT * FROM piece {$where['sql']} ORDER BY sort_order LIMIT {$q['perPage']} OFFSET {$q['offset']}",
  *         $where['params']
  *     );
  *     $total = (int)Database::fetchOne(
- *         "SELECT COUNT(*) AS c FROM pottery {$where['sql']}", $where['params']
+ *         "SELECT COUNT(*) AS c FROM piece {$where['sql']}", $where['params']
  *     )['c'];
  *     $pg    = ListQuery::pagination($total, $q['page'], $q['perPage']);
  *

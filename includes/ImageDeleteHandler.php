@@ -11,8 +11,8 @@ class ImageDeleteHandler {
      * @param array $cfg {
      *   imageId:            int     The id of the row in $imagesTable to delete.
      *   parentId:           int     The id of the parent (pottery / product).
-     *   imagesTable:        string  e.g. 'pottery_images', 'product_images'.
-     *   parentIdColumn:     string  e.g. 'pottery_id', 'product_id'.
+     *   imagesTable:        string  e.g. 'piece_images', 'product_images'.
+     *   parentIdColumn:     string  e.g. 'piece_id', 'product_id'.
      *   parentTable:        string  e.g. 'pottery', 'products'.
      *   parentThumbColumn:  ?string 'image_thumb' if the parent stores a thumb path; null otherwise.
      *   blockLastImage:     bool    If true, refuse to delete when this is the last remaining image.

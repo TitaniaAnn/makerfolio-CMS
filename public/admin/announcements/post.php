@@ -56,8 +56,8 @@ if (!empty($links)) {
             if ($event) {
                 $caption .= "📅 " . $event['name'] . "\n";
             }
-        } elseif ($link['entity_type'] === 'pottery') {
-            $pottery = Database::fetchOne("SELECT title FROM pottery WHERE id = ?", [$link['entity_id']]);
+        } elseif ($link['entity_type'] === 'piece') {
+            $pottery = Database::fetchOne("SELECT title FROM piece WHERE id = ?", [$link['entity_id']]);
             if ($pottery) {
                 $caption .= "🏺 " . $pottery['title'] . "\n";
             }

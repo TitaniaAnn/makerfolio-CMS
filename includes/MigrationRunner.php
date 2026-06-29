@@ -47,7 +47,7 @@ class MigrationRunner {
 
     /**
      * Sorted list of migration filenames found on disk (basenames only,
-     * e.g. "001_pottery_images.sql"). Excludes init.sql and any non-numbered
+     * e.g. "001_piece_images.sql"). Excludes init.sql and any non-numbered
      * file.
      *
      * @return string[]

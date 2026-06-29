@@ -13,12 +13,12 @@ $featured = Database::fetchAll(
         e.name as event_name,
         e.url as event_url,
         e.event_type as event_type
-    FROM pottery p
+    FROM piece p
     LEFT JOIN events e ON e.id = (
         SELECT ep.event_id
-        FROM event_pottery ep
+        FROM event_piece ep
         LEFT JOIN events e2 ON e2.id = ep.event_id
-        WHERE ep.pottery_id = p.id
+        WHERE ep.piece_id = p.id
             AND e2.publish_date IS NOT NULL
             AND e2.publish_date <= CURDATE()
         ORDER BY

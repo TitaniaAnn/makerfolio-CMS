@@ -8,8 +8,8 @@ if ($fileId <= 0) {
 }
 
 $file = Database::fetchOne(
-    "SELECT f.*, t.id AS template_id FROM pottery_template_files f
-     JOIN pottery_templates t ON t.id = f.template_id
+    "SELECT f.*, t.id AS template_id FROM piece_template_files f
+     JOIN piece_templates t ON t.id = f.template_id
      WHERE f.id = ?",
     [$fileId]
 );
@@ -25,7 +25,7 @@ if (!file_exists($filePath)) {
 }
 
 // Increment template download counter
-Database::query("UPDATE pottery_templates SET download_count = download_count + 1 WHERE id = ?", [$file['template_id']]);
+Database::query("UPDATE piece_templates SET download_count = download_count + 1 WHERE id = ?", [$file['template_id']]);
 
 $ext     = strtolower($file['file_ext']);
 $mimeMap = [

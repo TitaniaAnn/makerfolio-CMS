@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $selectedEntities = [];
             // Get selected event/pottery IDs from form
             $eventIds = array_map('intval', $_POST['event_ids'] ?? []);
-            $potteryIds = array_map('intval', $_POST['pottery_ids'] ?? []);
+            $potteryIds = array_map('intval', $_POST['piece_ids'] ?? []);
             
             // Try to get image from first event
             if (!empty($eventIds)) {
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Try to get image from first pottery piece
             if (!empty($potteryIds)) {
                 $pottery = Database::fetchOne(
-                    "SELECT image_path, image_thumb FROM pottery WHERE id = ?",
+                    "SELECT image_path, image_thumb FROM piece WHERE id = ?",
                     [$potteryIds[0]]
                 );
                 if ($pottery && !empty($pottery['image_path'])) {
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Handle entity links
         $eventIds = array_map('intval', $_POST['event_ids'] ?? []);
-        $potteryIds = array_map('intval', $_POST['pottery_ids'] ?? []);
+        $potteryIds = array_map('intval', $_POST['piece_ids'] ?? []);
         
         $sortOrder = 0;
         foreach ($eventIds as $eventId) {
@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($potteryId > 0) {
                 Database::insert('announcement_links', [
                     'announcement_id' => $finalId,
-                    'entity_type' => 'pottery',
+                    'entity_type' => 'piece',
                     'entity_id' => $potteryId,
                     'sort_order' => $sortOrder++,
                 ]);
@@ -153,7 +153,7 @@ $allEvents = Database::fetchAll(
     "SELECT id, name FROM events ORDER BY featured DESC, start_date DESC"
 );
 $allPottery = Database::fetchAll(
-    "SELECT id, title FROM pottery ORDER BY featured DESC, sort_order ASC"
+    "SELECT id, title FROM piece ORDER BY featured DESC, sort_order ASC"
 );
 
 // Build linked entity ID arrays for edit mode
@@ -162,7 +162,7 @@ $linkedPotteryIds = [];
 foreach ($linkedEntities as $link) {
     if ($link['entity_type'] === 'event') {
         $linkedEventIds[] = $link['entity_id'];
-    } elseif ($link['entity_type'] === 'pottery') {
+    } elseif ($link['entity_type'] === 'piece') {
         $linkedPotteryIds[] = $link['entity_id'];
     }
 }
@@ -293,7 +293,7 @@ foreach ($linkedEntities as $link) {
                             <div class="entity-checklist">
                                 <?php foreach ($allPottery as $piece): ?>
                                     <div class="entity-item">
-                                        <input type="checkbox" id="pottery_<?= $piece['id'] ?>" name="pottery_ids[]" 
+                                        <input type="checkbox" id="pottery_<?= $piece['id'] ?>" name="piece_ids[]" 
                                                value="<?= $piece['id'] ?>"
                                                <?= in_array($piece['id'], $linkedPotteryIds) ? 'checked' : '' ?>>
                                         <label class="entity-label" for="pottery_<?= $piece['id'] ?>">
@@ -391,7 +391,7 @@ function previewImage() {
 function updateSocialPreview() {
     const title = document.querySelector('input[name="title"]').value || '[Announcement Title]';
     const eventCheckboxes = Array.from(document.querySelectorAll('input[name="event_ids[]"]:checked'));
-    const potteryCheckboxes = Array.from(document.querySelectorAll('input[name="pottery_ids[]"]:checked'));
+    const potteryCheckboxes = Array.from(document.querySelectorAll('input[name="piece_ids[]"]:checked'));
     
     let entities = '';
     eventCheckboxes.forEach(cb => {
@@ -412,7 +412,7 @@ ${entities || '(No linked events or pieces selected)'}${SOCIAL_VISIT_LINE ? '\n\
 
 // Bind preview updates
 document.querySelector('input[name="title"]').addEventListener('input', updateSocialPreview);
-document.querySelectorAll('input[name="event_ids[]"], input[name="pottery_ids[]"]').forEach(cb => {
+document.querySelectorAll('input[name="event_ids[]"], input[name="piece_ids[]"]').forEach(cb => {
     cb.addEventListener('change', updateSocialPreview);
 });
 

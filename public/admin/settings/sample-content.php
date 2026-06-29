@@ -92,7 +92,7 @@ $flash = getFlash();
                 <?php endif; ?>
                 <p style="margin-top:1rem;">
                     <a href="/" target="_blank" rel="noopener" class="admin-btn admin-btn--primary">Open public site →</a>
-                    <a href="/admin/pottery/" class="admin-btn">Manage pottery</a>
+                    <a href="/admin/pieces/" class="admin-btn">Manage pottery</a>
                 </p>
             </div>
         <?php endif; ?>

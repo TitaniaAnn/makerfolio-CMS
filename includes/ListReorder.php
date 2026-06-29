@@ -38,7 +38,7 @@ final class ListReorder
      * endpoint file + a sortable tbody in the admin list page.
      */
     public const ALLOWED = [
-        'pottery'  => ['table' => 'pottery',  'id_column' => 'id'],
+        'piece'    => ['table' => 'piece',  'id_column' => 'id'],
         'products' => ['table' => 'products', 'id_column' => 'id'],
         'events'   => ['table' => 'events',   'id_column' => 'id'],
         // page_sections is reordered per-page, so the endpoint passes a

@@ -20,15 +20,15 @@ if (!empty($igToken)) {
 }
 
 $stats = [
-    'pottery'   => Database::fetchOne("SELECT COUNT(*) as n FROM pottery")['n'] ?? 0,
+    'piece'     => Database::fetchOne("SELECT COUNT(*) as n FROM piece")['n'] ?? 0,
     'products'  => Database::fetchOne("SELECT COUNT(*) as n FROM products")['n'] ?? 0,
-    'featured'  => Database::fetchOne("SELECT COUNT(*) as n FROM pottery WHERE featured = 1")['n'] ?? 0,
+    'featured'  => Database::fetchOne("SELECT COUNT(*) as n FROM piece WHERE featured = 1")['n'] ?? 0,
     'available' => Database::fetchOne("SELECT COUNT(*) as n FROM products WHERE status = 'available'")['n'] ?? 0,
     'orders_new'=> Database::fetchOne("SELECT COUNT(*) as n FROM orders WHERE status = 'paid'")['n'] ?? 0,
     'revenue'   => Database::fetchOne("SELECT COALESCE(SUM(product_price * quantity),0) as n FROM orders WHERE status IN ('paid','shipped')")['n'] ?? 0,
-    'templates' => Database::fetchOne("SELECT COUNT(*) as n FROM pottery_templates")['n'] ?? 0,
+    'templates' => Database::fetchOne("SELECT COUNT(*) as n FROM piece_templates")['n'] ?? 0,
 ];
-$recent = Database::fetchAll("SELECT * FROM pottery ORDER BY created_at DESC LIMIT 5");
+$recent = Database::fetchAll("SELECT * FROM piece ORDER BY created_at DESC LIMIT 5");
 $user = Auth::getUser();
 
 // Onboarding checklist — hidden once the admin clicks Dismiss (per-install
@@ -53,8 +53,8 @@ $onboardingChecks = [
     ],
     [
         'label' => 'Upload your first pottery piece',
-        'done'  => (int)$stats['pottery'] > 0,
-        'href'  => '/admin/pottery/add.php',
+        'done'  => (int)$stats['piece'] > 0,
+        'href'  => '/admin/pieces/add.php',
     ],
     [
         'label' => 'Customize the theme',
@@ -127,7 +127,7 @@ $showOnboarding  = !$onboardingDismissed && $onboardingDone < $onboardingTotal;
         <!-- Stats -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-card__num"><?= $stats['pottery'] ?></div>
+                <div class="stat-card__num"><?= $stats['piece'] ?></div>
                 <div class="stat-card__label">Portfolio Pieces</div>
             </div>
             <div class="stat-card">
@@ -156,7 +156,7 @@ $showOnboarding  = !$onboardingDismissed && $onboardingDone < $onboardingTotal;
                     <span class="quick-action-btn__icon">📦</span>
                     <span>View Orders</span>
                 </a>
-                <a href="/admin/pottery/add" class="quick-action-btn">
+                <a href="/admin/pieces/add" class="quick-action-btn">
                     <span class="quick-action-btn__icon">🏺</span>
                     <span>Add Pottery Piece</span>
                 </a>
@@ -184,7 +184,7 @@ $showOnboarding  = !$onboardingDismissed && $onboardingDone < $onboardingTotal;
         <div class="admin-section">
             <div class="admin-section__header">
                 <h2>Recent Pieces</h2>
-                <a href="/admin/pottery/" class="admin-link">Manage all →</a>
+                <a href="/admin/pieces/" class="admin-link">Manage all →</a>
             </div>
             <div class="admin-table-wrap">
                 <table class="admin-table">
@@ -210,8 +210,8 @@ $showOnboarding  = !$onboardingDismissed && $onboardingDone < $onboardingTotal;
                             <td><?= $p['featured'] ? '⭐' : '—' ?></td>
                             <td><?= date('d M Y', strtotime($p['created_at'])) ?></td>
                             <td>
-                                <a href="/admin/pottery/edit?id=<?= $p['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
-                                <a href="/admin/pottery/delete?id=<?= $p['id'] ?>&csrf=<?= e(csrf_token()) ?>" class="admin-btn admin-btn--sm admin-btn--danger"
+                                <a href="/admin/pieces/edit?id=<?= $p['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
+                                <a href="/admin/pieces/delete?id=<?= $p['id'] ?>&csrf=<?= e(csrf_token()) ?>" class="admin-btn admin-btn--sm admin-btn--danger"
                                    onclick="return confirm('Delete this piece?')">Delete</a>
                             </td>
                         </tr>

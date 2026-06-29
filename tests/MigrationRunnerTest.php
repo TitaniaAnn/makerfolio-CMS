@@ -68,7 +68,7 @@ final class MigrationRunnerTest extends TestCase {
 
     public function test_handles_multiline_create_table(): void {
         $sql = <<<SQL
-CREATE TABLE pottery (
+CREATE TABLE piece (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     body TEXT
@@ -76,7 +76,7 @@ CREATE TABLE pottery (
 SQL;
         $stmts = MigrationRunner::splitStatements($sql);
         $this->assertCount(1, $stmts);
-        $this->assertStringContainsString('CREATE TABLE pottery', $stmts[0]);
+        $this->assertStringContainsString('CREATE TABLE piece', $stmts[0]);
         $this->assertStringContainsString('title VARCHAR(255)', $stmts[0]);
     }
 
