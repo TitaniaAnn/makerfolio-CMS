@@ -4,6 +4,15 @@
 
 class StripeHelper {
 
+    /**
+     * Pinned outgoing API version. Pinning in code (rather than relying on the
+     * Stripe dashboard's account-default version) keeps request/response
+     * payload shapes stable across SDK upgrades and account-version changes.
+     * The webhook at /shop/webhook.php only consumes checkout.session.completed,
+     * whose shape hasn't changed in this version family.
+     */
+    public const PINNED_API_VERSION = '2023-10-16';
+
     private static function init(): void {
         // Support both Composer autoload and manual SDK drop-in
         $composerAutoload = ROOT_PATH . '/vendor/autoload.php';
@@ -21,6 +30,7 @@ class StripeHelper {
         }
 
         \Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
+        \Stripe\Stripe::setApiVersion(self::PINNED_API_VERSION);
     }
 
     /**
