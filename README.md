@@ -28,7 +28,7 @@ The wizard creates your local admin login, writes `.env`, seeds the schema, and 
 
 **Want your own favicon?** Replace `public/favicon.svg`, `public/favicon.ico`, and the `favicon-{16,32,48,512}.png` files. The shipped defaults are a neutral pot-on-monitor mark — fine to leave in place until you're ready to brand.
 
-**Clean URLs out of the box** — public/.htaccess rewrites map `/portfolio`, `/admin/dashboard`, `/admin/pottery/add` etc. to their underlying `.php` files. Legacy `.php` URLs keep working, so existing bookmarks and OAuth/Stripe integrations don't break. Requires Apache mod_rewrite (enabled by default on most shared hosts + the bundled Docker image).
+**Clean URLs out of the box** — public/.htaccess rewrites map `/portfolio`, `/admin/dashboard`, `/admin/pieces/add` etc. to their underlying `.php` files. Legacy `.php` URLs keep working, so existing bookmarks and OAuth/Stripe integrations don't break. Requires Apache mod_rewrite (enabled by default on most shared hosts + the bundled Docker image).
 
 ---
 
@@ -50,7 +50,7 @@ pottery/
 │   ├── ImageUpload.php         # Single-image upload + GD thumbnails
 │   ├── MultiFileUpload.php     # Reshapes parallel $_FILES arrays
 │   ├── ImageDeleteHandler.php  # Shared "delete one gallery image" endpoint backend
-│   ├── TemplateFileUploader.php# Uploads for the pottery_templates feature
+│   ├── TemplateFileUploader.php# Uploads for the piece_templates feature
 │   ├── Stripe.php              # Checkout sessions + webhook signature verification
 │   ├── Mailer.php              # mail() wrapper; subject/body from EmailTemplates
 │   ├── EmailTemplates.php      # Admin-editable email subject + body with {var} substitution
@@ -74,13 +74,13 @@ pottery/
 │   │                           #   about-strip, social, shop-teaser
 │   ├── shop/                   # checkout.php, success.php, cancel.php, webhook.php
 │   ├── install/index.php       # 7-step web installer; self-deletes after success
-│   ├── templates/download.php  # Serves pottery_templates files (unrelated to layout)
+│   ├── templates/download.php  # Serves piece_templates files (unrelated to layout)
 │   ├── css/, js/
 │   ├── uploads/                # Created automatically; pottery/, products/, hero/, profile/, templates/
 │   └── admin/
 │       ├── login.php, logout.php, dashboard.php
 │       ├── auth/                # callback.php (GitHub), google-callback.php (Google)
-│       ├── pottery/, shop/, events/, announcements/, templates/, social/, orders/, migrations/
+│       ├── pieces/, shop/, events/, announcements/, templates/, social/, orders/, migrations/
 │       ├── users/               # List / add / edit / delete admin_users
 │       ├── backup/              # Single-button site snapshot download
 │       ├── settings/            # index, theme, auth, page-text, page-sections,
@@ -89,10 +89,10 @@ pottery/
 │       └── partials/            # Sidebar, topbar
 ├── sql/
 │   ├── init.sql                # Canonical schema (fresh installs ONLY; pre-marks migrations as applied)
-│   └── 001_*.sql … 022_*.sql   # Incremental migrations (002–004 intentionally skipped)
+│   └── 001_*.sql … 024_*.sql   # Incremental migrations (002–004 intentionally skipped)
 ├── docker/                     # Apache vhost, PHP overrides, auto-migrate entrypoint
 ├── compose.yml, Dockerfile     # Dev stack (web + db + test runner)
-├── tests/                      # PHPUnit 10 suite — 171 tests
+├── tests/                      # PHPUnit 10 suite — 190 tests
 ├── composer.json, phpunit.xml.dist
 └── CLAUDE.md                   # Architecture notes for AI assistants / new contributors
 ```
@@ -135,7 +135,7 @@ php bin/install.php --non-interactive \
 
 ### Resetting an install for handoff
 
-To hand the CMS off to another potter as a clean slate (wipes pottery, products, events, announcements, social, orders, downloadable studio templates, branding, page-text + theme overrides — preserves the schema, your admin user, and login-provider settings):
+To hand the CMS off to another potter as a clean slate (wipes pieces, products, events, announcements, social, orders, downloadable studio templates, branding, page-text + theme overrides — preserves the schema, your admin user, and login-provider settings):
 
 ```bash
 php bin/reset-content.php                              # interactive
@@ -272,7 +272,7 @@ Any provider that isn't enabled + fully configured is hidden from the login form
 | Section | What you can do |
 |---|---|
 | **Site Settings** | Branding (site name, tagline, hero, bio, about, contact email, profile photo, shop intro). |
-| **Theme** | Pick a preset (Terra/Gold, Cool Sage, Monochrome, Coastal Blue) + override individual colors, fonts, radii, shadow depth. Live preview iframe. |
+| **Theme** | Pick a preset (Terra/Gold, Cool Sage, Monochrome, Coastal Blue, Rosewood, Plum Dusk) + override individual colors (6 palette roles), display/body/eyebrow fonts, radii, shadow depth. Live preview iframe. |
 | **Login Providers** | Enable/disable + configure local, GitHub, and Google authentication. |
 | **Page Text** | Override every public-facing string (~52 keys grouped by page). |
 | **Page Sections** | Toggle visibility + reorder the homepage's 7 sections + a few inner-page bits. |
