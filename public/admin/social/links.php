@@ -91,13 +91,13 @@ $links = Database::fetchAll("SELECT * FROM social_links ORDER BY sort_order ASC"
                             <td><a href="<?= e($link['url']) ?>" target="_blank">@<?= e($link['handle'] ?: '—') ?></a></td>
                             <td><?= $link['active'] ? '✅' : '❌' ?></td>
                             <td class="actions-cell">
-                                <form method="POST" style="display:inline">
+                                <form method="POST" class="u-form-inline">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="action" value="toggle">
                                     <input type="hidden" name="id" value="<?= $link['id'] ?>">
                                     <button class="admin-btn admin-btn--sm"><?= $link['active'] ? 'Hide' : 'Show' ?></button>
                                 </form>
-                                <form method="POST" style="display:inline">
+                                <form method="POST" class="u-form-inline">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="id" value="<?= $link['id'] ?>">

@@ -16,3 +16,7 @@
         .preview pre { background: #f7f8fb; border: 1px solid var(--cream-dk); border-radius: 4px; padding: .75rem; font-size: .78rem; overflow-x: auto; max-height: 420px; }
         .danger-note { font-size: .8rem; color: #8f2c24; margin-top: .35rem; }
         .stmt-count { font-size: .75rem; color: var(--ash); margin-top: .25rem; display: block; }
+        .mig-intro { font-size: .88rem; color: var(--soil); max-width: 60ch; }
+        .mig-empty { color: var(--ash); }
+        .mig-preview-title { font-size: 1rem; margin-bottom: .4rem; }
+        .mig-applied-head { margin-top: 2rem; }

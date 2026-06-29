@@ -115,7 +115,7 @@ if ($announcement) {
             <div class="announcement-not-found">
                 <h1><?= e(PageText::get('announcement', 'not_found_title')) ?></h1>
                 <p><?= e(PageText::get('announcement', 'not_found_body')) ?></p>
-                <p style="margin-top: 1rem;"><a href="/" class="btn btn--primary"><?= e(PageText::get('announcement', 'back_home')) ?></a></p>
+                <p class="announcement-back"><a href="/" class="btn btn--primary"><?= e(PageText::get('announcement', 'back_home')) ?></a></p>
             </div>
         <?php else: ?>
             <article class="announcement-card-full">
@@ -156,7 +156,7 @@ if ($announcement) {
                         <?php endif; ?>
                     </div>
 
-                    <p style="margin-top:1.5rem;"><a class="btn btn--outline--dark" href="/"><?= e(PageText::get('announcement', 'back_home')) ?></a></p>
+                    <p class="announcement-back-linked"><a class="btn btn--outline--dark" href="/"><?= e(PageText::get('announcement', 'back_home')) ?></a></p>
                 </div>
             </article>
         <?php endif; ?>

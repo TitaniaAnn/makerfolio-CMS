@@ -90,7 +90,7 @@ $showOnboarding  = !$onboardingDismissed && $onboardingDone < $onboardingTotal;
         <?php if ($igWarning): ?>
         <div class="alert alert--error">
             <?= e($igWarning) ?>
-            <a href="/admin/social/tokens" style="margin-left:.5rem;">Open Social Tokens →</a>
+            <a href="/admin/social/tokens" class="u-ml-half">Open Social Tokens →</a>
         </div>
         <?php endif; ?>
 
@@ -107,7 +107,7 @@ $showOnboarding  = !$onboardingDismissed && $onboardingDone < $onboardingTotal;
                 </form>
             </div>
             <div class="onboarding-card__progress">
-                <div class="onboarding-card__progress-bar" style="width: <?= (int)(($onboardingDone / max(1,$onboardingTotal)) * 100) ?>%;"></div>
+                <div class="onboarding-card__progress-bar" data-width="<?= (int)(($onboardingDone / max(1,$onboardingTotal)) * 100) ?>"></div>
             </div>
             <ul class="onboarding-card__list">
                 <?php foreach ($onboardingChecks as $check): ?>

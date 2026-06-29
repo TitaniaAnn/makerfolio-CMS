@@ -13,3 +13,6 @@
         .reset-results li { font-family: ui-monospace, Menlo, monospace; font-size: .85rem; }
         .reset-failed { background: #fdf0f0; border-color: #f2c2c2; }
         .reset-failed h2 { color: #b53a3a; }
+        .reset-results--spaced { margin-top: 1rem; }
+        .reset-confirm-note { margin-bottom: 0; }
+        .reset-submit-btn { background: #b53a3a; border-color: #b53a3a; }

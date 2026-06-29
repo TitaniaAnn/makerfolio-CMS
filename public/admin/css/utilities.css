@@ -1,0 +1,63 @@
+/* Admin utility classes — extracted from inline style="" attributes during the
+   CSP-tightening refactor so a future style-src can drop 'unsafe-inline'.
+   Imported from admin.css so every admin page (which all link admin.css) gets
+   these without per-page <link> edits. Keep these generic + reusable; page-
+   specific rules belong in the page's own css/pages/<page>.css. */
+
+/* Muted helper / note text (var(--fog) with hex fallback) */
+.u-muted-fog { color: var(--fog, #7a8090); }
+
+/* Reorder drag handle inline marker */
+.u-reorder-handle { display: inline; cursor: default; }
+
+/* Reorder table handle column width */
+.u-col-handle { width: 32px; }
+
+/* Inline-displayed form (e.g. POST buttons sitting inline) */
+.u-form-inline { display: inline; }
+
+/* Dimmed / disabled-looking control */
+.u-dim { opacity: .5; }
+
+/* "(optional)" / hint small text next to a heading or label — fog variant */
+.u-note-opt { font-weight: 400; color: var(--fog, #7a8090); }
+
+/* Same, but the ash-toned variant used on add/edit forms */
+.u-note-ash { font-weight: 400; color: var(--ash); }
+
+/* Small left margin (e.g. an inline "Open … →" link after alert text) */
+.u-ml-half { margin-left: .5rem; }
+
+/* Small bottom margin (e.g. the "drag the handle to reorder" helper line) */
+.u-mb-1 { margin-bottom: .75rem; }
+
+/* Ash-toned text (hint / secondary text, no weight change) */
+.u-text-ash { color: var(--ash); }
+
+/* Constrained form widths used on simple admin forms */
+.u-maxw-560 { max-width: 560px; }
+.u-maxw-720 { max-width: 720px; }
+
+/* Danger-red text/link (e.g. destructive nav item, "Reset Content") */
+.u-text-danger { color: #b53a3a; }
+
+/* Small top margin */
+.u-mt-half { margin-top: .5rem; }
+
+/* Tiny left gap (e.g. a "YOU" badge after a username) */
+.u-badge-me-gap { margin-left: .35rem; }
+
+/* Small font size (.75rem) */
+.u-fs-sm { font-size: .75rem; }
+
+/* Large emoji / icon font size (empty-state glyph) */
+.u-fs-2rem { font-size: 2rem; }
+
+/* Zero-margin form (inline action forms inside cards) */
+.u-m-0 { margin: 0; }
+
+/* Topbar "view site" inline icon nudge */
+.u-icon-inline { vertical-align: -2px; margin-right: .25rem; }
+
+/* Topbar 2FA quick-link */
+.u-topbar-2fa { font-size: .8rem; color: var(--fog, #7a8090); text-decoration: none; margin-right: .5rem; }

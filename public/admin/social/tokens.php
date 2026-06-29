@@ -69,9 +69,9 @@ $flash = getFlash();
         <?php endif; ?>
 
         <div class="token-card">
-            <h2 style="margin-bottom: .75rem;">Instagram</h2>
+            <h2 class="token-h2">Instagram</h2>
             <span class="token-status token-status--<?= e($igStatus) ?>"><?= e($igStatus) ?></span>
-            <p style="margin-top: .75rem;"><?= e($igMessage) ?></p>
+            <p class="token-msg"><?= e($igMessage) ?></p>
 
             <dl class="token-meta">
                 <div><dt>Account ID:</dt> <dd><?= $igAccountId ? e($igAccountId) : '<em>not set</em>' ?></dd></div>
@@ -79,22 +79,22 @@ $flash = getFlash();
                 <div><dt>Last refreshed:</dt> <dd><?= $igRefreshed ? e($igRefreshed->format('Y-m-d H:i')) : '<em>never</em>' ?></dd></div>
             </dl>
 
-            <form method="POST" style="margin-top: 1rem;">
+            <form method="POST" class="token-form">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="refresh_instagram">
                 <button type="submit" class="admin-btn admin-btn--primary"<?= empty($igToken) ? ' disabled' : '' ?>>
                     Refresh Instagram Token
                 </button>
-                <small style="margin-left: 1rem; color: var(--ash);">
+                <small class="token-form-hint">
                     Calls Instagram's refresh endpoint and stores the extended (60-day) token in the database.
                 </small>
             </form>
         </div>
 
         <div class="token-card">
-            <h2 style="margin-bottom: .75rem;">TikTok</h2>
+            <h2 class="token-h2">TikTok</h2>
             <span class="token-status token-status--missing">disabled</span>
-            <p style="margin-top: .75rem;">TikTok image posting is not currently supported — the Content Posting API requires video uploads. The TikTok option is hidden from the announcements UI.</p>
+            <p class="token-msg">TikTok image posting is not currently supported — the Content Posting API requires video uploads. The TikTok option is hidden from the announcements UI.</p>
         </div>
     </div>
 </main>

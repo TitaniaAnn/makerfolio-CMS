@@ -85,9 +85,9 @@ foreach ($rows as $row) {
             <div class="flash flash--<?= e($flash['type']) ?>"><?= e($flash['msg']) ?></div>
         <?php endif; ?>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Toggle which sections appear on each public page, and (for the homepage)
-            drag the <span class="reorder-handle" style="display:inline; cursor:default;">⋮⋮</span> handle
+            drag the <span class="reorder-handle u-reorder-handle">⋮⋮</span> handle
             to reorder them — order saves automatically. Untoggling a section that's
             already data-gated (e.g. "Featured Work" when there are no featured
             pieces) just removes the slot — it doesn't force-render an empty section.

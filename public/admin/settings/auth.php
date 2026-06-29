@@ -151,7 +151,7 @@ $gCallback     = rtrim(SITE_URL, '/') . '/admin/auth/google-callback.php';
             <div class="flash flash--success"><?= e($n) ?></div>
         <?php endforeach; ?>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Configure which login methods the admin login page exposes. Disabled
             providers are hidden from the login form. Local username/password
             authentication is required to be enabled if it's the only way to

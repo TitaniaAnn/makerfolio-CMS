@@ -27,3 +27,10 @@
         .preview-thumb-box img { width: 100%; height: 100%; object-fit: cover; }
         .preview-thumb-box.empty { display: none; }
         .section-label { font-weight: 700; font-size: .85rem; color: var(--ash); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; }
+        .section-label--spaced { margin-top: .75rem; }
+        .preview-current-note { font-size: .82rem; color: var(--ash); margin: 0 0 .5rem; }
+        .checkbox-label--sm { font-size: .82rem; }
+        .preview-fill { flex: 1; }
+        .file-drop--sm { padding: 1rem; }
+        .preview-chosen { font-size: .82rem; font-weight: 600; color: var(--ink); margin-top: .3rem; }
+        .is-hidden { display: none; }

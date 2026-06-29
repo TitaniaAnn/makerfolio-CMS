@@ -1,0 +1,9 @@
+/* Extracted from public/admin/settings/index.php — CSP slice: no inline style="" attrs. */
+        .settings-reset-btn { background: #fdf0f0; border-color: #f2c2c2; color: #b53a3a; }
+        .settings-img-row { margin-bottom: .75rem; }
+        .settings-img-row--avatar { margin-bottom: .75rem; display: flex; align-items: center; gap: 1rem; }
+        .settings-hero-thumb { max-height: 140px; border-radius: 8px; border: 1px solid var(--sand); }
+        .settings-avatar-thumb { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--clay); }
+        .settings-img-note { font-size: .8rem; color: var(--fog); margin-top: .3rem; }
+        .settings-img-note--inline { font-size: .8rem; color: var(--fog); }
+        .settings-html-textarea { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }

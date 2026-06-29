@@ -176,7 +176,7 @@ $formData = $_POST + ($piece ?? []);
                 <div class="form-group form-group--full">
                     <label>
                         Photos <?= $isEdit ? '' : '*' ?>
-                        <small style="font-weight:400;color:var(--ash)">
+                        <small class="u-note-ash">
                             <?= $isEdit ? 'Click "Set cover" to change primary image. Dashed border = new uploads.' : 'First image is the cover. Up to 10.' ?>
                         </small>
                     </label>
@@ -215,9 +215,9 @@ $formData = $_POST + ($piece ?? []);
                             <?= $isEdit ? 'Add more' : 'Add photos' ?>
                         </div>
                     </div>
-                    <input type="file" id="imgPicker" accept="image/*" multiple style="display:none">
+                    <input type="file" id="imgPicker" accept="image/*" multiple class="is-hidden">
                     <div id="fileInputContainer"></div>
-                    <small style="color:var(--ash);margin-top:.4rem;display:block">JPG, PNG, WebP — max 10MB each</small>
+                    <small class="pieces-photo-note">JPG, PNG, WebP — max 10MB each</small>
                 </div>
 
                 <div class="form-group form-group--full">

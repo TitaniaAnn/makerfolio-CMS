@@ -66,13 +66,13 @@ $listLabel  = 'products';
         </div>
         <?php else: ?>
         <?php if ($canReorder): ?>
-            <p class="muted" style="margin-bottom:.75rem;">Drag the <span class="reorder-handle" style="display:inline; cursor:default;">⋮⋮</span> handle to reorder products. Order saves automatically.</p>
+            <p class="muted u-mb-1">Drag the <span class="reorder-handle u-reorder-handle">⋮⋮</span> handle to reorder products. Order saves automatically.</p>
         <?php endif; ?>
         <div class="admin-table-wrap">
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <?php if ($canReorder): ?><th style="width:32px;"></th><?php endif; ?>
+                        <?php if ($canReorder): ?><th class="u-col-handle"></th><?php endif; ?>
                         <th>Image</th>
                         <th>Name</th>
                         <th>Type</th>

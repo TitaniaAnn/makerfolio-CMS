@@ -247,7 +247,7 @@ $selectedType = $formData['type'] ?? 'pot';
                 </div>
                 <div class="form-group">
                     <label>Storefront Visibility</label>
-                    <label style="display: inline-flex; align-items: center; gap: .5rem; margin-top: .25rem;">
+                    <label class="visibility-toggle">
                         <input type="checkbox" name="is_visible" value="1"
                                <?= (string)($formData['is_visible'] ?? '1') === '1' ? 'checked' : '' ?>>
                         Show this product in the public shop

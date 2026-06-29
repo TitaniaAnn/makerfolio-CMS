@@ -4,3 +4,5 @@
 .timeline-item--done { border-left-color:var(--clay); }
 .timeline-item span { display:block; font-weight:500; }
 .timeline-item small { color:var(--ash); font-size:.78rem; }
+.order-stripe-ref { margin-top:.75rem; font-size:.82rem; color:var(--ash); }
+.order-address { font-style:normal; line-height:1.8; }

@@ -17,6 +17,8 @@
         .announcement-linked { margin-top: 1.5rem; display: grid; gap: 1rem; }
         .announcement-linked h3 { font-size: 1rem; margin-bottom: .35rem; }
         .announcement-linked a { color: var(--sage); text-decoration: underline; text-underline-offset: 3px; }
+        .announcement-back { margin-top: 1rem; }
+        .announcement-back-linked { margin-top: 1.5rem; }
         .announcement-not-found {
             max-width: 760px;
             margin: 0 auto;

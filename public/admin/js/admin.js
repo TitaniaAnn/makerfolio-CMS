@@ -59,3 +59,11 @@ document.addEventListener('submit', (e) => {
         e.preventDefault();
     }
 });
+
+// Width-from-data: apply a percentage width via CSSOM for elements carrying a
+// data-width attribute (e.g. the dashboard onboarding progress bar). JS-applied
+// styles are not governed by CSP style-src, so this replaces the inline
+// style="width:N%" the bar used to emit.
+document.querySelectorAll('[data-width]').forEach((el) => {
+    el.style.width = el.dataset.width + '%';
+});

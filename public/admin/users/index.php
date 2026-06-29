@@ -34,7 +34,7 @@ $users = Database::fetchAll(
             <div class="flash flash--<?= e($flash['type']) ?>"><?= e($flash['msg']) ?></div>
         <?php endif; ?>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Anyone listed here can sign in to the admin. Add additional local
             admins below. To onboard someone via OAuth, add their username to
             <a href="/admin/settings/auth">/admin/settings/auth.php</a> instead —
@@ -59,7 +59,7 @@ $users = Database::fetchAll(
                     <tr>
                         <td>
                             <strong><?= e($u['username'] ?? '(no username)') ?></strong>
-                            <?php if ($isMe): ?><span class="au-badge au-badge--me" style="margin-left:.35rem;">YOU</span><?php endif; ?>
+                            <?php if ($isMe): ?><span class="au-badge au-badge--me u-badge-me-gap">YOU</span><?php endif; ?>
                         </td>
                         <td>
                             <?php if ($u['name']):  ?><div><?= e($u['name']) ?></div><?php endif; ?>
@@ -87,7 +87,7 @@ $users = Database::fetchAll(
                         <td class="actions-cell">
                             <a href="/admin/users/edit?id=<?= (int)$u['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
                             <?php if (!$isMe): ?>
-                            <form method="POST" action="/admin/users/delete" style="display:inline;"
+                            <form method="POST" action="/admin/users/delete" class="u-form-inline"
                                   data-confirm="Delete admin user '<?= e($u['username'] ?? $u['email'] ?? 'this user') ?>'? This cannot be undone.">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="id" value="<?= (int)$u['id'] ?>">

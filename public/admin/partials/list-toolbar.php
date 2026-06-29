@@ -42,13 +42,13 @@
         <?php if ($pg['hasPrev']): ?>
             <a href="<?= e($base . $sep . 'page=' . $pg['prevPage']) ?>" class="admin-btn admin-btn--sm">← Prev</a>
         <?php else: ?>
-            <span class="admin-btn admin-btn--sm" style="opacity:.5;">← Prev</span>
+            <span class="admin-btn admin-btn--sm u-dim">← Prev</span>
         <?php endif; ?>
         <span class="list-pagination__current">Page <?= $pg['page'] ?> of <?= $pg['totalPages'] ?></span>
         <?php if ($pg['hasNext']): ?>
             <a href="<?= e($base . $sep . 'page=' . $pg['nextPage']) ?>" class="admin-btn admin-btn--sm">Next →</a>
         <?php else: ?>
-            <span class="admin-btn admin-btn--sm" style="opacity:.5;">Next →</span>
+            <span class="admin-btn admin-btn--sm u-dim">Next →</span>
         <?php endif; ?>
     </nav>
 <?php endif; ?>

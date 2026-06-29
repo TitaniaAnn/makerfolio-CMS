@@ -55,7 +55,7 @@ $countMap = array_column($counts, 'n', 'status');
 
         <?php if (empty($orders)): ?>
         <div class="empty-admin">
-            <p style="font-size:2rem;">🏺</p>
+            <p class="u-fs-2rem">🏺</p>
             <p>No orders yet<?= $statusFilter ? " with status \"$statusFilter\"" : '' ?>.</p>
         </div>
         <?php else: ?>

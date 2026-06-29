@@ -85,6 +85,7 @@ foreach ($rows as $row) { $s[$row['setting_key']] = $row['setting_value']; }
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Settings — Admin</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
+    <link rel="stylesheet" href="/admin/css/pages/settings-index.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -103,7 +104,7 @@ foreach ($rows as $row) { $s[$row['setting_key']] = $row['setting_value']; }
                 <a href="/admin/settings/health" class="admin-btn">System Health</a>
                 <a href="/admin/settings/schema-health" class="admin-btn">Schema Health</a>
                 <a href="/admin/settings/sample-content" class="admin-btn">Sample Content</a>
-                <a href="/admin/settings/reset-content" class="admin-btn" style="background:#fdf0f0; border-color:#f2c2c2; color:#b53a3a;">Reset Content</a>
+                <a href="/admin/settings/reset-content" class="admin-btn settings-reset-btn">Reset Content</a>
             </div>
         </div>
 
@@ -141,9 +142,9 @@ foreach ($rows as $row) { $s[$row['setting_key']] = $row['setting_value']; }
                     <div class="form-group form-group--full">
                         <label>Hero Background Photo</label>
                         <?php if (!empty($s['hero_image'])): ?>
-                        <div style="margin-bottom:.75rem;">
-                            <img src="/uploads/<?= e($s['hero_image']) ?>" style="max-height:140px; border-radius:8px; border:1px solid var(--sand);">
-                            <p style="font-size:.8rem; color:var(--fog); margin-top:.3rem;">Current hero photo — upload a new one to replace it</p>
+                        <div class="settings-img-row">
+                            <img src="/uploads/<?= e($s['hero_image']) ?>" class="settings-hero-thumb">
+                            <p class="settings-img-note">Current hero photo — upload a new one to replace it</p>
                         </div>
                         <?php endif; ?>
                         <input type="file" name="hero_image_file" accept="image/*">
@@ -166,9 +167,9 @@ foreach ($rows as $row) { $s[$row['setting_key']] = $row['setting_value']; }
                     <div class="form-group form-group--full">
                         <label>Profile Photo (About page)</label>
                         <?php if (!empty($s['profile_photo'])): ?>
-                        <div style="margin-bottom:.75rem; display:flex; align-items:center; gap:1rem;">
-                            <img src="/uploads/<?= e($s['profile_photo']) ?>" style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:3px solid var(--clay);">
-                            <p style="font-size:.8rem; color:var(--fog);">Current profile photo — upload a new one to replace it</p>
+                        <div class="settings-img-row--avatar">
+                            <img src="/uploads/<?= e($s['profile_photo']) ?>" class="settings-avatar-thumb">
+                            <p class="settings-img-note--inline">Current profile photo — upload a new one to replace it</p>
                         </div>
                         <?php endif; ?>
                         <input type="file" name="profile_photo_file" accept="image/*">
@@ -225,7 +226,7 @@ foreach ($rows as $row) { $s[$row['setting_key']] = $row['setting_value']; }
                 </div>
                 <div class="form-group form-group--full">
                     <label>Privacy policy HTML</label>
-                    <textarea name="privacy_policy_html" rows="14" style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace;"><?= e($s['privacy_policy_html'] ?? '') ?></textarea>
+                    <textarea name="privacy_policy_html" rows="14" class="settings-html-textarea"><?= e($s['privacy_policy_html'] ?? '') ?></textarea>
                 </div>
             </div>
 

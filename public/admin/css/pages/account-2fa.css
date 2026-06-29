@@ -8,3 +8,15 @@
         .tfa-codes li { list-style: none; margin: .25rem 0; }
         .tfa-warning { padding: .85rem 1rem; background: #fff5dc; border: 1px solid #ead68a; color: #6e5a0e; border-radius: 6px; margin: .75rem 0; font-size: .9rem; }
         .tfa-form input[type=text], .tfa-form input[type=password] { display: block; width: 100%; max-width: 320px; padding: .55rem .7rem; border: 1px solid var(--sand,#e8e4d8); border-radius: 6px; font: inherit; }
+        .tfa-p-spaced { margin: .75rem 0; }
+        .tfa-danger-text { color: #b53a3a; }
+        .tfa-card-520 { max-width: 520px; }
+        .tfa-w640 { max-width: 640px; }
+        .tfa-field-label { display: block; font-weight: 600; margin: .5rem 0 .25rem; }
+        .tfa-p-top { margin-top: .75rem; }
+        .tfa-p-top-sm { margin-top: .5rem; }
+        .tfa-p-1 { margin: 1rem 0; }
+        .tfa-hint-fog { font-size: .9rem; color: var(--fog, #7a8090); }
+        .tfa-p-actions { margin-top: .75rem; display: flex; gap: .5rem; }
+        .tfa-btn-ghost { background: transparent; border: 1px solid var(--sand, #e8e4d8); color: var(--fog, #7a8090); }
+        .tfa-form-top { margin-top: 1rem; }

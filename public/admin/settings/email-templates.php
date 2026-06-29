@@ -100,7 +100,7 @@ foreach ($rows as $row) {
             <div class="flash flash--<?= e($flash['type']) ?>"><?= e($flash['msg']) ?></div>
         <?php endif; ?>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Edit the subject and body of each outbound email. Use <code>{variable}</code>
             tokens — see the side panel for what's available per template. Leave a field
             blank (or matching the default) to restore the built-in copy. Click a variable
@@ -120,18 +120,18 @@ foreach ($rows as $row) {
                          data-template="<?= e($templateKey) ?>"
                          data-default-subject="<?= e($tpl['subject']) ?>"
                          data-default-body="<?= e($tpl['body']) ?>">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;">
-                        <div style="flex:1;">
+                    <div class="et-template__head">
+                        <div class="et-template__head-main">
                             <h2><?= e($tpl['label']) ?></h2>
                             <p class="et-template__desc"><?= e($tpl['description']) ?></p>
                         </div>
-                        <button type="button" class="admin-btn admin-btn--sm" style="flex-shrink:0; align-self:flex-start;"
+                        <button type="button" class="admin-btn admin-btn--sm et-send-test-btn"
                                 data-action="send-test" data-template-key="<?= e($templateKey) ?>"
                                 title="Send a copy of the currently-saved template (with sample variables filled in) to your contact_email address. Useful for verifying mail() actually works on this host.">
                             Send test
                         </button>
                     </div>
-                    <form id="send-test-<?= e($templateKey) ?>" method="POST" style="display:none;"
+                    <form id="send-test-<?= e($templateKey) ?>" method="POST" class="is-hidden"
                           data-confirm="Send a [TEST] copy of this template to <?= e(setting('contact_email', '(no contact email set)')) ?>?">
                         <?= csrf_field() ?>
                         <input type="hidden" name="action" value="send_test">
@@ -148,7 +148,7 @@ foreach ($rows as $row) {
                                    placeholder="<?= e($tpl['subject']) ?>"
                                    data-field="subject">
 
-                            <label for="body_<?= e($templateKey) ?>" style="margin-top: .85rem;">Body</label>
+                            <label for="body_<?= e($templateKey) ?>" class="et-body-label">Body</label>
                             <textarea id="body_<?= e($templateKey) ?>"
                                       name="email[<?= e($templateKey) ?>][body]"
                                       placeholder="<?= e($tpl['body']) ?>"

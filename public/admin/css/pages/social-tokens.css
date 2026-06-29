@@ -9,3 +9,7 @@
         .token-meta { font-size: .85rem; color: var(--ash); margin-top: .5rem; }
         .token-meta dt { display: inline-block; min-width: 140px; font-weight: 600; color: var(--ink); }
         .token-meta dd { display: inline; margin: 0; }
+        .token-h2 { margin-bottom: .75rem; }
+        .token-msg { margin-top: .75rem; }
+        .token-form { margin-top: 1rem; }
+        .token-form-hint { margin-left: 1rem; color: var(--ash); }

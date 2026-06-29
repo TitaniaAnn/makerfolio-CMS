@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $tokenStatus === 'valid') {
                 Request a new one from
                 <a href="/admin/auth/forgot-password">Forgot password</a>.
             </div>
-            <p style="margin-top:1rem;"><a href="/admin/login">← Back to sign in</a></p>
+            <p class="rp-back"><a href="/admin/login">← Back to sign in</a></p>
         <?php else: ?>
             <?php foreach ($errors as $err): ?>
                 <div class="alert alert--error"><?= e($err) ?></div>
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $tokenStatus === 'valid') {
                 <input type="hidden" name="token" value="<?= e($rawToken) ?>">
                 <label>New password
                     <input type="password" name="password" required minlength="12" autocomplete="new-password" autofocus>
-                    <small style="display:block;font-weight:400;color:var(--fog,#7a8090);margin-top:.2rem;">At least 12 characters.</small>
+                    <small class="rp-hint">At least 12 characters.</small>
                 </label>
                 <label>Confirm new password
                     <input type="password" name="password_confirm" required minlength="12" autocomplete="new-password">

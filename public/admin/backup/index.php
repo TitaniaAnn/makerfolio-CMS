@@ -81,7 +81,7 @@ function fmtBytes(int $b): string {
             <div class="flash flash--error"><?= e($err) ?></div>
         <?php endforeach; ?>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Download a single zip containing a SQL dump of the database, your uploaded
             files, and a manifest. Useful for off-site copies, migrating to a new host,
             or as a snapshot before destructive admin changes.
@@ -103,7 +103,7 @@ function fmtBytes(int $b): string {
             </div>
         </div>
 
-        <form method="POST" class="admin-form" style="max-width: 720px;">
+        <form method="POST" class="admin-form u-maxw-720">
             <?= csrf_field() ?>
 
             <div class="admin-card">

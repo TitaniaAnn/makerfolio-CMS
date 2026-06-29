@@ -47,7 +47,7 @@ if (!empty($pending)) {
             <div class="alert alert--<?= e($flash['type']) ?>"><?= e($flash['msg']) ?></div>
         <?php endif; ?>
 
-        <p style="font-size:.88rem; color:var(--soil); max-width: 60ch;">
+        <p class="mig-intro">
             Lists every <code>sql/NNN_*.sql</code> file in the repo. Run a pending migration to apply it to the live
             database, or mark one as already applied if you ran it manually before this UI existed.
             <strong>MySQL DDL implicitly commits</strong> — if a multi-statement migration fails partway through,
@@ -62,7 +62,7 @@ if (!empty($pending)) {
 
         <h2>Pending</h2>
         <?php if (empty($pending)): ?>
-            <p style="color: var(--ash);">Nothing to run — the database is up to date with the repo.</p>
+            <p class="mig-empty">Nothing to run — the database is up to date with the repo.</p>
         <?php else: ?>
             <?php foreach ($pending as $i => $version): ?>
                 <div class="mig-card">
@@ -95,7 +95,7 @@ if (!empty($pending)) {
 
             <?php if ($preview): ?>
                 <div class="preview">
-                    <h3 style="font-size:1rem; margin-bottom:.4rem;">Preview: <?= e($preview['version']) ?></h3>
+                    <h3 class="mig-preview-title">Preview: <?= e($preview['version']) ?></h3>
                     <?php if (isset($preview['error'])): ?>
                         <div class="alert alert--error"><?= e($preview['error']) ?></div>
                     <?php else: ?>
@@ -111,9 +111,9 @@ if (!empty($pending)) {
             <?php endif; ?>
         <?php endif; ?>
 
-        <h2 style="margin-top:2rem;">Applied</h2>
+        <h2 class="mig-applied-head">Applied</h2>
         <?php if (empty($applied)): ?>
-            <p style="color: var(--ash);">No migrations recorded yet.</p>
+            <p class="mig-empty">No migrations recorded yet.</p>
             <p class="danger-note">
                 If your database was set up before this UI existed (e.g. you ran <code>init.sql</code> or
                 applied numbered migrations manually), use <em>Mark applied</em> on each pending row that

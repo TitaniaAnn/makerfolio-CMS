@@ -18,3 +18,11 @@
         .social-preview { background: var(--cream); border-left: 3px solid var(--clay); padding: 1.5rem; border-radius: 4px; margin-top: 2rem; }
         .social-preview h3 { font-size: 0.9rem; color: var(--ash); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
         .social-preview-text { font-size: 0.9rem; line-height: 1.6; color: var(--ink); white-space: pre-wrap; word-break: break-word; }
+        .ann-drop-title { font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .ann-drop-hint { font-size: 0.75rem; color: var(--ash); }
+        .ann-img-note { color: var(--ash); display: block; margin-top: 0.5rem; }
+        .ann-link-label { margin-bottom: 1rem; display: block; }
+        .ann-link-group { margin-bottom: 2rem; }
+        .ann-link-heading { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ash); margin-bottom: 1rem; }
+        .ann-empty-note { font-size: 0.85rem; color: var(--ash); }
+        .ann-form-actions { margin-top: 2rem; display: flex; gap: 1rem; }

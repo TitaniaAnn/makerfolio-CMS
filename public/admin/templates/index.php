@@ -35,7 +35,7 @@ $templates = Database::fetchAll(
         <?php endif; ?>
 
         <?php if (empty($templates)): ?>
-        <p style="color:var(--ash)">No templates yet. <a href="/admin/templates/add">Add one</a>.</p>
+        <p class="u-text-ash">No templates yet. <a href="/admin/templates/add">Add one</a>.</p>
         <?php else: ?>
         <div class="admin-table-wrap">
             <table class="admin-table">
@@ -57,7 +57,7 @@ $templates = Database::fetchAll(
                             <?php if (!empty($t['preview_thumb'])): ?>
                             <img src="/uploads/<?= e($t['preview_thumb']) ?>" alt="<?= e($t['title']) ?>" class="admin-table__thumb">
                             <?php else: ?>
-                            <span style="font-size:.75rem;color:var(--ash)">—</span>
+                            <span class="u-text-ash u-fs-sm">—</span>
                             <?php endif; ?>
                         </td>
                         <td><?= e($t['title']) ?></td>

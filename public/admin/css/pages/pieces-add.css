@@ -17,3 +17,5 @@
             font-size: .85rem; cursor: pointer; display: flex;
             align-items: center; justify-content: center;
         }
+        .is-hidden { display: none; }
+        .pieces-photo-note { color: var(--ash); margin-top: .4rem; display: block; }

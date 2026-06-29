@@ -130,10 +130,10 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
                 <div class="form-group form-group--full">
                     <?php if ($isEdit): ?>
                         <label>Event Type</label>
-                        <div style="padding:.75rem;background:var(--cream);border-radius:4px;border:1px solid var(--cream-dk);">
+                        <div class="event-type-note-box">
                             <?= e(EventTypes::label($event['event_type'])) ?>
                         </div>
-                        <small style="color:var(--ash);display:block;margin-top:.25rem;">(Cannot change event type after creation)</small>
+                        <small class="event-locked-note">(Cannot change event type after creation)</small>
                     <?php else: ?>
                         <label>Event Type *</label>
                         <select name="event_type" id="eventType" required>
@@ -177,7 +177,7 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
                 </div>
 
                 <div class="form-group form-group--full">
-                    <label>Publish Date <small style="font-weight:400;color:var(--ash)">Event and piece assignments won't be visible until this date</small></label>
+                    <label>Publish Date <small class="u-note-ash">Event and piece assignments won't be visible until this date</small></label>
                     <input type="date" name="publish_date" value="<?= e($formData['publish_date'] ?? date('Y-m-d')) ?>">
                 </div>
 
@@ -235,9 +235,9 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
 
                 <div class="form-group form-group--full">
                     <label>Assign Pottery Pieces</label>
-                    <small style="color:var(--ash);display:block;margin-bottom:.5rem;">Select which pieces are featured in this event</small>
+                    <small class="event-feature-note">Select which pieces are featured in this event</small>
                     <?php if (empty($allPieces)): ?>
-                        <p style="color:var(--ash)"><em>No pottery pieces available yet. <a href="/admin/pieces/add">Add pieces first</a>.</em></p>
+                        <p class="u-text-ash"><em>No pottery pieces available yet. <a href="/admin/pieces/add">Add pieces first</a>.</em></p>
                     <?php else: ?>
                         <div class="piece-checklist">
                             <?php foreach ($allPieces as $piece): ?>
@@ -246,7 +246,7 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
                                 <div class="piece-item__content">
                                     <img src="/uploads/<?= e($piece['image_thumb'] ?? $piece['image_path']) ?>" alt="<?= e($piece['title']) ?>" class="piece-item__img">
                                     <div class="piece-item__title"><?= e($piece['title']) ?></div>
-                                    <div class="piece-item__check" style="display:none;">✓</div>
+                                    <div class="piece-item__check is-hidden">✓</div>
                                 </div>
                             </label>
                             <?php endforeach; ?>

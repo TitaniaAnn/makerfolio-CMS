@@ -84,12 +84,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 is on its way. The link expires in 60 minutes and can only be used once.
                 Check your spam folder if it doesn't arrive within a few minutes.
             </div>
-            <p style="margin-top:1rem;"><a href="/admin/login">← Back to sign in</a></p>
+            <p class="fp-back"><a href="/admin/login">← Back to sign in</a></p>
         <?php else: ?>
             <?php foreach ($errors as $err): ?>
                 <div class="alert alert--error"><?= e($err) ?></div>
             <?php endforeach; ?>
-            <p style="font-size:.95rem; color:var(--fog,#7a8090);">
+            <p class="fp-hint">
                 Enter the username or email tied to your admin account and we'll
                 send you a link to set a new password.
             </p>
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
                 <button type="submit">Send reset link</button>
             </form>
-            <p style="margin-top:1rem;"><a href="/admin/login">← Back to sign in</a></p>
+            <p class="fp-back"><a href="/admin/login">← Back to sign in</a></p>
         <?php endif; ?>
     </div>
 </body>

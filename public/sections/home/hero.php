@@ -3,7 +3,7 @@
 // Variables in scope (set by public/index.php): $tickerItems
 $heroImage = setting('hero_image');
 ?>
-<section class="hero" <?= $heroImage ? 'style="background-image: url(\'/uploads/' . e($heroImage) . '\');"' : '' ?>>
+<section class="hero"<?= $heroImage ? ' data-hero-bg="/uploads/' . e($heroImage) . '"' : '' ?>>
     <div class="hero__bg-overlay"></div>
 
     <?php if (!empty($tickerItems)): ?>

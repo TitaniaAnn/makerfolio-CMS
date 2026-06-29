@@ -148,7 +148,7 @@ if ($totpEnabled && !empty($admin['recovery_codes_hash'])) {
             <div class="flash flash--error"><?= e($err) ?></div>
         <?php endforeach; ?>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Manage TOTP-based 2FA for your own account (<strong><?= e($admin['username']) ?></strong>).
             Each admin manages their own; you can't enable or disable 2FA for someone else.
             OAuth logins (GitHub, Google) use the provider's own 2FA — this page only affects local password login.
@@ -164,7 +164,7 @@ if ($totpEnabled && !empty($admin['recovery_codes_hash'])) {
                     <li><?= e($code) ?></li>
                 <?php endforeach; ?>
             </ul>
-            <p style="margin:.75rem 0;">
+            <p class="tfa-p-spaced">
                 <a href="/admin/account/2fa" class="admin-btn admin-btn--primary">I've saved them — continue</a>
             </p>
         <?php elseif ($totpEnabled): ?>
@@ -172,32 +172,32 @@ if ($totpEnabled && !empty($admin['recovery_codes_hash'])) {
             <div class="tfa-state tfa-state--on">✓ 2FA is enabled on your account.</div>
             <p>Recovery codes remaining: <strong><?= (int)$recoveryRemaining ?> of 10</strong>.
                 <?php if ($recoveryRemaining <= 2): ?>
-                    <em style="color:#b53a3a;">Running low — generate new codes.</em>
+                    <em class="tfa-danger-text">Running low — generate new codes.</em>
                 <?php endif; ?>
             </p>
 
-            <div class="admin-card" style="max-width:520px;">
+            <div class="admin-card tfa-card-520">
                 <h2>Generate new recovery codes</h2>
                 <p class="form-hint">Replaces all 10 codes. Old codes stop working immediately.</p>
                 <form method="POST" class="tfa-form">
                     <?= csrf_field() ?>
                     <input type="hidden" name="action" value="regenerate_codes">
-                    <label style="display:block;font-weight:600;margin:.5rem 0 .25rem;">Confirm with your password</label>
+                    <label class="tfa-field-label">Confirm with your password</label>
                     <input type="password" name="password" required autocomplete="current-password">
-                    <p style="margin-top:.75rem;"><button type="submit" class="admin-btn admin-btn--primary">Generate new codes</button></p>
+                    <p class="tfa-p-top"><button type="submit" class="admin-btn admin-btn--primary">Generate new codes</button></p>
                 </form>
             </div>
 
-            <div class="admin-card" style="max-width:520px;">
-                <h2 style="color:#b53a3a;">Disable 2FA</h2>
+            <div class="admin-card tfa-card-520">
+                <h2 class="tfa-danger-text">Disable 2FA</h2>
                 <p class="form-hint">Turns 2FA off and deletes your secret + recovery codes. You can re-enable any time.</p>
                 <form method="POST" class="tfa-form"
                       data-confirm="Disable 2FA on your account? You can re-enable any time.">
                     <?= csrf_field() ?>
                     <input type="hidden" name="action" value="disable">
-                    <label style="display:block;font-weight:600;margin:.5rem 0 .25rem;">Confirm with your password</label>
+                    <label class="tfa-field-label">Confirm with your password</label>
                     <input type="password" name="password" required autocomplete="current-password">
-                    <p style="margin-top:.75rem;"><button type="submit" class="admin-btn admin-btn--danger">Disable 2FA</button></p>
+                    <p class="tfa-p-top"><button type="submit" class="admin-btn admin-btn--danger">Disable 2FA</button></p>
                 </form>
             </div>
 
@@ -205,26 +205,26 @@ if ($totpEnabled && !empty($admin['recovery_codes_hash'])) {
             <!-- ENROLLING STATE: secret generated, waiting for verification code -->
             <div class="tfa-state tfa-state--off">2FA setup in progress — verify a code to finish.</div>
 
-            <div class="admin-card" style="max-width:640px;">
+            <div class="admin-card tfa-w640">
                 <h2>Step 1 — Add the secret to your authenticator app</h2>
                 <p>Open your authenticator (Google Authenticator, 1Password, Authy, Microsoft Authenticator, etc.) and either tap the link below or paste the secret manually.</p>
-                <p style="margin:1rem 0;">
+                <p class="tfa-p-1">
                     <a href="<?= e($otpauthUri) ?>" class="tfa-uri">Open in authenticator app</a>
                 </p>
-                <p style="font-size:.9rem;color:var(--fog,#7a8090);">Manual entry — paste this secret into your app:</p>
+                <p class="tfa-hint-fog">Manual entry — paste this secret into your app:</p>
                 <div class="tfa-secret"><?= e(Totp::formatSecretForDisplay($admin['totp_secret'])) ?></div>
-                <p class="form-hint" style="margin-top:.5rem;">Algorithm: SHA1 · Digits: 6 · Period: 30s · Account: <?= e($accountName) ?> · Issuer: <?= e($issuer) ?></p>
+                <p class="form-hint tfa-p-top-sm">Algorithm: SHA1 · Digits: 6 · Period: 30s · Account: <?= e($accountName) ?> · Issuer: <?= e($issuer) ?></p>
             </div>
 
-            <div class="admin-card" style="max-width:640px;">
+            <div class="admin-card tfa-w640">
                 <h2>Step 2 — Verify a code from your app</h2>
                 <p>Once the secret is added, your app will show a 6-digit code that changes every 30 seconds. Enter it here to finish enabling 2FA.</p>
                 <form method="POST" class="tfa-form">
                     <?= csrf_field() ?>
                     <input type="hidden" name="action" value="verify_enroll">
-                    <label style="display:block;font-weight:600;margin:.5rem 0 .25rem;">6-digit code</label>
+                    <label class="tfa-field-label">6-digit code</label>
                     <input type="text" name="code" required autofocus inputmode="numeric" pattern="\d{6}" maxlength="6" placeholder="123456">
-                    <p style="margin-top:.75rem;display:flex;gap:.5rem;">
+                    <p class="tfa-p-actions">
                         <button type="submit" class="admin-btn admin-btn--primary">Verify and enable 2FA</button>
                     </p>
                 </form>
@@ -233,19 +233,19 @@ if ($totpEnabled && !empty($admin['recovery_codes_hash'])) {
             <form method="POST">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="cancel_enroll">
-                <button type="submit" class="admin-btn" style="background:transparent;border:1px solid var(--sand,#e8e4d8);color:var(--fog,#7a8090);">Cancel and discard this secret</button>
+                <button type="submit" class="admin-btn tfa-btn-ghost">Cancel and discard this secret</button>
             </form>
 
         <?php else: ?>
             <!-- NOT ENROLLED STATE -->
             <div class="tfa-state tfa-state--off">2FA is not enabled on your account.</div>
-            <p style="max-width:640px;">
+            <p class="tfa-w640">
                 With 2FA on, signing in via local password also requires a 6-digit code
                 from your authenticator app. Significantly raises the bar against
                 credential-stuffing attacks. You'll be given 10 single-use recovery codes
                 during setup to use if you lose your phone.
             </p>
-            <form method="POST" style="margin-top:1rem;">
+            <form method="POST" class="tfa-form-top">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="start_enroll">
                 <button type="submit" class="admin-btn admin-btn--primary">Set up 2FA</button>

@@ -158,7 +158,7 @@ $formData = $_POST + ($template ?? []);
                 <div class="form-group form-group--full">
                     <label>
                         Template Files <?= $isEdit ? '' : '*' ?>
-                        <small style="font-weight:400;color:var(--ash)">PDF, SVG, PNG, JPG, WebP, ZIP — max 50MB each. Add a label to each file (optional).</small>
+                        <small class="u-note-ash">PDF, SVG, PNG, JPG, WebP, ZIP — max 50MB each. Add a label to each file (optional).</small>
                     </label>
 
                     <?php if ($isEdit && !empty($existingFiles)): ?>
@@ -181,7 +181,7 @@ $formData = $_POST + ($template ?? []);
                     </div>
                     <?php endif; ?>
 
-                    <div class="section-label" style="margin-top:.75rem"><?= $isEdit ? 'Add more files' : 'Upload files' ?></div>
+                    <div class="section-label section-label--spaced"><?= $isEdit ? 'Add more files' : 'Upload files' ?></div>
                     <div class="file-drop" id="fileDrop">
                         <?php if (!$isEdit): ?>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -194,19 +194,19 @@ $formData = $_POST + ($template ?? []);
                     </div>
                     <div class="file-queue" id="fileQueue"></div>
                     <div id="fileInputContainer"></div>
-                    <input type="file" id="filePicker" accept=".pdf,.svg,.png,.jpg,.jpeg,.webp,.zip" multiple style="display:none">
+                    <input type="file" id="filePicker" accept=".pdf,.svg,.png,.jpg,.jpeg,.webp,.zip" multiple class="is-hidden">
                 </div>
 
                 <div class="form-group form-group--full">
-                    <label>Preview Image <small style="font-weight:400;color:var(--ash)">Optional — thumbnail shown on the templates page</small></label>
+                    <label>Preview Image <small class="u-note-ash">Optional — thumbnail shown on the templates page</small></label>
                     <?php if ($isEdit && !empty($template['preview_thumb'])): ?>
                     <div class="preview-row">
                         <div class="preview-thumb-box">
                             <img src="/uploads/<?= e($template['preview_thumb']) ?>" alt="">
                         </div>
                         <div>
-                            <p style="font-size:.82rem;color:var(--ash);margin:0 0 .5rem">Current preview</p>
-                            <label class="checkbox-label" style="font-size:.82rem">
+                            <p class="preview-current-note">Current preview</p>
+                            <label class="checkbox-label checkbox-label--sm">
                                 <input type="checkbox" name="remove_preview" value="1">
                                 <span>Remove preview image</span>
                             </label>
@@ -214,15 +214,15 @@ $formData = $_POST + ($template ?? []);
                     </div>
                     <?php endif; ?>
                     <div class="preview-wrap">
-                        <div class="preview-thumb-box <?= empty($template['preview_thumb']) ? 'empty' : '' ?>" id="previewBox" style="<?= empty($template['preview_thumb']) ? 'display:none' : '' ?>">
+                        <div class="preview-thumb-box <?= empty($template['preview_thumb']) ? 'empty is-hidden' : '' ?>" id="previewBox">
                             <img id="previewImg" src="" alt="">
                         </div>
-                        <div style="flex:1">
-                            <div class="file-drop" style="padding:1rem" id="previewDrop">
+                        <div class="preview-fill">
+                            <div class="file-drop file-drop--sm" id="previewDrop">
                                 <div class="file-drop__label"><strong>Click to <?= !empty($template['preview_thumb']) ? 'replace' : 'choose' ?></strong> preview image</div>
-                                <div id="previewChosen" style="font-size:.82rem;font-weight:600;color:var(--ink);margin-top:.3rem"></div>
+                                <div id="previewChosen" class="preview-chosen"></div>
                             </div>
-                            <input type="file" id="previewFile" name="preview" accept="image/*" style="display:none">
+                            <input type="file" id="previewFile" name="preview" accept="image/*" class="is-hidden">
                         </div>
                     </div>
                 </div>

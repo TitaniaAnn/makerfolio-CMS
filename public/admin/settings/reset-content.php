@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endforeach; ?>
                 </ul>
                 <?php if (!empty($result['fs_failed'])): ?>
-                    <div class="reset-results reset-failed" style="margin-top:1rem;">
+                    <div class="reset-results reset-failed reset-results--spaced">
                         <h2>Some files couldn't be removed</h2>
                         <p>Filesystem permissions blocked these paths. Remove them manually:</p>
                         <ul>
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 template off to another potter as a clean slate. <strong>There is no undo.</strong>
                 Take a backup first if you're not sure.
             </p>
-            <p style="margin-bottom:0;">
+            <p class="reset-confirm-note">
                 <strong>Always preserved:</strong> the database schema, admin users, all login-provider
                 settings (so you stay logged in), the migrations ledger, and the shop currency.
             </p>
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="admin-btn admin-btn--primary" style="background:#b53a3a; border-color:#b53a3a;">Reset Content</button>
+                <button type="submit" class="admin-btn admin-btn--primary reset-submit-btn">Reset Content</button>
                 <a href="/admin/settings/" class="admin-btn">Cancel</a>
             </div>
         </form>

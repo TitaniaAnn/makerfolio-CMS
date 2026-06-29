@@ -220,7 +220,7 @@ foreach ($checks as $c) {
             <a href="/admin/settings/" class="admin-btn">Back to Settings</a>
         </div>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Read-only diagnostics. Covers the things that can fail silently —
             expired social tokens, missing TLS, leftover install folders. For
             DB-schema checks (table/column existence + fix-SQL), use

@@ -121,12 +121,12 @@ foreach (Theme::overridableRoles() as $role => $settingKey) {
                             <div class="theme-preset__label"><?= e($preset['label']) ?></div>
                             <div class="theme-preset__desc"><?= e($preset['description']) ?></div>
                             <div class="theme-swatches">
-                                <span class="theme-swatch" style="background:<?= e($p['primary']) ?>" title="Primary"></span>
-                                <span class="theme-swatch" style="background:<?= e($p['accent']) ?>" title="Accent"></span>
-                                <span class="theme-swatch" style="background:<?= e($p['background']) ?>" title="Background"></span>
-                                <span class="theme-swatch" style="background:<?= e($p['surface']) ?>" title="Surface"></span>
-                                <span class="theme-swatch" style="background:<?= e($p['cool']) ?>" title="Cool"></span>
-                                <span class="theme-swatch" style="background:<?= e($p['text']) ?>" title="Text"></span>
+                                <svg class="theme-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" role="img" aria-label="Primary"><title>Primary</title><rect width="1" height="1" fill="<?= e($p['primary']) ?>"/></svg>
+                                <svg class="theme-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" role="img" aria-label="Accent"><title>Accent</title><rect width="1" height="1" fill="<?= e($p['accent']) ?>"/></svg>
+                                <svg class="theme-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" role="img" aria-label="Background"><title>Background</title><rect width="1" height="1" fill="<?= e($p['background']) ?>"/></svg>
+                                <svg class="theme-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" role="img" aria-label="Surface"><title>Surface</title><rect width="1" height="1" fill="<?= e($p['surface']) ?>"/></svg>
+                                <svg class="theme-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" role="img" aria-label="Cool"><title>Cool</title><rect width="1" height="1" fill="<?= e($p['cool']) ?>"/></svg>
+                                <svg class="theme-swatch" viewBox="0 0 1 1" preserveAspectRatio="none" role="img" aria-label="Text"><title>Text</title><rect width="1" height="1" fill="<?= e($p['text']) ?>"/></svg>
                             </div>
                         </label>
                     <?php endforeach; ?>
@@ -134,7 +134,7 @@ foreach (Theme::overridableRoles() as $role => $settingKey) {
             </div>
 
             <div class="admin-card">
-                <h2>Color Overrides <small style="font-weight:400; color:var(--fog,#7a8090);">(optional)</small></h2>
+                <h2>Color Overrides <small class="u-note-opt">(optional)</small></h2>
                 <p class="form-hint">Leave blank to use the preset's value. Lighter/darker shades are derived from these.</p>
                 <div class="form-grid">
                     <?php foreach ([

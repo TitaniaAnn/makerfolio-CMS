@@ -72,7 +72,7 @@ foreach ($overrideRows as $row) {
             <div class="flash flash--<?= e($flash['type']) ?>"><?= e($flash['msg']) ?></div>
         <?php endif; ?>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Override the display text used by public pages. Each field shows
             the built-in default as a placeholder — leave blank (or restore
             the default text) to use it.

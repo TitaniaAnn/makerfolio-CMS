@@ -34,7 +34,7 @@ if (!$order) { flash('error', 'Order not found.'); redirect(SITE_URL . '/admin/o
                     <p>Quantity: <?= $order['quantity'] ?></p>
                     <p>Price per item: $<?= number_format($order['product_price'], 2) ?></p>
                     <p><strong>Total: $<?= number_format($order['product_price'] * $order['quantity'], 2) ?></strong></p>
-                    <p style="margin-top:.75rem; font-size:.82rem; color:var(--ash);">
+                    <p class="order-stripe-ref">
                         Stripe session: <code><?= e($order['stripe_session_id'] ?? '—') ?></code>
                     </p>
                 </div>
@@ -52,7 +52,7 @@ if (!$order) { flash('error', 'Order not found.'); redirect(SITE_URL . '/admin/o
                 <div class="admin-card">
                     <h2>Shipping Address</h2>
                     <?php if ($order['shipping_line1']): ?>
-                    <address style="font-style:normal; line-height:1.8;">
+                    <address class="order-address">
                         <?= e($order['customer_name']) ?><br>
                         <?= e($order['shipping_line1']) ?><br>
                         <?php if ($order['shipping_line2']): ?><?= e($order['shipping_line2']) ?><br><?php endif; ?>

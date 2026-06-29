@@ -1,4 +1,5 @@
 /* Admin Panel Styles */
+@import url("/admin/css/utilities.css");
 :root {
     --ember: #D4A820; --ember-dk: #B08A10; --ember-lt: #E0BE50;
     --bark: #1E2430; --bark-lt: #3A4050;

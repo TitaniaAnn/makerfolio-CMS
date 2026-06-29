@@ -82,8 +82,8 @@ $noneOn   = !$localOn && !$githubOn && !$googleOn;
                     <input name="password" type="password" required autocomplete="current-password">
                 </label>
                 <button type="submit">Sign in</button>
-                <p style="text-align:center;margin:.5rem 0 0;font-size:.85rem;">
-                    <a href="/admin/auth/forgot-password" style="color:var(--fog,#7a8090);">Forgot password?</a>
+                <p class="login-forgot">
+                    <a href="/admin/auth/forgot-password">Forgot password?</a>
                 </p>
             </form>
         <?php endif; ?>

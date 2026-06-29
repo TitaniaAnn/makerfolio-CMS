@@ -132,17 +132,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="code" required autofocus inputmode="numeric"
                        maxlength="12" pattern="[A-Za-z0-9\-]{6,12}"
                        placeholder="123456 or RECOVERY-CODE">
-                <small style="display:block;font-weight:400;color:var(--fog,#7a8090);margin-top:.25rem;">
+                <small class="tfa-hint">
                     6 digits, or a 10-character recovery code from setup (case-insensitive).
                 </small>
             </label>
             <button type="submit">Verify and sign in</button>
         </form>
 
-        <form method="POST" style="margin-top:.75rem;">
+        <form method="POST" class="tfa-form-spaced">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="cancel">
-            <button type="submit" class="tfa-cancel" style="cursor:pointer;">← Cancel and sign in as a different user</button>
+            <button type="submit" class="tfa-cancel">← Cancel and sign in as a different user</button>
         </form>
     </div>
 </body>

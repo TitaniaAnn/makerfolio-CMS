@@ -50,6 +50,7 @@ $getAnnouncementStatus = function (array $announcement): string {
     <title>Announcements — Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/admin/css/admin.css">
+    <link rel="stylesheet" href="/admin/css/pages/announcements-index.css">
 </head>
 <body>
 <?php include __DIR__ . '/../partials/sidebar.php'; ?>
@@ -101,13 +102,13 @@ $getAnnouncementStatus = function (array $announcement): string {
                         <td>
                             <?php $links = $linksByAnnouncement[(int)$ann['id']] ?? []; ?>
                             <?php if (empty($links)): ?>
-                                <span style="opacity: 0.5;">—</span>
+                                <span class="u-dim">—</span>
                             <?php else: ?>
                                 <?php foreach (array_slice($links, 0, 2) as $link): ?>
-                                    <div style="font-size: 0.85rem; line-height: 1.4;"><?= e($link) ?></div>
+                                    <div class="ann-link-row"><?= e($link) ?></div>
                                 <?php endforeach; ?>
                                 <?php if (count($links) > 2): ?>
-                                    <div style="font-size: 0.85rem; opacity: 0.7;">+<?= count($links) - 2 ?> more</div>
+                                    <div class="ann-link-more">+<?= count($links) - 2 ?> more</div>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </td>

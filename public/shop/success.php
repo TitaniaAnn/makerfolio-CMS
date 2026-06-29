@@ -46,7 +46,7 @@ if ($sessionId) {
             <p><?= e(PageText::get('order', 'success_ship_to')) ?> <strong><?= e($order['shipping_city']) ?>, <?= e($order['shipping_country']) ?></strong></p>
             <?php endif; ?>
         </div>
-        <p style="font-size:.88rem; color:var(--ash); font-style:italic;"><?= e(PageText::get('order', 'success_followup')) ?></p>
+        <p class="order-confirm__followup"><?= e(PageText::get('order', 'success_followup')) ?></p>
         <?php endif; ?>
 
         <div class="order-confirm__actions">

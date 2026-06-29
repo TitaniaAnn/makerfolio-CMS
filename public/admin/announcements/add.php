@@ -224,7 +224,7 @@ if ($_siteName !== '' && $_siteHost) {
                     <input type="text" name="image_alt" maxlength="500"
                            value="<?= e($_POST['image_alt'] ?? ($announcement['image_alt'] ?? '')) ?>"
                            placeholder="Defaults to the announcement title — override for a richer description of the image.">
-                    <small style="color: var(--ash);">Leave blank to use the title.</small>
+                    <small class="u-text-ash">Leave blank to use the title.</small>
                 </div>
 
                 <!-- Publish Date -->
@@ -232,7 +232,7 @@ if ($_siteName !== '' && $_siteHost) {
                     <label>Publish Date & Time *</label>
                     <input type="datetime-local" name="publish_date" required
                            value="<?= e($_POST['publish_date'] ?? ($announcement ? date('Y-m-d\TH:i', strtotime($announcement['publish_date'])) : date('Y-m-d\T12:00'))) ?>">
-                    <small style="color: var(--ash);">Announcement will be visible after this date</small>
+                    <small class="u-text-ash">Announcement will be visible after this date</small>
                 </div>
 
                 <!-- Image Upload -->
@@ -241,26 +241,26 @@ if ($_siteName !== '' && $_siteHost) {
                     <div class="image-upload-area <?= (!empty($announcement['image_path']) || !empty($_FILES['image']['name'])) ? 'has-image' : '' ?>" id="uploadArea">
                         <input type="file" name="image" id="imageInput" class="image-upload-input" accept="image/jpeg,image/png,image/webp,image/gif">
                         <div id="uploadText">
-                            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Click or drag image here</p>
-                            <p style="font-size: 0.75rem; color: var(--ash);">JPG, PNG, WebP, GIF up to 10MB</p>
+                            <p class="ann-drop-title">Click or drag image here</p>
+                            <p class="ann-drop-hint">JPG, PNG, WebP, GIF up to 10MB</p>
                         </div>
                         <?php if (!empty($announcement['image_thumb'])): ?>
                             <img src="<?= e(UPLOAD_URL . $announcement['image_thumb']) ?>" alt="Current image" class="image-preview" id="previewImage">
                         <?php endif; ?>
                         <div id="newImagePreview"></div>
                     </div>
-                    <small style="color: var(--ash); display: block; margin-top: 0.5rem;">If no image provided, the first linked event/pottery image will be used</small>
+                    <small class="ann-img-note">If no image provided, the first linked event/pottery image will be used</small>
                 </div>
 
                 <!-- Link Entities Section -->
                 <div class="form-group form-group--full">
-                    <label style="margin-bottom: 1rem; display: block;"><strong>Link Events & Pieces</strong></label>
+                    <label class="ann-link-label"><strong>Link Events & Pieces</strong></label>
                     
                     <!-- Events -->
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ash); margin-bottom: 1rem;">Events</h4>
+                    <div class="ann-link-group">
+                        <h4 class="ann-link-heading">Events</h4>
                         <?php if (empty($allEvents)): ?>
-                            <p style="font-size: 0.85rem; color: var(--ash);">No events available</p>
+                            <p class="ann-empty-note">No events available</p>
                         <?php else: ?>
                             <div class="entity-checklist">
                                 <?php foreach ($allEvents as $event): ?>
@@ -279,9 +279,9 @@ if ($_siteName !== '' && $_siteHost) {
 
                     <!-- Pottery Pieces -->
                     <div>
-                        <h4 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ash); margin-bottom: 1rem;">Pottery Pieces</h4>
+                        <h4 class="ann-link-heading">Pottery Pieces</h4>
                         <?php if (empty($allPottery)): ?>
-                            <p style="font-size: 0.85rem; color: var(--ash);">No pottery pieces available</p>
+                            <p class="ann-empty-note">No pottery pieces available</p>
                         <?php else: ?>
                             <div class="entity-checklist">
                                 <?php foreach ($allPottery as $piece): ?>
@@ -316,7 +316,7 @@ Your announcement will appear as:
                 </div>
             </div>
 
-            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <div class="ann-form-actions">
                 <button type="submit" class="admin-btn admin-btn--primary">
                     <?= $isEdit ? 'Update Announcement' : 'Create Announcement' ?>
                 </button>

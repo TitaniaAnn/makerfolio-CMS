@@ -4,6 +4,16 @@
 // #heroTicker element's data-items attribute (JSON), then cycles each entry
 // across the banner with a CSS transform animation. No deps, vanilla JS.
 // Runs at end of <body>, so the DOM is already parsed.
+// Apply the (tenant-content) hero background image from a data attribute via
+// CSSOM. JS-applied styles are not governed by CSP style-src, so this lets us
+// drop the inline style="background-image:..." attribute the hero used to emit.
+(function () {
+    const hero = document.querySelector('.hero[data-hero-bg]');
+    if (hero) {
+        hero.style.backgroundImage = "url('" + hero.dataset.heroBg + "')";
+    }
+})();
+
 (function () {
     const ticker = document.getElementById('heroTicker');
     const itemEl = document.getElementById('heroTickerItem');

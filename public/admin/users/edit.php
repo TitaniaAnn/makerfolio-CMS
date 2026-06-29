@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="flash flash--error"><?= e($err) ?></div>
         <?php endforeach; ?>
 
-        <form method="POST" class="admin-form" style="max-width: 720px;">
+        <form method="POST" class="admin-form u-maxw-720">
             <?= csrf_field() ?>
             <input type="hidden" name="id" value="<?= (int)$user['id'] ?>">
             <input type="hidden" name="action" value="save">
@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="admin-card">
-                <h2>Change password <small style="font-weight:400; color:var(--fog,#7a8090);">(optional)</small></h2>
+                <h2>Change password <small class="u-note-opt">(optional)</small></h2>
                 <p class="form-hint">Leave blank to keep the existing password. <?php if (empty($user['password_hash'])): ?><strong>(No password set — fill in to enable local login.)</strong><?php endif; ?></p>
                 <div class="form-group">
                     <label>New password</label>
@@ -172,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
 
-        <div class="admin-card" style="max-width: 720px;">
+        <div class="admin-card u-maxw-720">
             <h2>Linked OAuth identities</h2>
             <p class="form-hint">Unlinking just clears the link on this user — it doesn't remove them from the GitHub/Google allowlist. Re-linking happens automatically on the user's next successful OAuth login.</p>
 
@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <small><?= !empty($user['github_id']) ? 'Linked — id ' . e($user['github_id']) : 'Not linked' ?></small>
                 </div>
                 <?php if (!empty($user['github_id'])): ?>
-                <form method="POST" style="margin:0;">
+                <form method="POST" class="u-m-0">
                     <?= csrf_field() ?>
                     <input type="hidden" name="id" value="<?= (int)$user['id'] ?>">
                     <input type="hidden" name="action" value="unlink_github">
@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <small><?= !empty($user['google_sub']) ? 'Linked — ' . e($user['google_email'] ?: $user['google_sub']) : 'Not linked' ?></small>
                 </div>
                 <?php if (!empty($user['google_sub'])): ?>
-                <form method="POST" style="margin:0;">
+                <form method="POST" class="u-m-0">
                     <?= csrf_field() ?>
                     <input type="hidden" name="id" value="<?= (int)$user['id'] ?>">
                     <input type="hidden" name="action" value="unlink_google">
@@ -214,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <?php if ($isMe): ?>
-            <p style="max-width:720px; color:var(--fog,#7a8090); font-size:.85rem;">
+            <p class="au-danger-note">
                 You're editing your own account. Changing your username or password will still
                 require you to keep your current session open — log out and back in afterward
                 to verify the new credentials work.

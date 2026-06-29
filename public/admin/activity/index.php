@@ -34,7 +34,7 @@ $admins = Database::fetchAll("SELECT id, username FROM admin_users ORDER BY user
             <h1>Activity Log <span class="badge"><?= (int)$total ?></span></h1>
         </div>
 
-        <p style="color:var(--fog,#7a8090);">
+        <p class="u-muted-fog">
             Append-only audit trail of admin actions: logins, settings saves,
             user changes, content reset, backup downloads. Rows are never
             mutated — wipe the table directly if you need to reset the log.

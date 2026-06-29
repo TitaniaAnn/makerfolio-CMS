@@ -18,3 +18,8 @@
         .et-preview__subject { font-weight: 700; padding: .25rem 0 .5rem; border-bottom: 1px dashed var(--sand,#e8e4d8); margin-bottom: .65rem; font-family: ui-monospace, Menlo, monospace; font-size: .88rem; }
         .et-preview__body { white-space: pre-wrap; font-family: ui-monospace, Menlo, monospace; font-size: .85rem; line-height: 1.55; color: var(--ink); margin: 0; }
         .et-form-actions { display: flex; gap: .5rem; padding: 1rem 0; position: sticky; bottom: 0; background: linear-gradient(to top, var(--cream,#f8f6f0) 70%, rgba(248,246,240,0)); }
+        .et-template__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+        .et-template__head-main { flex: 1; }
+        .et-send-test-btn { flex-shrink: 0; align-self: flex-start; }
+        .et-body-label { margin-top: .85rem; }
+        .is-hidden { display: none; }

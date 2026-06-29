@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="flash flash--error"><?= e($err) ?></div>
         <?php endforeach; ?>
 
-        <form method="POST" class="admin-form" style="max-width: 560px;">
+        <form method="POST" class="admin-form u-maxw-560">
             <?= csrf_field() ?>
 
             <div class="admin-card">

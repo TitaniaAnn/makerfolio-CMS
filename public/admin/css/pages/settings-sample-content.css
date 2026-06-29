@@ -11,3 +11,7 @@
         .sc-banner--info  { background: #fffbe6; border: 1px solid #d4a820; color: #5a4500; }
         .sc-banner--done  { background: #e8f4e8; border: 1px solid #4a8a4a; color: #1c4a1c; }
         .sc-banner--error { background: #fbe8e8; border: 1px solid #c44; color: #7a1a1a; }
+        .sc-warn-note { margin-top: .75rem; }
+        .sc-actions { margin-top: 1rem; }
+        .sc-muted { color: var(--fog); }
+        .sc-btn-disabled { opacity: .5; cursor: not-allowed; }

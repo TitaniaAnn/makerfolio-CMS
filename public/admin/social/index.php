@@ -111,7 +111,7 @@ $posts = Database::fetchAll("SELECT * FROM social_posts ORDER BY sort_order ASC,
                             <?php endif; ?>
                             <span><?= $post['featured'] ? '⭐ Featured' : 'Hidden' ?></span>
                         </div>
-                        <form method="POST" style="margin-top:.5rem;">
+                        <form method="POST" class="u-mt-half">
                             <?= csrf_field() ?>
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<?= $post['id'] ?>">

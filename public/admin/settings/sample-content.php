@@ -75,9 +75,9 @@ $flash = getFlash();
                     <?php endforeach; ?>
                 </div>
                 <?php if (!empty($result['image_dir_warnings'])): ?>
-                    <p style="margin-top:.75rem;">⚠ Couldn't create these upload dirs (sample images skipped there): <?= e(implode(', ', $result['image_dir_warnings'])) ?>. Check filesystem permissions on <code>public/uploads/</code>.</p>
+                    <p class="sc-warn-note">⚠ Couldn't create these upload dirs (sample images skipped there): <?= e(implode(', ', $result['image_dir_warnings'])) ?>. Check filesystem permissions on <code>public/uploads/</code>.</p>
                 <?php endif; ?>
-                <p style="margin-top:1rem;">
+                <p class="sc-actions">
                     <a href="/" target="_blank" rel="noopener" class="admin-btn admin-btn--primary">Open public site →</a>
                     <a href="/admin/pieces/" class="admin-btn">Manage pottery</a>
                 </p>
@@ -86,7 +86,7 @@ $flash = getFlash();
 
         <div class="sc-panel">
             <h2>What this does</h2>
-            <p style="color:var(--fog);">
+            <p class="sc-muted">
                 Populates an empty install with realistic demo content so you can see what the site looks like
                 fully populated — useful for evaluating the CMS, picking a theme, or showing it to someone
                 before you've added your own work.
@@ -98,7 +98,7 @@ $flash = getFlash();
                 <li><strong><?= count(SampleContent::SAMPLE_PRODUCTS) ?> shop products</strong> — covering available / sold states</li>
                 <li><strong><?= count(SampleContent::SAMPLE_SOCIAL_LINKS) ?> social links</strong> — placeholder Instagram / TikTok / YouTube handles</li>
             </ul>
-            <p style="color:var(--fog);">
+            <p class="sc-muted">
                 Images are generated as small earthy-toned SVG placeholders (no copyright, ~1 KB each)
                 written into <code>public/uploads/pottery/</code>, <code>products/</code>, and
                 <code>announcements/</code>. Filenames are prefixed <code>sample-</code> so you can find
@@ -126,7 +126,7 @@ $flash = getFlash();
                     Sample content has already been loaded on this install.
                     Visit <a href="/admin/settings/reset-content">Reset Content</a> if you want to wipe and re-seed.
                 </div>
-                <button type="submit" class="admin-btn" disabled style="opacity:.5;cursor:not-allowed;">Load sample content (already loaded)</button>
+                <button type="submit" class="admin-btn sc-btn-disabled" disabled>Load sample content (already loaded)</button>
             <?php else: ?>
                 <button type="submit" class="admin-btn admin-btn--primary">Load sample content</button>
                 <a href="/admin/settings/" class="admin-btn">Cancel</a>
