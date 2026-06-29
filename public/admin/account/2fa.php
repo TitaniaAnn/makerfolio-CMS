@@ -202,7 +202,7 @@ if ($totpEnabled && !empty($admin['recovery_codes_hash'])) {
                 <h2 style="color:#b53a3a;">Disable 2FA</h2>
                 <p class="form-hint">Turns 2FA off and deletes your secret + recovery codes. You can re-enable any time.</p>
                 <form method="POST" class="tfa-form"
-                      onsubmit="return confirm('Disable 2FA on your account? You can re-enable any time.');">
+                      data-confirm="Disable 2FA on your account? You can re-enable any time.">
                     <?= csrf_field() ?>
                     <input type="hidden" name="action" value="disable">
                     <label style="display:block;font-weight:600;margin:.5rem 0 .25rem;">Confirm with your password</label>

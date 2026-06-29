@@ -315,15 +315,15 @@ $selectedType = $formData['type'] ?? 'pot';
                         <div class="img-gallery-item <?= $image['is_primary'] ? 'is-primary' : '' ?>" data-img-id="<?= $image['id'] ?>"
                              data-full-url="/uploads/<?= e($image['image_path']) ?>">
                             <img src="/uploads/<?= e($image['image_thumb'] ?? $image['image_path']) ?>" alt="">
-                            <button type="button" class="rotate-img-btn rotate-img-btn--ccw" onclick="rotateImage(<?= $image['id'] ?>, <?= $productId ?>, 'ccw')" title="Rotate left">⟲</button>
-                            <button type="button" class="rotate-img-btn rotate-img-btn--cw" onclick="rotateImage(<?= $image['id'] ?>, <?= $productId ?>, 'cw')" title="Rotate right">⟳</button>
-                            <button type="button" class="rotate-img-btn crop-img-btn" onclick="cropImage(<?= $image['id'] ?>, <?= $productId ?>)" title="Crop">✂</button>
-                            <button type="button" class="delete-img-btn" onclick="deleteImage(<?= $image['id'] ?>, <?= $productId ?>)" title="Delete image">×</button>
+                            <button type="button" class="rotate-img-btn rotate-img-btn--ccw" data-action="rotate" data-img-id="<?= $image['id'] ?>" data-parent-id="<?= $productId ?>" data-dir="ccw" title="Rotate left">⟲</button>
+                            <button type="button" class="rotate-img-btn rotate-img-btn--cw" data-action="rotate" data-img-id="<?= $image['id'] ?>" data-parent-id="<?= $productId ?>" data-dir="cw" title="Rotate right">⟳</button>
+                            <button type="button" class="rotate-img-btn crop-img-btn" data-action="crop" data-img-id="<?= $image['id'] ?>" data-parent-id="<?= $productId ?>" title="Crop">✂</button>
+                            <button type="button" class="delete-img-btn" data-action="delete-image" data-img-id="<?= $image['id'] ?>" data-parent-id="<?= $productId ?>" title="Delete image">×</button>
                             <div class="img-labels">
                                 <?php if ($image['is_primary']): ?>
                                 <span class="primary-indicator">★ Cover</span>
                                 <?php else: ?>
-                                <button type="button" class="set-primary-btn" onclick="setPrimary(<?= $image['id'] ?>)">Set cover</button>
+                                <button type="button" class="set-primary-btn" data-action="set-primary" data-img-id="<?= $image['id'] ?>">Set cover</button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -356,121 +356,6 @@ $selectedType = $formData['type'] ?? 'pot';
 </main>
 <!-- admin.js is now included via topbar.php on every admin page; don't reload it. -->
 <script src="/admin/js/image-cropper.js"></script>
-<script>
-const primaryImageInput = document.getElementById('primaryImageId');
-const imageInput = document.getElementById('imageInput');
-const previewContainer = document.getElementById('newPreviews');
-
-// Show/hide pot vs merch fields based on type
-function updateTypeFields() {
-    const type = document.querySelector('input[name="type"]:checked')?.value;
-    document.querySelectorAll('.pot-only').forEach(el => el.style.display = type === 'pot' ? '' : 'none');
-    document.querySelectorAll('.merch-only').forEach(el => el.style.display = type === 'merch' ? '' : 'none');
-    document.querySelectorAll('.type-tab').forEach(el => el.classList.remove('active'));
-    if (type) {
-        const tab = document.querySelector(`input[value="${type}"]`)?.closest('.type-tab');
-        if (tab) tab.classList.add('active');
-    }
-}
-
-function setPrimary(imageId) {
-    primaryImageInput.value = imageId;
-    document.querySelectorAll('.img-gallery-item').forEach((item) => {
-        item.classList.remove('is-primary');
-
-        const label = item.querySelector('.img-labels');
-        if (!label) {
-            return;
-        }
-
-        if (parseInt(item.dataset.imgId, 10) === imageId) {
-            item.classList.add('is-primary');
-            label.innerHTML = '<span class="primary-indicator">★ Cover</span>';
-        } else {
-            label.innerHTML = `<button type="button" class="set-primary-btn" onclick="setPrimary(${item.dataset.imgId})">Set cover</button>`;
-        }
-    });
-}
-
-const CSRF_TOKEN = <?= json_encode(csrf_token()) ?>;
-async function deleteImage(imageId, productId) {
-    if (!confirm('Delete this image?')) {
-        return;
-    }
-
-    const response = await fetch(`/admin/shop/delete-image?img_id=${imageId}&product_id=${productId}&csrf=${encodeURIComponent(CSRF_TOKEN)}`);
-    const result = await response.json();
-
-    if (!result.success) {
-        alert(result.error || 'Unable to delete image.');
-        return;
-    }
-
-    const imageCard = document.querySelector(`.img-gallery-item[data-img-id="${imageId}"]`);
-    if (imageCard) {
-        imageCard.remove();
-    }
-
-    if (primaryImageInput.value === String(imageId)) {
-        primaryImageInput.value = '';
-    }
-}
-
-// ── Rotate existing product image (quarter turn) ──────────
-function rotateImage(imgId, productId, dir) {
-    const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
-    const btns = item ? item.querySelectorAll('.rotate-img-btn') : [];
-    btns.forEach(b => b.disabled = true);
-    fetch(`/admin/shop/rotate-image?img_id=${imgId}&product_id=${productId}&dir=${dir}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
-        .then(r => r.json())
-        .then(data => {
-            if (data.success && data.image_url && item) {
-                const img = item.querySelector('img');
-                if (img) img.src = data.image_url + (data.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
-            } else {
-                alert((data && data.error) || 'Rotate failed');
-            }
-        })
-        .catch(() => alert('Rotate failed'))
-        .finally(() => btns.forEach(b => b.disabled = false));
-}
-
-// ── Crop existing product image ───────────────────────────
-function cropImage(imgId, productId) {
-    const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
-    if (!window.ImageCropper || !item) return;
-    const thumb = item.querySelector('img');
-    window.ImageCropper.open({
-        imageUrl: item.dataset.fullUrl,
-        fallbackUrl: thumb ? thumb.src : null,
-        saveUrl: '/admin/shop/crop-image',
-        csrf: CSRF_TOKEN,
-        params: { img_id: imgId, product_id: productId },
-        onSaved: (data) => {
-            if (thumb) thumb.src = data.image_url + (data.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
-            if (data.full_url) item.dataset.fullUrl = data.full_url;
-        }
-    });
-}
-
-function updateNewPreviews() {
-    previewContainer.innerHTML = '';
-
-    Array.from(imageInput.files || []).forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const card = document.createElement('div');
-            card.className = 'new-preview-item';
-            card.innerHTML = `<img src="${event.target.result}" alt="New image preview"><div class="new-badge">New upload</div>`;
-            previewContainer.appendChild(card);
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-document.querySelectorAll('input[name="type"]').forEach(r => r.addEventListener('change', updateTypeFields));
-imageInput.addEventListener('change', updateNewPreviews);
-updateTypeFields();
-</script>
+<script src="/admin/js/shop-add-product.js"></script>
 </body>
 </html>

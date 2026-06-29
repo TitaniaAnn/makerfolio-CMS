@@ -102,7 +102,7 @@ $links = Database::fetchAll("SELECT * FROM social_links ORDER BY sort_order ASC"
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="id" value="<?= $link['id'] ?>">
                                     <button class="admin-btn admin-btn--sm admin-btn--danger"
-                                            onclick="return confirm('Delete this link?')">Delete</button>
+                                            data-confirm="Delete this link?">Delete</button>
                                 </form>
                             </td>
                         </tr>

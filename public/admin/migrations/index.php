@@ -93,14 +93,14 @@ if (!empty($pending)) {
                         </div>
                         <div class="mig-actions">
                             <form method="POST" action="/admin/migrations/run"
-                                  onsubmit="return confirm('Apply <?= e($version) ?> to the live database? This cannot be undone automatically.');">
+                                  data-confirm="Apply <?= e($version) ?> to the live database? This cannot be undone automatically.">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="version" value="<?= e($version) ?>">
                                 <input type="hidden" name="action" value="run">
                                 <button type="submit" class="admin-btn admin-btn--primary admin-btn--sm">Run</button>
                             </form>
                             <form method="POST" action="/admin/migrations/run"
-                                  onsubmit="return confirm('Record <?= e($version) ?> as already applied without running it?');">
+                                  data-confirm="Record <?= e($version) ?> as already applied without running it?">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="version" value="<?= e($version) ?>">
                                 <input type="hidden" name="action" value="mark">
@@ -152,7 +152,7 @@ if (!empty($pending)) {
                         </div>
                         <div class="mig-actions">
                             <form method="POST" action="/admin/migrations/run"
-                                  onsubmit="return confirm('Remove <?= e($version) ?> from the ledger? It will reappear as pending.');">
+                                  data-confirm="Remove <?= e($version) ?> from the ledger? It will reappear as pending.">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="version" value="<?= e($version) ?>">
                                 <input type="hidden" name="action" value="unmark">

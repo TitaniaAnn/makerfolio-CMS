@@ -96,7 +96,7 @@ $users = Database::fetchAll(
                             <a href="/admin/users/edit?id=<?= (int)$u['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
                             <?php if (!$isMe): ?>
                             <form method="POST" action="/admin/users/delete" style="display:inline;"
-                                  onsubmit="return confirm('Delete admin user \'<?= e(addslashes($u['username'] ?? $u['email'] ?? 'this user')) ?>\'? This cannot be undone.');">
+                                  data-confirm="Delete admin user '<?= e($u['username'] ?? $u['email'] ?? 'this user') ?>'? This cannot be undone.">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="id" value="<?= (int)$u['id'] ?>">
                                 <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger">Delete</button>

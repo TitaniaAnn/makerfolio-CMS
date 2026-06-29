@@ -108,12 +108,12 @@ $listLabel  = 'products';
                             <a href="/admin/shop/add-product?id=<?= $p['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
                             <a href="/admin/shop/toggle-visibility?id=<?= $p['id'] ?>&csrf=<?= e(csrf_token()) ?>"
                                class="admin-btn admin-btn--sm"
-                               onclick="return confirm('<?= !empty($p['is_visible']) ? 'Hide' : 'Show' ?> this product in the public shop?')">
+                               data-confirm="<?= !empty($p['is_visible']) ? 'Hide' : 'Show' ?> this product in the public shop?">
                                 <?= !empty($p['is_visible']) ? 'Hide' : 'Show' ?>
                             </a>
                             <a href="/admin/shop/delete-product?id=<?= $p['id'] ?>&csrf=<?= e(csrf_token()) ?>"
                                class="admin-btn admin-btn--sm admin-btn--danger"
-                               onclick="return confirm('Delete this product?')">Delete</a>
+                               data-confirm="Delete this product?">Delete</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

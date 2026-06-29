@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="hidden" name="id" value="<?= (int)$user['id'] ?>">
                     <input type="hidden" name="action" value="unlink_github">
                     <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger"
-                            onclick="return confirm('Unlink GitHub identity from this admin? They\'ll need to log in via GitHub again to re-link.');">
+                            data-confirm="Unlink GitHub identity from this admin? They'll need to log in via GitHub again to re-link.">
                         Unlink GitHub
                     </button>
                 </form>
@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="hidden" name="id" value="<?= (int)$user['id'] ?>">
                     <input type="hidden" name="action" value="unlink_google">
                     <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger"
-                            onclick="return confirm('Unlink Google identity from this admin? They\'ll need to log in via Google again to re-link.');">
+                            data-confirm="Unlink Google identity from this admin? They'll need to log in via Google again to re-link.">
                         Unlink Google
                     </button>
                 </form>

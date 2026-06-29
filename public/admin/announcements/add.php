@@ -166,6 +166,19 @@ foreach ($linkedEntities as $link) {
         $linkedPotteryIds[] = $link['entity_id'];
     }
 }
+
+// Derived branding line for the social-post preview — mirrors post.php so the
+// preview matches what actually gets posted. Computed here (before render) so
+// the form's data-visit-line attribute can carry it to the external JS.
+$_siteName = setting('site_name', '');
+$_siteHost = defined('SITE_URL') ? parse_url(SITE_URL, PHP_URL_HOST) : '';
+if ($_siteName !== '' && $_siteHost) {
+    $_visitLine = "Visit {$_siteHost} for more from {$_siteName}!";
+} elseif ($_siteHost) {
+    $_visitLine = "Visit {$_siteHost} for more!";
+} else {
+    $_visitLine = '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -208,7 +221,7 @@ foreach ($linkedEntities as $link) {
         </div>
         <?php if (!empty($error)): ?><div class="alert alert--error"><?= e($error) ?></div><?php endif; ?>
 
-        <form method="POST" enctype="multipart/form-data" class="admin-form" id="announcementForm">
+        <form method="POST" enctype="multipart/form-data" class="admin-form" id="announcementForm" data-visit-line="<?= e($_visitLine ?? '') ?>">
             <?= csrf_field() ?>
             <div class="form-grid">
                 <!-- Title -->
@@ -333,91 +346,6 @@ Your announcement will appear as:
     </div>
 </main>
 
-<?php
-// Derived branding line for the social-post preview — mirrors post.php so the
-// preview matches what actually gets posted.
-$_siteName = setting('site_name', '');
-$_siteHost = defined('SITE_URL') ? parse_url(SITE_URL, PHP_URL_HOST) : '';
-if ($_siteName !== '' && $_siteHost) {
-    $_visitLine = "Visit {$_siteHost} for more from {$_siteName}!";
-} elseif ($_siteHost) {
-    $_visitLine = "Visit {$_siteHost} for more!";
-} else {
-    $_visitLine = '';
-}
-?>
-<script>
-const SOCIAL_VISIT_LINE = <?= json_encode($_visitLine) ?>;
-// Image drag-and-drop
-const uploadArea = document.getElementById('uploadArea');
-const imageInput = document.getElementById('imageInput');
-
-uploadArea.addEventListener('click', () => imageInput.click());
-
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    uploadArea.addEventListener(eventName, preventDefaults, false);
-});
-
-function preventDefaults(e) {
-    e.preventDefault();
-    e.stopPropagation();
-}
-
-uploadArea.addEventListener('drop', handleDrop, false);
-
-function handleDrop(e) {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    imageInput.files = files;
-    previewImage();
-}
-
-imageInput.addEventListener('change', previewImage);
-
-function previewImage() {
-    const file = imageInput.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        const newPreviewDiv = document.getElementById('newImagePreview');
-        newPreviewDiv.innerHTML = `<img src="${e.target.result}" alt="New image" class="image-preview" style="margin-top: 1rem;">`;
-        uploadArea.classList.add('has-image');
-    };
-    reader.readAsDataURL(file);
-}
-
-// Update social media preview
-function updateSocialPreview() {
-    const title = document.querySelector('input[name="title"]').value || '[Announcement Title]';
-    const eventCheckboxes = Array.from(document.querySelectorAll('input[name="event_ids[]"]:checked'));
-    const potteryCheckboxes = Array.from(document.querySelectorAll('input[name="piece_ids[]"]:checked'));
-    
-    let entities = '';
-    eventCheckboxes.forEach(cb => {
-        const label = cb.nextElementSibling.textContent.trim();
-        entities += '📅 ' + label + '\n';
-    });
-    potteryCheckboxes.forEach(cb => {
-        const label = cb.nextElementSibling.textContent.trim();
-        entities += '🏺 ' + label + '\n';
-    });
-
-    const preview = `${title}
-
-${entities || '(No linked events or pieces selected)'}${SOCIAL_VISIT_LINE ? '\n\n' + SOCIAL_VISIT_LINE : ''}`;
-
-    document.getElementById('socialPreview').textContent = preview;
-}
-
-// Bind preview updates
-document.querySelector('input[name="title"]').addEventListener('input', updateSocialPreview);
-document.querySelectorAll('input[name="event_ids[]"], input[name="piece_ids[]"]').forEach(cb => {
-    cb.addEventListener('change', updateSocialPreview);
-});
-
-// Initial preview
-updateSocialPreview();
-</script>
+<script src="/admin/js/announcements-add.js"></script>
 </body>
 </html>

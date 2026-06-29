@@ -193,7 +193,7 @@ foreach (Theme::overridableRoles() as $role => $settingKey) {
                             <div class="theme-color-row">
                                 <input type="color"
                                        value="<?= e($raw !== '' ? $raw : $resolved) ?>"
-                                       oninput="document.getElementById('override_<?= e($role) ?>').value = this.value.toUpperCase();">
+                                       data-color-target="override_<?= e($role) ?>">
                                 <input type="text"
                                        id="override_<?= e($role) ?>"
                                        name="override_<?= e($role) ?>"
@@ -202,7 +202,7 @@ foreach (Theme::overridableRoles() as $role => $settingKey) {
                                        pattern="^#[0-9a-fA-F]{6}$|^$"
                                        maxlength="7">
                                 <button type="button" class="admin-btn admin-btn--secondary preset-hint"
-                                        onclick="this.previousElementSibling.value=''; this.previousElementSibling.previousElementSibling.value='<?= e($resolved) ?>';">
+                                        data-action="reset-color" data-role="<?= e($role) ?>" data-resolved="<?= e($resolved) ?>">
                                     Reset
                                 </button>
                             </div>
@@ -287,56 +287,6 @@ foreach (Theme::overridableRoles() as $role => $settingKey) {
         </div>
     </div>
 </main>
-<script>
-    // Highlight the active preset card as the user clicks.
-    document.querySelectorAll('.theme-preset').forEach(card => {
-        card.addEventListener('click', () => {
-            document.querySelectorAll('.theme-preset').forEach(c => c.classList.remove('is-active'));
-            card.classList.add('is-active');
-        });
-    });
-
-    // Live preview — collect form values, encode as base64 JSON, push into the
-    // iframe URL. Debounced so rapid input doesn't thrash the iframe.
-    const form    = document.getElementById('theme-form');
-    const frame   = document.getElementById('theme-preview-frame');
-    let debounce  = null;
-    function rebuildPreview() {
-        const preset = form.querySelector('input[name="theme_preset"]:checked');
-        const blob = {
-            preset: preset ? preset.value : null,
-            overrides: {
-                primary:    valOrSkip('override_primary'),
-                accent:     valOrSkip('override_accent'),
-                background: valOrSkip('override_background'),
-                surface:    valOrSkip('override_surface'),
-                text:       valOrSkip('override_text'),
-                cool:       valOrSkip('override_cool'),
-            },
-            fonts: {
-                display: form.querySelector('[name="theme_font_display"]').value,
-                body:    form.querySelector('[name="theme_font_body"]').value,
-                eyebrow: form.querySelector('[name="theme_font_eyebrow"]').value,
-            },
-            radius: form.querySelector('input[name="theme_radius_scale"]:checked')?.value,
-            shadow: form.querySelector('input[name="theme_shadow_scale"]:checked')?.value,
-        };
-        const encoded = btoa(JSON.stringify(blob));
-        frame.src = '/?_theme_preview=' + encodeURIComponent(encoded);
-    }
-    function valOrSkip(name) {
-        const el = form.querySelector('input[name="' + name + '"]');
-        const v  = el ? el.value.trim() : '';
-        return v === '' ? undefined : v;
-    }
-    function schedulePreview() {
-        clearTimeout(debounce);
-        debounce = setTimeout(rebuildPreview, 250);
-    }
-    form.addEventListener('input',  schedulePreview);
-    form.addEventListener('change', schedulePreview);
-    // Initial render so the iframe shows the current edited state, not the persisted one.
-    schedulePreview();
-</script>
+<script src="/admin/js/theme.js"></script>
 </body>
 </html>

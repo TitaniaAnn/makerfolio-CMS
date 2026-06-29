@@ -68,7 +68,7 @@ $templates = Database::fetchAll(
                         <td>
                             <a href="/admin/templates/edit?id=<?= $t['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
                             <a href="/admin/templates/delete?id=<?= $t['id'] ?>&csrf=<?= e(csrf_token()) ?>" class="admin-btn admin-btn--sm admin-btn--danger"
-                               onclick="return confirm('Delete this template?')">Delete</a>
+                               data-confirm="Delete this template?">Delete</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

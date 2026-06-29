@@ -128,7 +128,7 @@ foreach ($rows as $row) {
                                 name="reset_page"
                                 value="<?= e($page) ?>"
                                 class="admin-btn admin-btn--secondary"
-                                onclick="return confirm('Reset all <?= e($pageLabels[$page] ?? $page) ?> sections to their default visibility and order? Unsaved edits on this page will also be lost.');">
+                                data-confirm="Reset all <?= e($pageLabels[$page] ?? $page) ?> sections to their default visibility and order? Unsaved edits on this page will also be lost.">
                             Reset to defaults
                         </button>
                     </div>

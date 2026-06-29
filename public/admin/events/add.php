@@ -140,7 +140,7 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
         </div>
         <?php if (!empty($error)): ?><div class="alert alert--error"><?= e($error) ?></div><?php endif; ?>
 
-        <form method="POST" class="admin-form" id="eventForm">
+        <form method="POST" class="admin-form" id="eventForm" data-is-edit="<?= $isEdit ? 'true' : 'false' ?>">
             <?= csrf_field() ?>
             <div class="form-grid">
                 <div class="form-group form-group--full">
@@ -279,29 +279,6 @@ $activeAssignedIds = $selectedPostedIds !== null ? array_map('intval', $selected
     </div>
 </main>
 
-<script>
-const IS_EDIT = <?= $isEdit ? 'true' : 'false' ?>;
-const salesFields = document.getElementById('salesFields');
-const classFields = document.getElementById('classFields');
-
-function applyEventType(type) {
-    salesFields.classList.toggle('active', ['pottery_sale', 'storefront_sale'].includes(type));
-    classFields.classList.toggle('active', type === 'class');
-}
-
-if (!IS_EDIT) {
-    const eventTypeSelect = document.getElementById('eventType');
-    eventTypeSelect.addEventListener('change', () => applyEventType(eventTypeSelect.value));
-    applyEventType(eventTypeSelect.value);
-}
-
-document.querySelectorAll('.piece-item input[type="checkbox"]').forEach(checkbox => {
-    const check = checkbox.parentElement.querySelector('.piece-item__check');
-    if (checkbox.checked) check.style.display = 'flex';
-    checkbox.addEventListener('change', function() {
-        check.style.display = this.checked ? 'flex' : 'none';
-    });
-});
-</script>
+<script src="/admin/js/events-add.js"></script>
 </body>
 </html>

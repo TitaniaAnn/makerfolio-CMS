@@ -155,7 +155,7 @@ $formData = $_POST + ($piece ?? []);
         </div>
         <?php if (!empty($error)): ?><div class="alert alert--error"><?= e($error) ?></div><?php endif; ?>
 
-        <form method="POST" enctype="multipart/form-data" class="admin-form" id="pieceForm">
+        <form method="POST" enctype="multipart/form-data" class="admin-form" id="pieceForm" data-is-edit="<?= $isEdit ? 'true' : 'false' ?>">
             <?= csrf_field() ?>
             <input type="hidden" name="primary_image_id" id="primaryImageId" value="">
 
@@ -205,23 +205,23 @@ $formData = $_POST + ($piece ?? []);
                              data-full-url="/uploads/<?= e($img['image_path']) ?>">
                             <img src="/uploads/<?= e($img['image_thumb'] ?? $img['image_path']) ?>" alt="">
                             <button type="button" class="rotate-img-btn rotate-img-btn--ccw"
-                                onclick="rotateImage(<?= $img['id'] ?>, <?= $pieceId ?>, 'ccw')"
+                                data-action="rotate" data-img-id="<?= $img['id'] ?>" data-parent-id="<?= $pieceId ?>" data-dir="ccw"
                                 title="Rotate left">⟲</button>
                             <button type="button" class="rotate-img-btn rotate-img-btn--cw"
-                                onclick="rotateImage(<?= $img['id'] ?>, <?= $pieceId ?>, 'cw')"
+                                data-action="rotate" data-img-id="<?= $img['id'] ?>" data-parent-id="<?= $pieceId ?>" data-dir="cw"
                                 title="Rotate right">⟳</button>
                             <button type="button" class="rotate-img-btn crop-img-btn"
-                                onclick="cropImage(<?= $img['id'] ?>, <?= $pieceId ?>)"
+                                data-action="crop" data-img-id="<?= $img['id'] ?>" data-parent-id="<?= $pieceId ?>"
                                 title="Crop">✂</button>
                             <button type="button" class="delete-img-btn"
-                                onclick="deleteImage(<?= $img['id'] ?>, <?= $pieceId ?>)"
+                                data-action="delete-image" data-img-id="<?= $img['id'] ?>" data-parent-id="<?= $pieceId ?>"
                                 title="Delete image">×</button>
                             <div class="img-labels">
                                 <?php if ($img['is_primary']): ?>
                                     <span class="primary-indicator">★ Cover</span>
                                 <?php else: ?>
                                     <button type="button" class="set-primary-btn"
-                                        onclick="setPrimary(<?= $img['id'] ?>)">Set cover</button>
+                                        data-action="set-primary" data-img-id="<?= $img['id'] ?>">Set cover</button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -229,7 +229,7 @@ $formData = $_POST + ($piece ?? []);
 
                         <div id="newPreviews"></div>
 
-                        <div class="img-add-more" onclick="document.getElementById('imgPicker').click()">
+                        <div class="img-add-more" data-action="open-picker">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             <?= $isEdit ? 'Add more' : 'Add photos' ?>
                         </div>
@@ -256,140 +256,6 @@ $formData = $_POST + ($piece ?? []);
 </main>
 
 <script src="/admin/js/image-cropper.js"></script>
-<script>
-const CSRF_TOKEN = <?= json_encode(csrf_token()) ?>;
-const IS_EDIT    = <?= $isEdit ? 'true' : 'false' ?>;
-
-// ── Rotate existing image (quarter turn) ──────────────────
-function rotateImage(imgId, pieceId, dir) {
-    const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
-    const btns = item ? item.querySelectorAll('.rotate-img-btn') : [];
-    btns.forEach(b => b.disabled = true);
-    fetch(`/admin/pieces/rotate-image?img_id=${imgId}&piece_id=${pieceId}&dir=${dir}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
-        .then(r => r.json())
-        .then(data => {
-            if (data.success && data.image_url && item) {
-                // New filename = new URL, so swapping src is enough to bust the
-                // browser cache; add a timestamp too for belt-and-braces.
-                const img = item.querySelector('img');
-                if (img) img.src = data.image_url + (data.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
-            } else {
-                alert((data && data.error) || 'Rotate failed');
-            }
-        })
-        .catch(() => alert('Rotate failed'))
-        .finally(() => btns.forEach(b => b.disabled = false));
-}
-
-// ── Crop existing image ───────────────────────────────────
-function cropImage(imgId, pieceId) {
-    const item = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
-    if (!window.ImageCropper || !item) return;
-    const thumb = item.querySelector('img');
-    window.ImageCropper.open({
-        imageUrl: item.dataset.fullUrl,
-        fallbackUrl: thumb ? thumb.src : null,
-        saveUrl: '/admin/pieces/crop-image',
-        csrf: CSRF_TOKEN,
-        params: { img_id: imgId, piece_id: pieceId },
-        onSaved: (data) => {
-            if (thumb) thumb.src = data.image_url + (data.image_url.includes('?') ? '&' : '?') + 't=' + Date.now();
-            if (data.full_url) item.dataset.fullUrl = data.full_url;
-        }
-    });
-}
-
-// ── Set primary (existing image) ──────────────────────────
-function setPrimary(imgId) {
-    document.getElementById('primaryImageId').value = imgId;
-    document.querySelectorAll('.img-gallery-item').forEach(el => {
-        el.classList.remove('is-primary');
-        const lbl = el.querySelector('.img-labels');
-        if (!lbl) return;
-        if (parseInt(el.dataset.imgId) === imgId) {
-            lbl.innerHTML = '<span class="primary-indicator">★ Cover</span>';
-            el.classList.add('is-primary');
-        } else {
-            const existingId = parseInt(el.dataset.imgId);
-            lbl.innerHTML = `<button type="button" class="set-primary-btn" onclick="setPrimary(${existingId})">Set cover</button>`;
-        }
-    });
-}
-
-// ── Delete existing image ─────────────────────────────────
-function deleteImage(imgId, pieceId) {
-    if (!confirm('Delete this image?')) return;
-    fetch(`/admin/pieces/delete-image?img_id=${imgId}&piece_id=${pieceId}&csrf=${encodeURIComponent(CSRF_TOKEN)}`, { method: 'POST' })
-        .then(r => r.json())
-        .then(data => {
-            if (data.success) {
-                const el = document.querySelector(`.img-gallery-item[data-img-id="${imgId}"]`);
-                if (el) el.remove();
-            } else {
-                alert(data.error || 'Delete failed');
-            }
-        });
-}
-
-// ── New image uploads preview ─────────────────────────────
-const MAX_NEW   = 10;
-const newFiles  = [];
-const picker    = document.getElementById('imgPicker');
-const previews  = document.getElementById('newPreviews');
-const container = document.getElementById('fileInputContainer');
-
-picker.addEventListener('change', () => {
-    Array.from(picker.files).forEach(f => {
-        if (!IS_EDIT && newFiles.length >= MAX_NEW) return;
-        newFiles.push(f);
-    });
-    picker.value = '';
-    renderPreviews();
-    syncFiles();
-});
-
-function renderPreviews() {
-    previews.innerHTML = '';
-    newFiles.forEach((f, i) => {
-        const reader = new FileReader();
-        reader.onload = e => {
-            const div = document.createElement('div');
-            div.className = 'new-preview-item';
-            const showCover = !IS_EDIT && i === 0;
-            div.innerHTML = `<img src="${e.target.result}">
-                <button type="button" class="remove-new-btn" onclick="removeNew(${i})">×</button>
-                <div class="new-badge">${showCover ? 'Cover' : 'New'}</div>`;
-            previews.appendChild(div);
-        };
-        reader.readAsDataURL(f);
-    });
-}
-
-function removeNew(idx) {
-    newFiles.splice(idx, 1);
-    renderPreviews();
-    syncFiles();
-}
-
-function syncFiles() {
-    container.innerHTML = '';
-    if (newFiles.length === 0) return;
-    const dt = new DataTransfer();
-    newFiles.forEach(f => dt.items.add(f));
-    const inp = document.createElement('input');
-    inp.type = 'file'; inp.name = 'images[]'; inp.multiple = true; inp.style.display = 'none';
-    container.appendChild(inp);
-    try { inp.files = dt.files; } catch(e) {}
-}
-
-document.getElementById('pieceForm').addEventListener('submit', e => {
-    if (!IS_EDIT && newFiles.length === 0) {
-        e.preventDefault();
-        alert('Please add at least one photo.');
-        return;
-    }
-    syncFiles();
-});
-</script>
+<script src="/admin/js/pieces-add.js"></script>
 </body>
 </html>

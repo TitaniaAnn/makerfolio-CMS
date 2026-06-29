@@ -212,7 +212,7 @@ $showOnboarding  = !$onboardingDismissed && $onboardingDone < $onboardingTotal;
                             <td>
                                 <a href="/admin/pieces/edit?id=<?= $p['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
                                 <a href="/admin/pieces/delete?id=<?= $p['id'] ?>&csrf=<?= e(csrf_token()) ?>" class="admin-btn admin-btn--sm admin-btn--danger"
-                                   onclick="return confirm('Delete this piece?')">Delete</a>
+                                   data-confirm="Delete this piece?">Delete</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

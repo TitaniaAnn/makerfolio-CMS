@@ -27,3 +27,35 @@ fileInputs.forEach(input => {
 // Flash auto-dismiss
 const flash = document.querySelector('.flash');
 if (flash) setTimeout(() => flash.style.opacity = '0', 3500);
+
+// Hide broken thumbnails (CSP-safe replacement for inline onerror). Any
+// <img data-hide-on-error> is hidden if its src fails to load. The error
+// event doesn't bubble, so bind per-element; some may have already errored
+// before this runs, so check .complete + naturalWidth too.
+document.querySelectorAll('img[data-hide-on-error]').forEach((img) => {
+    const hide = () => { img.style.display = 'none'; };
+    img.addEventListener('error', hide);
+    if (img.complete && img.naturalWidth === 0) hide();
+});
+
+// Generic confirm-before-action (CSP-safe replacement for inline onclick/onsubmit
+// "return confirm(...)"). Any element with data-confirm="<message>" gets a
+// confirmation gate; cancelling aborts the click/navigation/submit.
+//   - clickable element (link/button): cancel prevents the default action
+//   - <form data-confirm>: cancel prevents submission
+// Delegated so it covers dynamically-rendered rows too.
+document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-confirm]');
+    if (!el || el.tagName === 'FORM') return;
+    if (!window.confirm(el.dataset.confirm)) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+});
+document.addEventListener('submit', (e) => {
+    const form = e.target.closest('form[data-confirm]');
+    if (!form) return;
+    if (!window.confirm(form.dataset.confirm)) {
+        e.preventDefault();
+    }
+});

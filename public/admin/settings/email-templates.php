@@ -127,7 +127,7 @@ foreach ($rows as $row) {
             name to copy it.
         </p>
 
-        <form method="POST" id="email-form">
+        <form method="POST" id="email-form" data-samples="<?= e(json_encode(EmailTemplates::PREVIEW_SAMPLES, JSON_UNESCAPED_SLASHES)) ?>">
             <?= csrf_field() ?>
 
             <?php foreach (EmailTemplates::TEMPLATES as $templateKey => $tpl):
@@ -146,13 +146,13 @@ foreach ($rows as $row) {
                             <p class="et-template__desc"><?= e($tpl['description']) ?></p>
                         </div>
                         <button type="button" class="admin-btn admin-btn--sm" style="flex-shrink:0; align-self:flex-start;"
-                                onclick="document.getElementById('send-test-<?= e($templateKey) ?>').submit();"
+                                data-action="send-test" data-template-key="<?= e($templateKey) ?>"
                                 title="Send a copy of the currently-saved template (with sample variables filled in) to your contact_email address. Useful for verifying mail() actually works on this host.">
                             Send test
                         </button>
                     </div>
                     <form id="send-test-<?= e($templateKey) ?>" method="POST" style="display:none;"
-                          onsubmit="return confirm('Send a [TEST] copy of this template to <?= e(setting('contact_email', '(no contact email set)')) ?>?');">
+                          data-confirm="Send a [TEST] copy of this template to <?= e(setting('contact_email', '(no contact email set)')) ?>?">
                         <?= csrf_field() ?>
                         <input type="hidden" name="action" value="send_test">
                         <input type="hidden" name="template_key" value="<?= e($templateKey) ?>">
@@ -186,7 +186,7 @@ foreach ($rows as $row) {
                             <h3>Available variables</h3>
                             <dl>
                                 <?php foreach ($tpl['variables'] as $var => $desc): ?>
-                                    <dt onclick="navigator.clipboard?.writeText('{<?= e($var) ?>}')" title="Click to copy">{<?= e($var) ?>}</dt>
+                                    <dt data-action="copy-var" data-var="<?= e($var) ?>" title="Click to copy">{<?= e($var) ?>}</dt>
                                     <dd><?= e($desc) ?></dd>
                                 <?php endforeach; ?>
                             </dl>
@@ -202,36 +202,6 @@ foreach ($rows as $row) {
         </form>
     </div>
 </main>
-<script>
-    // Live preview — substitute {var} tokens with PREVIEW_SAMPLES.
-    const SAMPLES = <?= json_encode(EmailTemplates::PREVIEW_SAMPLES, JSON_UNESCAPED_SLASHES) ?>;
-
-    function substitute(template) {
-        if (!template) return '';
-        return template.replace(/\{(\w+)\}/g, (m, key) => key in SAMPLES ? SAMPLES[key] : m);
-    }
-
-    document.querySelectorAll('.et-template').forEach(section => {
-        const subjectInput = section.querySelector('[data-field="subject"]');
-        const bodyInput    = section.querySelector('[data-field="body"]');
-        const subPreview   = section.querySelector('[data-preview="subject"]');
-        const bodyPreview  = section.querySelector('[data-preview="body"]');
-        const defaults = {
-            subject: section.dataset.defaultSubject,
-            body:    section.dataset.defaultBody,
-        };
-
-        function refresh() {
-            const subText = subjectInput.value.trim() === '' ? defaults.subject : subjectInput.value;
-            const bodText = bodyInput.value.trim() === '' ? defaults.body : bodyInput.value;
-            subPreview.textContent  = substitute(subText);
-            bodyPreview.textContent = substitute(bodText);
-        }
-
-        subjectInput.addEventListener('input', refresh);
-        bodyInput.addEventListener('input', refresh);
-        refresh();
-    });
-</script>
+<script src="/admin/js/email-templates.js"></script>
 </body>
 </html>

@@ -192,7 +192,7 @@ $missingCount = $total - $okCount;
                         <div class="fix-sql">
                             <pre id="sql-<?= $i ?>"><?= e($row['fix_sql']) ?></pre>
                             <div class="fix-actions">
-                                <button type="button" class="admin-btn admin-btn--sm" onclick="copySql('sql-<?= $i ?>', this)">Copy SQL</button>
+                                <button type="button" class="admin-btn admin-btn--sm" data-action="copy-sql" data-copy-target="sql-<?= $i ?>">Copy SQL</button>
                                 <span class="copy-note">Run this in your DB tool (phpMyAdmin/MySQL client).</span>
                             </div>
                         </div>
@@ -203,16 +203,6 @@ $missingCount = $total - $okCount;
     </div>
 </main>
 
-<script>
-function copySql(id, btn) {
-    const text = document.getElementById(id)?.innerText || '';
-    if (!text) return;
-    navigator.clipboard.writeText(text).then(() => {
-        const old = btn.textContent;
-        btn.textContent = 'Copied';
-        setTimeout(() => { btn.textContent = old; }, 1200);
-    });
-}
-</script>
+<script src="/admin/js/schema-health.js"></script>
 </body>
 </html>

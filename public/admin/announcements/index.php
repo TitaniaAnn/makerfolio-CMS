@@ -119,7 +119,7 @@ $getAnnouncementStatus = function (array $announcement): string {
                             <?php if ($status === 'Published'): ?>
                                 <a href="/admin/announcements/post?id=<?= $ann['id'] ?>&csrf=<?= e(csrf_token()) ?>" class="admin-btn admin-btn--sm admin-btn--secondary">Post Social</a>
                             <?php endif; ?>
-                            <a href="javascript:void(0)" onclick="confirmDelete(<?= $ann['id'] ?>)" class="admin-btn admin-btn--sm admin-btn--danger">Delete</a>
+                            <button type="button" data-action="delete-announcement" data-id="<?= $ann['id'] ?>" class="admin-btn admin-btn--sm admin-btn--danger">Delete</button>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -130,13 +130,6 @@ $getAnnouncementStatus = function (array $announcement): string {
     </div>
 </main>
 
-<script>
-const CSRF_TOKEN = <?= json_encode(csrf_token()) ?>;
-function confirmDelete(id) {
-    if (confirm('Are you sure you want to delete this announcement?')) {
-        window.location.href = '/admin/announcements/delete?id=' + id + '&csrf=' + encodeURIComponent(CSRF_TOKEN);
-    }
-}
-</script>
+<script src="/admin/js/announcements-index.js"></script>
 </body>
 </html>

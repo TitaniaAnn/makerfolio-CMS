@@ -100,7 +100,7 @@ $posts = Database::fetchAll("SELECT * FROM social_posts ORDER BY sort_order ASC,
                     <?php foreach ($posts as $post): ?>
                     <div class="social-admin-item">
                         <?php if ($post['thumbnail_url']): ?>
-                        <img src="<?= e($post['thumbnail_url']) ?>" alt="" onerror="this.style.display='none'">
+                        <img src="<?= e($post['thumbnail_url']) ?>" alt="" data-hide-on-error>
                         <?php endif; ?>
                         <div class="social-admin-item__info">
                             <span class="badge"><?= e($post['platform']) ?></span>
@@ -116,7 +116,7 @@ $posts = Database::fetchAll("SELECT * FROM social_posts ORDER BY sort_order ASC,
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<?= $post['id'] ?>">
                             <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger"
-                                    onclick="return confirm('Remove this post?')">Remove</button>
+                                    data-confirm="Remove this post?">Remove</button>
                         </form>
                     </div>
                     <?php endforeach; ?>

@@ -122,7 +122,7 @@ function getEventStatus($event) {
                             <a href="/admin/events/edit?id=<?= $event['id'] ?>" class="admin-btn admin-btn--sm">Edit</a>
                             <a href="/admin/events/delete?id=<?= $event['id'] ?>&csrf=<?= e(csrf_token()) ?>"
                                class="admin-btn admin-btn--sm admin-btn--danger"
-                               onclick="return confirm('Delete \'<?= e(addslashes($event['name'])) ?>\'? This cannot be undone.')">
+                               data-confirm="Delete '<?= e($event['name']) ?>'? This cannot be undone.">
                                 Delete
                             </a>
                         </td>
