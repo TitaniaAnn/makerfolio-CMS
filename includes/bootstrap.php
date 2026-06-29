@@ -80,32 +80,42 @@ if (!headers_sent()) {
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: SAMEORIGIN');
 
-    // Content-Security-Policy — moderate (not strict) because we use inline
-    // scripts + styles extensively, and the admin-trusted social-post
-    // `embed_code` field accepts Instagram/TikTok blockquote markup with
-    // their CDN scripts.
+    // Content-Security-Policy — STRICT on both script-src and style-src:
+    // no 'unsafe-inline' anywhere. Reached by extracting every inline script,
+    // on*= handler, inline <style> block, and style="" attribute across four
+    // slices (mirroring the SaaS's Phase 7H). The admin-trusted social-post
+    // `embed_code` field still works: Instagram/TikTok embeds load via their
+    // allowlisted CDN <script src> + render into allowlisted frames.
     //
-    // What this policy DOES block, even with unsafe-inline:
-    //   - Remote script injection: a stored-XSS that tries `<script src="https://evil.com/x.js">`
-    //     gets blocked by script-src 'self' + the named CDNs.
+    // What this policy blocks:
+    //   - Inline-script XSS: a stored-XSS injecting `<script>…</script>` OR an
+    //     on*= attribute is refused by script-src 'self' (no 'unsafe-inline').
+    //   - Inline-style injection: same shape via `<style>` blocks / style=""
+    //     attrs, refused by style-src (no 'unsafe-inline'). The only inline
+    //     styles left are nonce-stamped (Theme::styleBlock, 404.php).
+    //   - Remote script injection: `<script src="https://evil.com/x.js">` —
+    //     host not in the script-src allowlist.
     //   - Object/embed injection (Flash, PDF takeovers): object-src 'none'.
     //   - Form hijacking to an attacker domain: form-action restricts POST targets.
-    //   - Mixed-content downgrade attacks on HTTPS sites: upgrade-insecure-requests.
+    //   - Mixed-content downgrade on HTTPS: upgrade-insecure-requests.
     //   - <base> tag injection that rewrites relative URLs: base-uri 'self'.
-    //   - Framing by third-party sites: frame-ancestors 'self' (X-Frame-Options
-    //     is honored by older browsers; CSP frame-ancestors by modern ones).
+    //   - Framing by third-party sites: frame-ancestors 'self'.
     //
-    // What this policy does NOT block:
-    //   - Inline-script XSS (would require removing every onclick=, inline
-    //     <script>, and CSS-in-PHP block in the codebase — multi-day refactor
-    //     for marginal added protection over what unsafe-inline already loses).
-    //
-    // Edit guidance: if you add a new CDN dependency (third-party JS library,
-    // analytics, font service), add its hostname to the relevant -src directive
-    // here. Browsers will silently block resources not listed.
+    // Edit guidance — keep it strict:
+    //   - New inline <script> or on*= handler: don't. Put JS in an external
+    //     file under public/js/ or public/admin/js/ and reference via <script
+    //     src>; use data-* attributes + a delegated listener for handlers.
+    //   - New inline <style> block or style="" attr: don't. Put rules in the
+    //     per-page CSS at /css/pages/<slug>.css (or /admin/css/pages/), use a
+    //     state-driven class, set styles via JS (CSSOM bypasses style-src), or
+    //     use SVG presentation attributes for dynamic colors. Genuinely
+    //     request-time-dynamic CSS may use a nonce'd <style> via csp_nonce().
+    //   - New CDN dependency: add its hostname to the relevant -src directive.
+    // The nonce is on style-src ONLY — script-src has zero inline scripts, so
+    // adding a nonce there would needlessly re-open the inline-script door.
     $csp = "default-src 'self'; "
-         . "script-src 'self' 'unsafe-inline' https://platform.instagram.com https://www.tiktok.com; "
-         . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+         . "script-src 'self' https://platform.instagram.com https://www.tiktok.com; "
+         . "style-src 'self' 'nonce-" . CSP_NONCE . "' https://fonts.googleapis.com; "
          . "font-src 'self' https://fonts.gstatic.com; "
          . "img-src 'self' data: blob: https:; "
          . "connect-src 'self'; "
