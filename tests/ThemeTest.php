@@ -89,4 +89,67 @@ final class ThemeTest extends TestCase
         // factor < -1 is clamped to -1 → black
         $this->assertSame('#000000', \Theme::shade('#ABCDEF', -2.0));
     }
+
+    public function test_new_presets_are_valid_and_fully_populated(): void
+    {
+        foreach (['rosewood', 'plum-dusk'] as $key) {
+            $this->assertTrue(\Theme::isValidPreset($key), "$key should be a valid preset");
+        }
+        // Every preset must define all six palette roles in valid hex, since
+        // styleBlock() + the override system read each one.
+        foreach (\Theme::presets() as $key => $preset) {
+            foreach (['primary', 'accent', 'background', 'surface', 'text', 'cool'] as $role) {
+                $this->assertArrayHasKey($role, $preset['palette'], "$key missing role $role");
+                $this->assertTrue(\Theme::isValidHex($preset['palette'][$role]), "$key.$role not valid hex");
+            }
+        }
+    }
+
+    public function test_new_fonts_are_in_the_allowlists(): void
+    {
+        foreach (['fraunces', 'libre-baskerville', 'eb-garamond', 'space-grotesk', 'montserrat'] as $f) {
+            $this->assertTrue(\Theme::isValidDisplayFont($f), "$f should be a valid display font");
+        }
+        foreach (['karla', 'mulish', 'figtree', 'open-sans'] as $f) {
+            $this->assertTrue(\Theme::isValidBodyFont($f), "$f should be a valid body font");
+        }
+        // Each font entry must carry a Google Fonts query slug + a family stack.
+        foreach (array_merge(\Theme::displayFonts(), \Theme::bodyFonts()) as $key => $f) {
+            $this->assertNotEmpty($f['gf'], "$key missing gf slug");
+            $this->assertNotEmpty($f['family'], "$key missing family");
+        }
+    }
+
+    public function test_overridable_roles_cover_surface_and_cool(): void
+    {
+        $roles = \Theme::overridableRoles();
+        foreach (['primary', 'accent', 'background', 'surface', 'text', 'cool'] as $role) {
+            $this->assertArrayHasKey($role, $roles, "$role should be overridable");
+            $this->assertNotEmpty($roles[$role], "$role should map to a settings key");
+        }
+    }
+
+    public function test_eyebrow_fonts_allowlist_and_default(): void
+    {
+        $this->assertTrue(\Theme::isValidEyebrowFont('caveat'), 'caveat is the default eyebrow font');
+        foreach (['dancing-script', 'sacramento', 'pacifico', 'amatic-sc'] as $f) {
+            $this->assertTrue(\Theme::isValidEyebrowFont($f), "$f should be a valid eyebrow font");
+        }
+        $this->assertFalse(\Theme::isValidEyebrowFont('comic-sans'));
+        foreach (\Theme::eyebrowFonts() as $key => $f) {
+            $this->assertNotEmpty($f['gf'], "$key missing gf slug");
+            $this->assertNotEmpty($f['family'], "$key missing family");
+        }
+    }
+
+    public function test_preview_fonts_link_includes_every_themeable_family(): void
+    {
+        $link = \Theme::previewFontsLink();
+        $this->assertStringContainsString('fonts.googleapis.com', $link);
+        $this->assertStringContainsString('family=Caveat', $link);
+        // A sampling of new fonts must be present so the dropdown can preview them.
+        foreach (['Fraunces', 'Space+Grotesk', 'Figtree', 'Open+Sans'] as $fam) {
+            $this->assertStringContainsString('family=' . $fam, $link);
+        }
+    }
 }

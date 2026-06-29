@@ -38,6 +38,7 @@
 
     --font-display: 'Playfair Display', Georgia, serif;
     --font-script:  'Caveat', cursive;
+    --font-eyebrow: var(--font-script);   /* hero + section eyebrow labels; themeable */
     --font-body:    'Nunito', 'Segoe UI', sans-serif;
 
     --radius:    8px;
@@ -71,7 +72,7 @@ h3 { font-size: 1.2rem; }
 
 .eyebrow {
     display: block;
-    font-family: var(--font-script);
+    font-family: var(--font-eyebrow);
     font-size: 1.3rem;
     color: var(--terra);
     margin-bottom: .5rem;
@@ -223,7 +224,7 @@ body { padding-top: 68px; }
     color: var(--warm-white);
 }
 .hero__eyebrow {
-    font-family: var(--font-script);
+    font-family: var(--font-eyebrow);
     font-size: 1.6rem; color: var(--amber);
     display: block; margin-bottom: 1rem;
 }

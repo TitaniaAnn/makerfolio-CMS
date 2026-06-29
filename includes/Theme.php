@@ -20,9 +20,31 @@ final class Theme
     public const SETTING_OVERRIDE_PRIMARY   = 'theme_override_primary';
     public const SETTING_OVERRIDE_ACCENT    = 'theme_override_accent';
     public const SETTING_OVERRIDE_BG        = 'theme_override_background';
+    public const SETTING_OVERRIDE_SURFACE   = 'theme_override_surface';
     public const SETTING_OVERRIDE_TEXT      = 'theme_override_text';
+    public const SETTING_OVERRIDE_COOL      = 'theme_override_cool';
+
+    /**
+     * The palette roles a tenant can override individually. Single source of
+     * truth — current(), previewFromRequest() and the admin save handler all
+     * derive from this so adding a role here wires it everywhere.
+     *
+     * @return array<string,string> role => settings key
+     */
+    public static function overridableRoles(): array
+    {
+        return [
+            'primary'    => self::SETTING_OVERRIDE_PRIMARY,
+            'accent'     => self::SETTING_OVERRIDE_ACCENT,
+            'background' => self::SETTING_OVERRIDE_BG,
+            'surface'    => self::SETTING_OVERRIDE_SURFACE,
+            'text'       => self::SETTING_OVERRIDE_TEXT,
+            'cool'       => self::SETTING_OVERRIDE_COOL,
+        ];
+    }
     public const SETTING_FONT_DISPLAY       = 'theme_font_display';
     public const SETTING_FONT_BODY          = 'theme_font_body';
+    public const SETTING_FONT_EYEBROW       = 'theme_font_eyebrow';
     public const SETTING_RADIUS_SCALE       = 'theme_radius_scale';
     public const SETTING_SHADOW_SCALE       = 'theme_shadow_scale';
 
@@ -84,6 +106,30 @@ final class Theme
                     'cool'       => '#1F3A4D',
                 ],
             ],
+            'rosewood' => [
+                'label'      => 'Rosewood',
+                'description'=> 'Dusty rose on warm blush. Soft, romantic, handmade.',
+                'palette' => [
+                    'primary'    => '#A65A57',
+                    'accent'     => '#D29A92',
+                    'background' => '#F9F2EF',
+                    'surface'    => '#EFE0DB',
+                    'text'       => '#2C1C1A',
+                    'cool'       => '#5C3633',
+                ],
+            ],
+            'plum-dusk' => [
+                'label'      => 'Plum Dusk',
+                'description'=> 'Deep aubergine on lilac-grey. Moody and elegant.',
+                'palette' => [
+                    'primary'    => '#6A4A78',
+                    'accent'     => '#9B7BA8',
+                    'background' => '#F6F3F8',
+                    'surface'    => '#E8E1EE',
+                    'text'       => '#241A2B',
+                    'cool'       => '#3E2A49',
+                ],
+            ],
         ];
     }
 
@@ -95,6 +141,11 @@ final class Theme
             'lora'               => ['label' => 'Lora',             'family' => "'Lora', Georgia, serif",             'gf' => 'Lora:ital,wght@0,400;0,700;1,400;1,700'],
             'cormorant-garamond' => ['label' => 'Cormorant Garamond','family' => "'Cormorant Garamond', Georgia, serif", 'gf' => 'Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700'],
             'dm-serif-display'   => ['label' => 'DM Serif Display', 'family' => "'DM Serif Display', Georgia, serif",  'gf' => 'DM+Serif+Display:ital@0;1'],
+            'fraunces'           => ['label' => 'Fraunces',         'family' => "'Fraunces', Georgia, serif",          'gf' => 'Fraunces:ital,wght@0,400;0,600;1,400'],
+            'libre-baskerville'  => ['label' => 'Libre Baskerville','family' => "'Libre Baskerville', Georgia, serif", 'gf' => 'Libre+Baskerville:ital,wght@0,400;0,700;1,400'],
+            'eb-garamond'        => ['label' => 'EB Garamond',      'family' => "'EB Garamond', Georgia, serif",       'gf' => 'EB+Garamond:ital,wght@0,400;0,600;1,400'],
+            'space-grotesk'      => ['label' => 'Space Grotesk',    'family' => "'Space Grotesk', 'Segoe UI', sans-serif", 'gf' => 'Space+Grotesk:wght@400;500;700'],
+            'montserrat'         => ['label' => 'Montserrat',       'family' => "'Montserrat', 'Segoe UI', sans-serif",'gf' => 'Montserrat:ital,wght@0,400;0,600;0,700;1,400'],
         ];
     }
 
@@ -106,6 +157,27 @@ final class Theme
             'inter'          => ['label' => 'Inter',          'family' => "'Inter', 'Segoe UI', sans-serif",          'gf' => 'Inter:wght@400;600;700'],
             'source-sans-3'  => ['label' => 'Source Sans 3',  'family' => "'Source Sans 3', 'Segoe UI', sans-serif",  'gf' => 'Source+Sans+3:wght@400;600;700'],
             'work-sans'      => ['label' => 'Work Sans',      'family' => "'Work Sans', 'Segoe UI', sans-serif",      'gf' => 'Work+Sans:wght@400;600;700'],
+            'karla'          => ['label' => 'Karla',          'family' => "'Karla', 'Segoe UI', sans-serif",          'gf' => 'Karla:ital,wght@0,400;0,600;0,700;1,400'],
+            'mulish'         => ['label' => 'Mulish',         'family' => "'Mulish', 'Segoe UI', sans-serif",         'gf' => 'Mulish:ital,wght@0,400;0,600;0,700;1,400'],
+            'figtree'        => ['label' => 'Figtree',        'family' => "'Figtree', 'Segoe UI', sans-serif",        'gf' => 'Figtree:ital,wght@0,400;0,600;0,700;1,400'],
+            'open-sans'      => ['label' => 'Open Sans',      'family' => "'Open Sans', 'Segoe UI', sans-serif",      'gf' => 'Open+Sans:ital,wght@0,400;0,600;0,700;1,400'],
+        ];
+    }
+
+    /**
+     * Eyebrow-font allowlist — the small accent line above the hero title (and
+     * the section "eyebrow" labels). Drives the --font-eyebrow CSS var; defaults
+     * to Caveat to preserve the original handwritten look. Curated to accent /
+     * script faces since that's stylistically what an eyebrow is.
+     */
+    public static function eyebrowFonts(): array
+    {
+        return [
+            'caveat'         => ['label' => 'Caveat',         'family' => "'Caveat', cursive",         'gf' => 'Caveat:wght@400;600'],
+            'dancing-script' => ['label' => 'Dancing Script', 'family' => "'Dancing Script', cursive", 'gf' => 'Dancing+Script:wght@400;700'],
+            'sacramento'     => ['label' => 'Sacramento',     'family' => "'Sacramento', cursive",     'gf' => 'Sacramento'],
+            'pacifico'       => ['label' => 'Pacifico',       'family' => "'Pacifico', cursive",       'gf' => 'Pacifico'],
+            'amatic-sc'      => ['label' => 'Amatic SC',      'family' => "'Amatic SC', cursive",      'gf' => 'Amatic+SC:wght@400;700'],
         ];
     }
 
@@ -148,12 +220,7 @@ final class Theme
         }
         $palette = $presets[$presetKey]['palette'];
 
-        foreach ([
-            'primary'    => self::SETTING_OVERRIDE_PRIMARY,
-            'accent'     => self::SETTING_OVERRIDE_ACCENT,
-            'background' => self::SETTING_OVERRIDE_BG,
-            'text'       => self::SETTING_OVERRIDE_TEXT,
-        ] as $role => $key) {
+        foreach (self::overridableRoles() as $role => $key) {
             $val = $preview['overrides'][$role] ?? setting($key, '');
             $val = trim((string)$val);
             if (self::isValidHex($val)) {
@@ -163,10 +230,13 @@ final class Theme
 
         $displayFonts = self::displayFonts();
         $bodyFonts    = self::bodyFonts();
+        $eyebrowFonts = self::eyebrowFonts();
         $displayKey   = $preview['fonts']['display'] ?? setting(self::SETTING_FONT_DISPLAY, 'playfair-display');
         $bodyKey      = $preview['fonts']['body']    ?? setting(self::SETTING_FONT_BODY,    'nunito');
+        $eyebrowKey   = $preview['fonts']['eyebrow'] ?? setting(self::SETTING_FONT_EYEBROW, 'caveat');
         if (!isset($displayFonts[$displayKey])) $displayKey = 'playfair-display';
         if (!isset($bodyFonts[$bodyKey]))       $bodyKey    = 'nunito';
+        if (!isset($eyebrowFonts[$eyebrowKey])) $eyebrowKey = 'caveat';
 
         $radiusScales = self::radiusScales();
         $shadowScales = self::shadowScales();
@@ -180,6 +250,7 @@ final class Theme
             'palette'       => $palette,
             'display_font'  => ['key' => $displayKey] + $displayFonts[$displayKey],
             'body_font'     => ['key' => $bodyKey]    + $bodyFonts[$bodyKey],
+            'eyebrow_font'  => ['key' => $eyebrowKey] + $eyebrowFonts[$eyebrowKey],
             'radius'        => ['key' => $radiusKey]  + $radiusScales[$radiusKey],
             'shadow'        => ['key' => $shadowKey]  + $shadowScales[$shadowKey],
             'is_preview'    => $preview !== null,
@@ -211,7 +282,7 @@ final class Theme
         }
         if (isset($decoded['overrides']) && is_array($decoded['overrides'])) {
             $overrides = [];
-            foreach (['primary', 'accent', 'background', 'text'] as $role) {
+            foreach (array_keys(self::overridableRoles()) as $role) {
                 $v = (string)($decoded['overrides'][$role] ?? '');
                 if (self::isValidHex($v)) $overrides[$role] = strtoupper($v);
             }
@@ -221,8 +292,10 @@ final class Theme
             $fonts = [];
             $d = (string)($decoded['fonts']['display'] ?? '');
             $b = (string)($decoded['fonts']['body']    ?? '');
+            $e = (string)($decoded['fonts']['eyebrow'] ?? '');
             if (isset(self::displayFonts()[$d])) $fonts['display'] = $d;
             if (isset(self::bodyFonts()[$b]))    $fonts['body']    = $b;
+            if (isset(self::eyebrowFonts()[$e])) $fonts['eyebrow'] = $e;
             if ($fonts) $out['fonts'] = $fonts;
         }
         if (isset($decoded['radius']) && isset(self::radiusScales()[$decoded['radius']])) {
@@ -271,6 +344,7 @@ final class Theme
     --moss: {$p['cool']}; --moss-lt: {$coolLt}; --moss-dk: {$coolDk}; --moss-pale: {$coolPale};
     --font-display: {$t['display_font']['family']};
     --font-body:    {$t['body_font']['family']};
+    --font-eyebrow: {$t['eyebrow_font']['family']};
     --radius:    {$t['radius']['radius']};
     --radius-lg: {$t['radius']['radius_lg']};
     --shadow:    {$t['shadow']['shadow']};
@@ -281,9 +355,9 @@ CSS;
     }
 
     /**
-     * Google Fonts `<link>` for the active display + body fonts. The script
-     * font (Caveat) is always included since it's not themeable but is used by
-     * style.css for accents.
+     * Google Fonts `<link>` for the active display + body + eyebrow fonts. The
+     * script font (Caveat) is always included since it's used by style.css for
+     * accents (--font-script) independent of the eyebrow selection.
      */
     public static function googleFontsLink(): string
     {
@@ -291,9 +365,30 @@ CSS;
         $families = [
             $t['display_font']['gf'],
             $t['body_font']['gf'],
-            'Caveat:wght@400;600',
+            $t['eyebrow_font']['gf'],
+            'Caveat:wght@400;600',   // --font-script default (non-eyebrow accents)
         ];
+        $families = array_values(array_unique($families));
         $query = 'family=' . implode('&family=', $families) . '&display=swap';
+        return '<link href="https://fonts.googleapis.com/css2?' . htmlspecialchars($query, ENT_QUOTES, 'UTF-8') . '" rel="stylesheet">';
+    }
+
+    /**
+     * Google Fonts `<link>` loading EVERY themeable display + body + eyebrow
+     * font (plus Caveat) at their default weight. Used by the admin Theme page
+     * so each font option can be previewed in its own typeface. Heavier than
+     * googleFontsLink() (one family per font), but it's an admin-only page.
+     */
+    public static function previewFontsLink(): string
+    {
+        $names = [];
+        foreach (array_merge(self::displayFonts(), self::bodyFonts(), self::eyebrowFonts()) as $f) {
+            // gf slug is "Family+Name:axes@..."; the family is the part before ':'.
+            $names[explode(':', $f['gf'])[0]] = true;
+        }
+        $names['Caveat'] = true; // style.css accent font, also used by admin chrome
+        $families = array_map(static fn($n) => 'family=' . $n, array_keys($names));
+        $query = implode('&', $families) . '&display=swap';
         return '<link href="https://fonts.googleapis.com/css2?' . htmlspecialchars($query, ENT_QUOTES, 'UTF-8') . '" rel="stylesheet">';
     }
 
@@ -307,6 +402,7 @@ CSS;
     public static function isValidPreset(string $v): bool   { return isset(self::presets()[$v]); }
     public static function isValidDisplayFont(string $v): bool { return isset(self::displayFonts()[$v]); }
     public static function isValidBodyFont(string $v): bool    { return isset(self::bodyFonts()[$v]); }
+    public static function isValidEyebrowFont(string $v): bool { return isset(self::eyebrowFonts()[$v]); }
     public static function isValidRadiusScale(string $v): bool { return isset(self::radiusScales()[$v]); }
     public static function isValidShadowScale(string $v): bool { return isset(self::shadowScales()[$v]); }
 

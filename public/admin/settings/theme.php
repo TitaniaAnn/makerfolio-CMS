@@ -12,31 +12,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Unknown preset.';
     }
 
-    // Overrides: empty means "use preset"; non-empty must be hex.
+    // Overrides: empty means "use preset"; non-empty must be hex. Roles come
+    // from Theme::overridableRoles() so new roles wire in automatically.
     $overrides = [];
-    foreach ([
-        Theme::SETTING_OVERRIDE_PRIMARY    => 'override_primary',
-        Theme::SETTING_OVERRIDE_ACCENT     => 'override_accent',
-        Theme::SETTING_OVERRIDE_BG         => 'override_background',
-        Theme::SETTING_OVERRIDE_TEXT       => 'override_text',
-    ] as $settingKey => $postKey) {
+    foreach (Theme::overridableRoles() as $role => $settingKey) {
+        $postKey = 'override_' . $role;
         $raw = trim((string)($_POST[$postKey] ?? ''));
         if ($raw === '') {
             $overrides[$settingKey] = '';
         } elseif (Theme::isValidHex($raw)) {
             $overrides[$settingKey] = strtoupper($raw);
         } else {
-            $errors[] = ucfirst(str_replace('_', ' ', $postKey)) . ' must be a 6-digit hex color (e.g. #D4A820) or blank.';
+            $errors[] = ucfirst($role) . ' must be a 6-digit hex color (e.g. #D4A820) or blank.';
         }
     }
 
     $displayFont = (string)($_POST['theme_font_display'] ?? '');
     $bodyFont    = (string)($_POST['theme_font_body']    ?? '');
+    $eyebrowFont = (string)($_POST['theme_font_eyebrow'] ?? '');
     $radiusScale = (string)($_POST['theme_radius_scale'] ?? '');
     $shadowScale = (string)($_POST['theme_shadow_scale'] ?? '');
 
     if (!Theme::isValidDisplayFont($displayFont)) $errors[] = 'Unknown display font.';
     if (!Theme::isValidBodyFont($bodyFont))       $errors[] = 'Unknown body font.';
+    if (!Theme::isValidEyebrowFont($eyebrowFont)) $errors[] = 'Unknown eyebrow font.';
     if (!Theme::isValidRadiusScale($radiusScale)) $errors[] = 'Unknown radius scale.';
     if (!Theme::isValidShadowScale($shadowScale)) $errors[] = 'Unknown shadow scale.';
 
@@ -49,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Theme::SETTING_PRESET        => $preset,
         Theme::SETTING_FONT_DISPLAY  => $displayFont,
         Theme::SETTING_FONT_BODY     => $bodyFont,
+        Theme::SETTING_FONT_EYEBROW  => $eyebrowFont,
         Theme::SETTING_RADIUS_SCALE  => $radiusScale,
         Theme::SETTING_SHADOW_SCALE  => $shadowScale,
     ] + $overrides;
@@ -70,16 +70,15 @@ $current  = Theme::current();
 $presets  = Theme::presets();
 $dFonts   = Theme::displayFonts();
 $bFonts   = Theme::bodyFonts();
+$eFonts   = Theme::eyebrowFonts();
 $radii    = Theme::radiusScales();
 $shadows  = Theme::shadowScales();
 
-// Current override raw values (empty string when "use preset")
-$ov = [
-    'primary'    => setting(Theme::SETTING_OVERRIDE_PRIMARY,    ''),
-    'accent'     => setting(Theme::SETTING_OVERRIDE_ACCENT,     ''),
-    'background' => setting(Theme::SETTING_OVERRIDE_BG,         ''),
-    'text'       => setting(Theme::SETTING_OVERRIDE_TEXT,       ''),
-];
+// Current override raw values (empty string when "use preset"), keyed by role.
+$ov = [];
+foreach (Theme::overridableRoles() as $role => $settingKey) {
+    $ov[$role] = setting($settingKey, '');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -183,7 +182,9 @@ $ov = [
                         'primary'    => ['Primary',    $current['palette']['primary']],
                         'accent'     => ['Accent',     $current['palette']['accent']],
                         'background' => ['Background', $current['palette']['background']],
+                        'surface'    => ['Surface (cards)', $current['palette']['surface']],
                         'text'       => ['Text',       $current['palette']['text']],
+                        'cool'       => ['Cool accent', $current['palette']['cool']],
                     ] as $role => [$label, $resolved]):
                         $raw = $ov[$role];
                     ?>
@@ -228,6 +229,16 @@ $ov = [
                         <select name="theme_font_body">
                             <?php foreach ($bFonts as $key => $f): ?>
                                 <option value="<?= e($key) ?>" <?= $current['body_font']['key'] === $key ? 'selected' : '' ?>>
+                                    <?= e($f['label']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Eyebrow Font (hero accent)</label>
+                        <select name="theme_font_eyebrow">
+                            <?php foreach ($eFonts as $key => $f): ?>
+                                <option value="<?= e($key) ?>" <?= $current['eyebrow_font']['key'] === $key ? 'selected' : '' ?>>
                                     <?= e($f['label']) ?>
                                 </option>
                             <?php endforeach; ?>
@@ -298,11 +309,14 @@ $ov = [
                 primary:    valOrSkip('override_primary'),
                 accent:     valOrSkip('override_accent'),
                 background: valOrSkip('override_background'),
+                surface:    valOrSkip('override_surface'),
                 text:       valOrSkip('override_text'),
+                cool:       valOrSkip('override_cool'),
             },
             fonts: {
                 display: form.querySelector('[name="theme_font_display"]').value,
                 body:    form.querySelector('[name="theme_font_body"]').value,
+                eyebrow: form.querySelector('[name="theme_font_eyebrow"]').value,
             },
             radius: form.querySelector('input[name="theme_radius_scale"]:checked')?.value,
             shadow: form.querySelector('input[name="theme_shadow_scale"]:checked')?.value,
