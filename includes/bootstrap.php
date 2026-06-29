@@ -50,6 +50,31 @@ Auth::start();
 //     that emit non-HTML — sitemap.php, install zip download, etc.
 //   - X-Frame-Options denies iframe embedding except the theme preview
 //     iframe (same-origin, allowed by SAMEORIGIN).
+//
+// Per-request CSP nonce. Generated BEFORE the CSP header so the same value lands
+// in the header and the page body. During the slice-by-slice CSP tightening
+// (mirroring the SaaS's Phase 7H) this is the escape hatch for the few inline
+// <style> blocks that are genuinely request-time dynamic (Theme::styleBlock, the
+// error pages); everything static is extracted to external CSS instead.
+if (!defined('CSP_NONCE')) {
+    define('CSP_NONCE', bin2hex(random_bytes(16)));
+}
+
+/**
+ * csp_nonce — the per-request nonce string. Stamp it on inline <style> blocks
+ * that MUST stay inline (request-time dynamic CSS the file path can't reach):
+ *
+ *   echo '<style nonce="' . e(csp_nonce()) . '">...</style>';
+ *
+ * Don't reach for this to drop new inline styles into templates — the per-page
+ * CSS files under /css/pages/ (or /admin/css/pages/) are the right home for
+ * anything that isn't request-time dynamic. Fewer nonce uses = smaller bypass
+ * surface.
+ */
+function csp_nonce(): string {
+    return CSP_NONCE;
+}
+
 if (!headers_sent()) {
     header('Referrer-Policy: strict-origin-when-cross-origin');
     header('X-Content-Type-Options: nosniff');
