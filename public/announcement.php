@@ -32,29 +32,46 @@ if ($announcement) {
     );
 }
 
-$linkedEvents = [];
-$linkedPottery = [];
-
+// Collect linked entity ids per type, preserving the link order
+// (announcement_links is ORDER BY sort_order; the template iterates
+// $linkedEvents / $linkedPottery and shows them in that order).
+$eventIds = $potteryIds = [];
 foreach ($entityLinks as $link) {
-    if ($link['entity_type'] === 'event') {
-        $event = Database::fetchOne(
-            "SELECT id, name, url FROM events WHERE id = ?",
-            [(int)$link['entity_id']]
-        );
-        if ($event) {
-            $linkedEvents[] = $event;
-        }
-    }
+    if ($link['entity_type'] === 'event')   $eventIds[]   = (int)$link['entity_id'];
+    if ($link['entity_type'] === 'pottery') $potteryIds[] = (int)$link['entity_id'];
+}
 
-    if ($link['entity_type'] === 'pottery') {
-        $piece = Database::fetchOne(
-            "SELECT id, title FROM pottery WHERE id = ?",
-            [(int)$link['entity_id']]
-        );
-        if ($piece) {
-            $linkedPottery[] = $piece;
-        }
+// One IN-list query per type instead of one fetchOne per link.
+// Build id -> row maps so the link-order replay below stays O(N).
+$eventMap = [];
+if ($eventIds) {
+    $ph = implode(',', array_fill(0, count($eventIds), '?'));
+    foreach (Database::fetchAll(
+        "SELECT id, name, url FROM events WHERE id IN ($ph)",
+        $eventIds
+    ) as $row) {
+        $eventMap[(int)$row['id']] = $row;
     }
+}
+$potteryMap = [];
+if ($potteryIds) {
+    $ph = implode(',', array_fill(0, count($potteryIds), '?'));
+    foreach (Database::fetchAll(
+        "SELECT id, title FROM pottery WHERE id IN ($ph)",
+        $potteryIds
+    ) as $row) {
+        $potteryMap[(int)$row['id']] = $row;
+    }
+}
+
+// Replay in original link order so the rendered output matches what
+// the per-link fetchOne version produced (skipping missing ids the
+// same way).
+$linkedEvents = $linkedPottery = [];
+foreach ($entityLinks as $link) {
+    $id = (int)$link['entity_id'];
+    if ($link['entity_type'] === 'event'   && isset($eventMap[$id]))   $linkedEvents[]  = $eventMap[$id];
+    if ($link['entity_type'] === 'pottery' && isset($potteryMap[$id])) $linkedPottery[] = $potteryMap[$id];
 }
 
 $announcementText = '';
